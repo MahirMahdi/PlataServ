@@ -30,7 +30,7 @@ export default function Admin(){
     const [unit, setUnit] = useState('')
     const [unitPrice,setUnitPrice] = useState('')
     const [unitCount,setUnitCount] = useState('')
-    const [expiryPeriod, setExpiryPeriod] = useState(2)
+    const [expiryPeriod, setExpiryPeriod] = useState('')
     const [ingredients, setIngredients] = useState([])
 
     // supplies states

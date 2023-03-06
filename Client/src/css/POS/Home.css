@@ -33,6 +33,51 @@ button:disabled{
 }
 }
 
+/* Button Style */
+
+.btn{
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  background-color: #182747;
+  color: white;
+  display: grid;
+  place-items: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+}
+
+/* Menu */
+
+.add-order{
+  background-color:#C84B31;
+  width:7.5rem;
+  height:2.5rem;
+}
+
+/* Order */
+
+.confirm-order{
+  width: 10rem;
+  height: 2.5rem;
+}
+
+
+/* Add on */
+
+.add-on{
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 3.5px;
+}
+
+.add-on-value{
+  width: 2rem;
+  text-align: center;
+  font-size: .9rem;
+  font-family: 'PT Sans', sans-serif;
+}
+
 
 /* Form */
 .formbold-mb-5 {

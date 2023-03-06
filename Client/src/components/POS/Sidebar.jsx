@@ -4,6 +4,7 @@ import order from '../../assets/order.png';
 import menu from '../../assets/menu.png';
 import dashboard from '../../assets/dashboard.png';
 import admin from '../../assets/admin.png';
+import { memo } from 'react';
 
 
 //style
@@ -15,7 +16,7 @@ const itemName = {fontFamily:"'Roboto', sans-serif",color:'white',fontSize:{md:'
 const sidebarItem = {width:{xs:'15vw',sm:'10vw',md:'17.5vw',lg:'15vw'},'&:hover':{backgroundColor: '#C84B31',transition: 'ease-in-out 350ms'},display:'flex',alignItems:'center',justifyContent:{xs:'center',md:'flex-start'},padding:{xs:'1.25rem 0',md:'1.5rem 1.25rem'},columnGap:{md:'1rem'},textDecoration:'none'}
 const ItemLogo = {width:{xs:'2rem',sm:'2.25rem', md:'2.75rem'}}
 
-export default function Sidebar(){
+function Sidebar(){
     return(
         <Box sx={sidebarBox}>
             <Box sx={title_logo}>
@@ -44,3 +45,5 @@ export default function Sidebar(){
         </Box>
     )
 }
+
+export default memo(Sidebar)
