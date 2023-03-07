@@ -1,13 +1,13 @@
 export default function Radio({id,value, isSelected, method}){
     return(
-        <div style={{display:'flex',columnGap:'1rem',textAlign:'center'}} className="RadioButton">
+        <div className="radioWrapper">
             <input
                 id={id}
                 onChange={method}
                 value={value}
                 type="radio"
                 checked={isSelected}
-                style={{width:'1.25rem',height:'1.25rem'}}
+                className="radioButton"
             />
             <label htmlFor={id}>{value}</label>
         </div>

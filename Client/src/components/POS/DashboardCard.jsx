@@ -1,4 +1,5 @@
 import { Typography, Card, CardContent, Box} from "@mui/material";
+import { dashboardCardContentStyle, dashboardCardStyle } from "../../mui-styles/POS/DashboardStyles";
 
 function timer(startTime,i){
     // const display = ;
@@ -12,7 +13,7 @@ function timer(startTime,i){
 
 export default function DashboardCard({i, name, orderId, totalPrice, paymentMethod, orderPoint, destination, products, timestamp}){
     return(
-        <Card sx={{display:'flex',width:{xs:'18rem',sm:'30rem',md:'32.5em',lg:'37.5rem'},backgroundColor:'white'}}>
+        <Card sx={dashboardCardStyle}>
             <CardContent>
                 <Typography variant="body1">Customer Name:{name}</Typography>
                 <Typography variant="body1">Order no.: {orderId}</Typography>
@@ -26,9 +27,10 @@ export default function DashboardCard({i, name, orderId, totalPrice, paymentMeth
                     ))}
                 </Box> */}
             </CardContent>
-            <CardContent sx={{width:'7.5rem',display:'grid',placeItems:'center',textAlign:'center'}}>
+            <CardContent sx={dashboardCardContentStyle}>
+                <p style={{fontWeight:'bold'}}>Timer</p>
                 <p id={`display${i}`}>{timer(timestamp,i)}</p>
-                <button className="btn">Done</button>
+                <button className="btn done">Done</button>
             </CardContent> 
         </Card>
     )

@@ -36,7 +36,7 @@ button:disabled{
 /* Button Style */
 
 .btn{
-  border-radius: 5px;
+  border-radius: 3.5px;
   border: none;
   text-align: center;
   background-color: #182747;
@@ -45,6 +45,11 @@ button:disabled{
   place-items: center;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
+}
+
+.done{
+  width: 3.5rem;
+  height: 2rem;
 }
 
 /* Menu */
@@ -60,6 +65,21 @@ button:disabled{
 .confirm-order{
   width: 10rem;
   height: 2.5rem;
+}
+
+/* Radio */
+
+.radioWrapper{
+  display:flex;
+  column-gap:1rem;
+  text-align:center;
+  font-weight: 200;
+  font-family: 'Roboto', sans-serif;
+}
+
+.radioButton{
+  width:1.25rem;
+  height:1.25rem;
 }
 
 
@@ -185,13 +205,6 @@ button:disabled{
   display: none;
   visibility: none;
 }
-
-/* .add-file{
-  position: relative;
-  left: 1.5vw;
-  width: 1.25rem;
-  height: 1.25rem;
-} */
 
 #special{
   width: 100%;

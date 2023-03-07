@@ -68,7 +68,7 @@ export default function SuppliesForm({supplies,itemInfo,name,unit,unitPrice,unit
                                 <label>Expiry Period</label>
                                 <input
                                     readOnly
-                                    value={10}
+                                    value={expiryPeriod}
                                     type="number"
                                     placeholder="Expiry period in days"
                                     className="formbold-form-input"

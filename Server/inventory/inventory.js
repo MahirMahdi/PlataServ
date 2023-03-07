@@ -5,7 +5,15 @@ const InventorySchema = new mongoose.Schema({
     unit_price: Number,
     unit: String,
     unit_count: Number,
-    total_unit:Number,
+    total_unit:{
+        type: Number,
+        set: function(value) {
+            if (typeof value === 'number') {
+              return parseFloat(value.toFixed(2));
+            }
+            return value;
+          }
+    },
     total_count: Number,
     expiry_date: Date
 },{timestamps:true})

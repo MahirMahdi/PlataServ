@@ -1,18 +1,20 @@
 import { Card, CardMedia, CardContent, Typography, Box, Grid} from '@mui/material';
+import { menuCardStyle, menuCardContentStyle } from '../../mui-styles/POS/HomeStyles';
 
 export default function MenuCard({product,handleOrder}) {
 
   const {image,description,price,name} = product
+
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Card sx={{ maxWidth: 345, height:{xs:480,md:475, lg:425}}}>
+      <Card sx={menuCardStyle}>
           <CardMedia
             component="img"
             height="230"
             image={image}
             alt={name}
           />
-          <CardContent sx={{height:{xs:250,md:250, lg:200},display:'grid',rowGap:'.75rem'}}>
+          <CardContent sx={menuCardContentStyle}>
             <Box sx={{display:'grid',rowGap:'.25rem'}}>
               <Typography sx={{fontFamily: "'Roboto', sans-serif",fontSize:'1.25rem'}} gutterBottom component="div">
                 {name}

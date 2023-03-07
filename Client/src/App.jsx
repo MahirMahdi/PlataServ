@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/pos/Home';
 import '../src/css/App.css'
-import '../src/css/POS/Home.css'
+import '../src/css/POS.css'
 import POSProvider from './contexts/POSContext';
 import Order from './pages/POS/Order';
 import Dashboard from './pages/POS/Dashboard';
-import Admin from './pages/POS/Admin';
+import Admin from './pages/Admin';
 
 
 function App() {

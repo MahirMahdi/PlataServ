@@ -3,9 +3,9 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import { inventoryRouter } from './routes/inventory.js';
-import { productRouter } from './routes/products.js';
-import { suppliesRouter } from './routes/supplies.js';
+import { inventoryRouter } from './inventory/inventoryAPI.js';
+import { productRouter } from './products/productsAPI.js';
+import { suppliesRouter } from './supplies/suppliesAPI.js';
 
 const app = express();
 const env = dotenv.config();
@@ -20,13 +20,10 @@ app.use('/home',express.static('uploads'));
 
 async function initDB(){
     try {
-        mongoose.connect(process.env.DATABASE,{ useNewUrlParser: true, useUnifiedTopology: true});
+        await mongoose.connect(process.env.DATABASE,{ useNewUrlParser: true, useUnifiedTopology: true});
         console.log('mongodb is connected');
     } catch (error) {
         console.log(error);
-    }
-    finally{
-        mongoose.connect(process.env.DATABASE,{ useNewUrlParser: true, useUnifiedTopology: true});
     }
 }
 

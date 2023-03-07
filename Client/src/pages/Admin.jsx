@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react"
-import Sidebar from "../../components/POS/Sidebar"
+import Sidebar from "../components/POS/Sidebar"
 import { Box, Typography, Chip } from "@mui/material"
-import axios from '../../api/api'
+import axios from '../api/api'
 import { uid } from "uid"
-import ProductForm from "../../components/POS/ProductForm"
-import SuppliesForm from "../../components/POS/SuppliesForm"
-
-const mainBox = {position:'absolute',display:'grid',justifyContent:'center',width:{xs:'85vw',sm:'90vw',md:'82.5vw',lg:'85vw'},minHeight:'100vh',right:'0',backgroundColor:'#e4e9eb'}
-
+import ProductForm from "../components/POS/ProductForm"
+import SuppliesForm from "../components/POS/SuppliesForm"
+import { mainBoxStyle } from "../mui-styles/SharedStyles"
+import { chipsBoxStyle } from "../mui-styles/adminStyles"
 
 export default function Admin(){
 
@@ -42,29 +41,29 @@ export default function Admin(){
     const expiry_date = new Date(currentDate.setDate(currentDate.getDate() + expiryPeriod))
     
     //product functions
-    function handleType(e){
+    const handleType = (e) => {
         setType(e.target.value)
     }
 
-    function handleProductName(e){
+    const handleProductName = (e) => {
         setProductName(e.target.value)
     }
 
-    function handlePrice(e){
+    const handlePrice = (e) => {
         setPrice(e.target.value)
     }
 
-    function handleDescription(e){
+    const handleDescription = (e) => {
         setDescription(e.target.value)
     }
 
-    function handleImage(e){
+    const handleImage = (e) => {
         setImage(e.target.files[0])
     }
 
-    async function addProduct(){
+    const addProduct = async() => {
         const response = await axios.post('/product', productData,{headers:{'Content-Type':'multipart/form-data'}})
-        console.log(response);
+
     }
 
     useEffect(()=>{
@@ -118,9 +117,7 @@ export default function Admin(){
     //supplies functions
     async function getSupplyItemsInfo(){
         const response = await axios.get('/supplies')
-        response.data.supplies?.map(item=>{
-            item.ingredients.map(ingredient=> setItemInfo(prev=> [...prev, ingredient]))
-        })
+        response.data.supplies?.map(ingredient=> setItemInfo(prev=> [...prev, ingredient]))
     }
 
     function handleSupplyInputs(e){
@@ -137,7 +134,7 @@ export default function Admin(){
     }
 
     function addItem(){
-        setSupplies(prev=> [...prev,{name:name, unit:unit, unit_price: unitPrice, unit_count: unitCount, expiry_date: expiry_date, total_unit: totalUnit}])
+        setSupplies(prev=> [...prev,{name:name, unit:unit, unit_price: unitPrice, unit_count: unitCount, expiry_date: expiry_date, total_unit: totalUnit,total_count: (totalUnit* unitCount)}])
         setName('')
         setUnit('')
         setUnitPrice('')
@@ -175,12 +172,12 @@ export default function Admin(){
     return(
         <Box sx={{width:'100vw',display:'flex'}}> 
             <Sidebar/>
-            <Box sx={mainBox}>
-                <div style={{margin:'2.5rem auto auto auto',width:'60%',display:'flex',alignItems:'center',justifyContent:'space-around'}}>
+            <Box sx={mainBoxStyle}>
+                <Box sx={chipsBoxStyle}>
                     <Chip onClick={handleCategory} sx={{width:'40%',textAlign:'center'}} label="Product" component="div" clickable />
                     <Chip onClick={handleCategory} sx={{width:'40%',textAlign:'center'}} label="Supplies" component="div" clickable />
-                </div>
-                <div style={{textAlign:'center',margin:'1.5rem 0'}}><Typography variant="h4">{category === 'Product'? 'Add a new product' : 'Order new supplies'}</Typography></div>
+                </Box>
+                <Box sx={{textAlign:'center',margin:'1.5rem 0'}}><Typography variant="h4">{category === 'Product'? 'Add a new product' : 'Order new supplies'}</Typography></Box>
                 {category === 'Product'? 
                     <ProductForm type={type} productName={productName} price={price} description={description} image={image} ingredients={ingredients}
                     name={name} unit={unit} unitCount={unitCount} unitPrice={unitPrice} expiryPeriod={expiryPeriod} handleType={handleType} 

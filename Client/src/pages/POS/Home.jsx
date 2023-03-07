@@ -7,9 +7,8 @@ import { Box, Grid, Typography, Alert, Snackbar } from '@mui/material';
 import usePOS from '../../hooks/usePOS';
 import Loading from '../../components/POS/Loading';
 import axios from '../../api/api';
-
-const mainBox = {position:'absolute',display:'grid', placeItems:'center',justifyContent:'space-around',width:{xs:'85vw',sm:'90vw',md:'82.5vw',lg:'85vw'},right:'0',backgroundColor:'#e4e9eb'}
-const productsBox = {display:'flex',alignItems:'center',justifyContent:'space-around',width:{xs:'17rem',sm:'32.5rem',md:'40rem',lg:'60rem'},borderRadius:'10px',marginBottom:'2.5rem'}
+import { mainBoxStyle } from '../../mui-styles/SharedStyles';
+import { productsBoxStyle } from '../../mui-styles/POS/HomeStyles';
 
 export default function Home(){
 
@@ -18,12 +17,11 @@ export default function Home(){
     const [productData, setProductData] = useState(null)
     const {add} = usePOS()
 
-    function handleCategory(value){
-        console.log(value);
+    const handleCategory = (value) => { 
         setCategory(value)
     }
 
-    async function getSpecificCategoryProducts(){
+    const getSpecificCategoryProducts = async() => {
         const response = await axios.get(`/product/${category}`)
         setProductData(response.data.products)
     }
@@ -37,7 +35,7 @@ export default function Home(){
         {productData? 
             <Box sx={{width:'100vw',display:'flex'}}>
                 <Sidebar/>
-                <Box sx={mainBox}>
+                <Box sx={mainBoxStyle}>
                     <Typography sx={{paddingTop:'1rem'}} variant="h5">Categories</Typography>
                     <Tabs handleClick={handleCategory} tab_state={category} categories={Categories}/>
                     <Snackbar open={open} onClose={()=>{setOpen(false)}}>
@@ -46,7 +44,7 @@ export default function Home(){
                         </Alert>
                     </Snackbar>
                     <Typography sx={{padding:'2rem'}} variant="h5">Menu</Typography>
-                    <Box sx={productsBox}>
+                    <Box sx={productsBoxStyle}>
                         <Grid container spacing={4}>
                             {productData?.map((data,index)=>(
                                 <MenuCard key={index} handleOrder={()=>{ add(data.product_id, data.price); setOpen(true)}} product={data}/>
