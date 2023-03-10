@@ -1,5 +1,4 @@
 import { createContext } from "react";
-import axios from '../api/api';
 
 export const POSContext = createContext();
 
@@ -7,19 +6,27 @@ export default function POSProvider({children}){
 
     // to avoid repetition these functions are passed throught this context.
 
-    function addToOrder(id, price){
+    const addToOrder = (id, price) => {
 
         // product_id is set as orders property because data structure is much simpler this way. 
-        // If make each order an object and insert all objects in an array, the data structure becomes very complex and it's harder to get and send data.
+        // If each order is an object and all the objects are in an array, the data structure becomes very complex and it's harder to query data.
 
         const orders = JSON.parse(localStorage.getItem("orders"))
+        
+        let order
 
-        localStorage.setItem("orders",JSON.stringify(!orders? {[id] : 1} : orders[id]? {...orders, [id]: orders[id] + 1}: {...orders, [id]: 1} ))
+        if (!orders) order = {[id] : 1}
+
+        else if(orders[id]) order = {...orders, [id]: orders[id] + 1}
+
+        else order = {...orders, [id]: 1}
+
+        localStorage.setItem("orders", JSON.stringify(order))
 
         calculateSubTotal('add',price)
     }
 
-    function removeOrder(id){
+    const removeOrder = (id) => {
 
         const order = JSON.parse(localStorage.getItem("orders"))
 
@@ -30,39 +37,36 @@ export default function POSProvider({children}){
         
     }
 
-    function removeFromOrder(id,price){
+    const removeFromOrder = (id,price) => {
 
         const orders = JSON.parse(localStorage.getItem("orders"))
 
-        if(Object.keys(JSON.parse(localStorage.getItem("orders"))))
+        if (orders[id] === 1) removeOrder(id)
+        
+        else localStorage.setItem("orders",JSON.stringify({...orders, [id]: orders[id] - 1}))
 
-        orders[id] === 1? removeOrder(id): localStorage.setItem("orders",JSON.stringify({...orders, [id]: orders[id] - 1}))
-
-        if(Object.keys(JSON.parse(localStorage.getItem("orders"))).length === 0) localStorage.removeItem("orders")
+        if (!Object.keys(JSON.parse(localStorage.getItem("orders"))).lengtconst) localStorage.removeItem("orders")
 
         calculateSubTotal('remove',price)
     }
 
-    function calculateSubTotal(type,price){
+    const calculateSubTotal = (type,price) => {
 
-        let prevValue = parseFloat(localStorage.getItem("subtotal"))
+        const prevValue = parseFloat(localStorage.getItem("subtotal"))
 
-        type === 'add'?
-        localStorage.setItem("subtotal", prevValue? (prevValue + price).toFixed(2) : price):
-        localStorage.setItem("subtotal",(prevValue - price).toFixed(2))
-    }
+        let newValue 
 
-    function updateProductDetails(arr,orders,productDetails,setProductDetails){
-        arr?.map(product => {
-            const {name, product_id, ...rest} = product
-            const obj = {name: name, product_id: product_id, quantity: orders[product_id]}
+        if (type === 'add' && prevValue) newValue = (prevValue + price).toFixed(2)
 
-            productDetails.some(detail => detail.product_id === obj.product_id)? setProductDetails(prev=> prev.filter(value => value.product_id !== obj.product_id).concat([obj])) : setProductDetails(prev => [...prev, obj])
-        })
+        else if (type === 'add' && !prevValue) newValue = price
+        
+        else newValue = (prevValue - price).toFixed(2)
+
+        localStorage.setItem("subtotal", newValue)
     }
 
     return(
-        <POSContext.Provider value={{add: addToOrder,remove: removeFromOrder, updateProductDetails: updateProductDetails}}>
+        <POSContext.Provider value={{add: addToOrder,remove: removeFromOrder}}>
             {children}
         </POSContext.Provider>
     )

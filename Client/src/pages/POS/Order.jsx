@@ -20,12 +20,14 @@ export default function Order(){
     const [point, setPoint] = useState();
     const [destination, setDestination] = useState();
     const [name, setName] = useState()
-    const [subTotal, setSubtotal] = useState(JSON.parse(window.localStorage.getItem("subtotal")))
-    const [orders, setOrders] = useState(JSON.parse(window.localStorage.getItem("orders")))
-    const [ingredients, setIngredients] = useState()
-    const [orderProducts, setOrderProducts] = useState([])
+    const [subTotal, setSubtotal] = useState(JSON.parse(localStorage.getItem("subtotal")))
+    const [orders, setOrders] = useState(JSON.parse(localStorage.getItem("orders")))
+    const [productIngredients, setProductIngredients] = useState()
+    const [allProducts, setAllProducts] = useState([])
     const [dashboardDetails, setDashboardDetails] = useState(null)
+    const [dashboardProducts, setDashboardProducts] = useState()
 
+    // these objects are created for avoiding repetition.
     const paymentMethod = {values:['Cash', 'Card'], method:function handlePayment(e){
         setPayment(e.target.value)
     }}
@@ -49,18 +51,43 @@ export default function Order(){
         setSubtotal(JSON.parse(localStorage.getItem("subtotal")))
     }
 
-    const getOrderProductsDetails = async() => {
-        try {
-            const response = await axios.post('/orderProducts',{orders: orders})
-            setIngredients(response.data.ingredientsDetails)
-            setOrderProducts(response.data.productsDetails)
-        } catch (error) {
-            console.log(error);
-        }
+    const getAllProducts = async() => {
+        const response = await axios.get('/products')
+        setAllProducts(response.data.products)
     }
 
+    useEffect(()=>{
+        getAllProducts()
+    },[orders])
+
+    const dashboardProductsDetails = () => {
+        const filteredProducts = allProducts.filter(products => orders?.hasOwnProperty(products.product_id))
+        const dashboardProducts = filteredProducts.map(product => {return {...product, ['quantity']: orders[product.product_id]}})
+        setDashboardProducts(dashboardProducts.map(product => {
+            const {name, type, ...rest} = product
+            return {name: name, product_type: type, quantity: orders[product.product_id]}
+        }))
+    }
+
+    const ingredientsDetails = () => {
+        const filteredProducts = allProducts.filter(products => orders?.hasOwnProperty(products.product_id))
+        let allingredients = []    
+        filteredProducts.map(product => {
+            const {ingredients, ...rest} = product;
+            ingredients.map(ingredient => {
+                const {name, unit_count, ...others} = ingredient
+                allingredients.push({name: name, unit_count: unit_count, quantity: orders[product.product_id]})
+            })
+        })
+        setProductIngredients(allingredients)
+    }
+
+    useEffect(()=>{
+        dashboardProductsDetails()
+        ingredientsDetails()
+    },[orders,allProducts])
+
     const confirmOrder = () => {
-        // remove order from local storage
         saveDashboardDetails()
         updateInventory()
         removeOrderDetails()
@@ -68,13 +95,13 @@ export default function Order(){
     }
 
     const saveDashboardDetails = () => {
-        //for persistent details
+        //saved to localstorage for persistent details
         const dashboard = JSON.parse(localStorage.getItem("dashboard"))
         localStorage.setItem("dashboard", JSON.stringify(!dashboard? [dashboardDetails] : [...dashboard, dashboardDetails]))
     }
 
     const updateInventory = async() => {
-        const response = await axios.put('/inventory',{ingredients: ingredients})
+        await axios.put('/inventory',{ingredients: productIngredients})
     }
 
     const removeOrderDetails = () => {
@@ -82,23 +109,25 @@ export default function Order(){
         localStorage.removeItem("subtotal")
         setOrders(null)
         setSubtotal(null)
+        setPayment(null)
+        setPoint(null)
+        setDestination(null)
     }
 
     useEffect(()=>{
-        getOrderProductsDetails()
-    },[orders])
-
-    useEffect(()=>{
+        // timestamp is for measuring service of time.
         setDashboardDetails({
             customerName: name,
-            productDetails: orders,
-            totalPrice: ((.1 * subTotal) + subTotal).toFixed(2),
+            details: dashboardProducts,
+            total_price: Number(((.1 * subTotal) + subTotal).toFixed(2)),
             timestamp: Date.now(),
-            orderId: orderId,
-            paymentMethod: payment,
-            orderPoint: point,
-            destination: destination
+            order_id: orderId,
+            payment_method: payment,
+            order_point: point,
+            destination: destination,
+            total_quantity: orders && Object.values(orders).reduce((a,b) => {return a + b})
         })
+
     },[orders,name,payment,point,destination])
 
     return(
@@ -111,13 +140,12 @@ export default function Order(){
                         <Typography variant="h5">Bill</Typography>
                     </Box>
                     <Box sx={itemsBoxStyle}>
-                        {orders? orderProducts.map((product,i)=>(
+                        {orders? allProducts?.filter(products => orders.hasOwnProperty(products.product_id)).map((product,i) => (
                             <OrderCard key={i} product={product} handleAdd={()=>{handleProducts('add',product.product_id, product.price)}} handleRemove={()=>{handleProducts('remove',product.product_id, product.price)}} count={orders[product.product_id]}/>
-                            
                         )):<Typography variant="h5">Empty</Typography>}
                     </Box>
-                    <Snackbar open={open} onClose={()=>{setOpen(false)}}>
-                        <Alert severity="success" sx={{ width: '10rem' }}>
+                    <Snackbar sx={{ width: '12.5rem', textAlign:'center'}} open={open} onClose={()=>{setOpen(false)}}>
+                        <Alert severity="success">
                             Order confirmed!
                         </Alert>
                     </Snackbar>

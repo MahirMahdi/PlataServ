@@ -12,7 +12,7 @@ export default function Admin(){
 
     const [category, setCategory] = useState('Supplies')
     
-    function handleCategory(e){
+    const handleCategory = (e) => {
         setCategory(e.target.innerHTML)
     }
 
@@ -79,27 +79,27 @@ export default function Admin(){
     },[productName,price,description,image,type,ingredients])
 
     //ingredient funtions
-    function handleName(e){
+    const handleName = (e) => {
         setName(e.target.value)
     }
 
-    function handleUnit(e){
+    const handleUnit = (e) => {
         setUnit(e.target.value)
     }
 
-    function handleUnitPrice(e){
+    const handleUnitPrice = (e) => {
         setUnitPrice(e.target.value)
     }
 
-    function handleUnitCount(e){
+    const handleUnitCount = (e) => {
         setUnitCount(e.target.value)
     }
 
-    function handleExpiryPeriod(e){
+    const handleExpiryPeriod = (e) => {
         setExpiryPeriod(e.target.value)
     }
 
-    function addIngredient(){
+    const addIngredient = () => {
         setIngredients(prev=> [...prev,{name:name, unit:unit, unit_price: unitPrice, unit_count: unitCount, expiry_period: expiryPeriod}])
         setName('')
         setUnit('')
@@ -108,19 +108,19 @@ export default function Admin(){
         setExpiryPeriod('')
     }
 
-    function updateIngredients(e){
+    const updateIngredients = (e) => {
         const item = e.target.parentElement.children[0].innerHTML;
 
         setIngredients(ingredients?.filter(ingredient=> ingredient.name !== item))
     }
 
     //supplies functions
-    async function getSupplyItemsInfo(){
+    const getSupplyItemsInfo = async() => {
         const response = await axios.get('/supplies')
         response.data.supplies?.map(ingredient=> setItemInfo(prev=> [...prev, ingredient]))
     }
 
-    function handleSupplyInputs(e){
+    const handleSupplyInputs = (e) => {
         setName(e.target.value)
         const item = itemInfo.filter(info=> info.name === e.target.value)[0]
         setUnit(item.unit)
@@ -129,11 +129,11 @@ export default function Admin(){
         setExpiryPeriod(item.expiry_period)
     }
 
-    function handleTotalUnit(e){
+    const handleTotalUnit = (e) => {
         setTotalUnit(e.target.value)
     }
 
-    function addItem(){
+    const addItem = () => {
         setSupplies(prev=> [...prev,{name:name, unit:unit, unit_price: unitPrice, unit_count: unitCount, expiry_date: expiry_date, total_unit: totalUnit,total_count: (totalUnit* unitCount)}])
         setName('')
         setUnit('')
@@ -143,20 +143,20 @@ export default function Admin(){
         setTotalUnit('')
     }
 
-    function updateSupplies(e){
+    const updateSupplies = (e) => {
         const item = e.target.parentElement.children[0].innerHTML;
 
         setSupplies(supplies?.filter(supply=> supply.name !== item))
     }
 
-    function supplyCalculations(){
+    const supplyCalculations = () => {
         var subTotal = 0
         supplies?.map(supply=> subTotal += (supply.total_unit * supply.unit_price))
 
         setSubTotal(subTotal)
     }
 
-    async function orderSupplies(){
+    const orderSupplies = async() => {
         const response = await axios.post('/inventory',supplies)
         console.log(response);
     }

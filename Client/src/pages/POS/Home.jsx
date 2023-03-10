@@ -14,25 +14,25 @@ export default function Home(){
 
     const [category, setCategory] = useState('Burger')
     const [open, setOpen] = useState(false)
-    const [productData, setProductData] = useState(null)
+    const [allProducts, setAllProducts] = useState([])
     const {add} = usePOS()
 
     const handleCategory = (value) => { 
         setCategory(value)
     }
 
-    const getSpecificCategoryProducts = async() => {
-        const response = await axios.get(`/product/${category}`)
-        setProductData(response.data.products)
+    const getAllProducts = async() => {
+        const response = await axios.get('/products')
+        setAllProducts(response.data.products)
     }
 
     useEffect(()=>{
-        getSpecificCategoryProducts()
-    },[category])
+        getAllProducts()
+    },[])
 
     return(
         <>
-        {productData? 
+        {allProducts? 
             <Box sx={{width:'100vw',display:'flex'}}>
                 <Sidebar/>
                 <Box sx={mainBoxStyle}>
@@ -46,7 +46,7 @@ export default function Home(){
                     <Typography sx={{padding:'2rem'}} variant="h5">Menu</Typography>
                     <Box sx={productsBoxStyle}>
                         <Grid container spacing={4}>
-                            {productData?.map((data,index)=>(
+                            {allProducts.filter((product)=> product.type === category.toLowerCase()).map((data,index) => (
                                 <MenuCard key={index} handleOrder={()=>{ add(data.product_id, data.price); setOpen(true)}} product={data}/>
                             ))}
                         </Grid>

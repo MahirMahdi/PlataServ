@@ -14,7 +14,6 @@ export default async function createInventory(req,res){
 }
 
 export async function updateInventory(req, res){
-
     try{
         const ingredients = req.body.ingredients
         const updates = ingredients.map(ingredient => {

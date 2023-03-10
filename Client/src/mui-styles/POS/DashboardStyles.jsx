@@ -11,3 +11,13 @@ export const dashboardCardContentStyle = {
     textAlign:'center',
     fontFamily: "'Poppins', sans-serif"
 }
+
+export const contentStyle = {
+    display:'flex',
+    width:'fit-content'
+}
+
+export const contentNameStyle = {
+    fontWeight:'bold',
+    width:'fit-content'
+}

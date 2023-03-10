@@ -1,11 +1,31 @@
+import { useState } from "react"
 import { Box, Typography } from "@mui/material"
 import Sidebar from "../../components/POS/Sidebar"
 import DashboardCard from "../../components/POS/DashboardCard"
 import { headerBoxStyle, itemsBoxStyle, mainBoxStyle } from "../../mui-styles/SharedStyles"
+import axios from '../../api/api'
 
 export default function Dashboard(){
 
-    const dashboardDetails = JSON.parse(localStorage.getItem('dashboard'))
+    const [dashboardDetails, setDashboardDetails] = useState(JSON.parse(localStorage.getItem('dashboard')))
+
+    const postOrderDetails = async(order_id) => {
+        // these data are needed for sales report
+        const orderDetails = dashboardDetails.filter(detail => detail.order_id === order_id)[0]
+        const elapsedTime =  Math.round(((Date.now() - orderDetails.timestamp)/1000))
+
+        delete orderDetails.customerName
+        delete orderDetails.timestamp
+
+        orderDetails.time = elapsedTime
+        const response = await axios.post('/order',{orderDetails: orderDetails})
+
+        if (dashboardDetails.length === 1) localStorage.removeItem('dashboard')
+
+        else localStorage.setItem('dashboard',JSON.stringify(dashboardDetails.filter(detail => detail.order_id !== order_id)))
+
+        setDashboardDetails(JSON.parse(localStorage.getItem('dashboard')))
+    }
 
     return(
         <>
@@ -19,9 +39,9 @@ export default function Dashboard(){
                         </Box>
                         <Box sx={itemsBoxStyle}>
                             {dashboardDetails? dashboardDetails.map((detail,i)=>(
-                                <DashboardCard key={i} name={detail.customerName} orderId={detail.orderId}
-                                paymentMethod={detail.paymentMethod} orderPoint={detail.orderPoint} destination={detail.destination}
-                                 totalPrice={detail.totalPrice} products={detail.products} timestamp={detail.timestamp} i={i}/>
+                                <DashboardCard key={i} name={detail.customerName} orderId={detail.order_id}
+                                paymentMethod={detail.payment_method} orderPoint={detail.order_point} destination={detail.destination}
+                                 totalPrice={detail.total_price} products={detail.details} timestamp={detail.timestamp} completeOrder={()=> postOrderDetails(detail.order_id)} id={detail.order_id || 'none'}/>
                             )):<Typography variant="h5">Empty</Typography>}
                         </Box>
                     </Box>

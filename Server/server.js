@@ -4,8 +4,9 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import { inventoryRouter } from './inventory/inventoryAPI.js';
-import { productRouter } from './products/productsAPI.js';
+import { productRouter } from './products/productAPI.js';
 import { suppliesRouter } from './supplies/suppliesAPI.js';
+import { orderRouter } from './orders/orderAPI.js';
 
 const app = express();
 const env = dotenv.config();
@@ -39,6 +40,7 @@ app.get('/',(req,res)=>{
 app.use(inventoryRouter)
 app.use(productRouter)
 app.use(suppliesRouter)
+app.use(orderRouter)
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server running on port ${process.env.PORT}`);
