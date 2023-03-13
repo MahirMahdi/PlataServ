@@ -7,6 +7,8 @@ import { inventoryRouter } from './inventory/inventoryAPI.js';
 import { productRouter } from './products/productAPI.js';
 import { suppliesRouter } from './supplies/suppliesAPI.js';
 import { orderRouter } from './orders/orderAPI.js';
+import expiryTracker from './inventory/inventoryTracker.js';
+import Inventory from './inventory/inventory.js';
 
 const app = express();
 const env = dotenv.config();
@@ -30,17 +32,12 @@ async function initDB(){
 
 initDB()
 
-
-app.get('/',(req,res)=>{
-    res.json({
-        message: 'All good'
-    })
-})
-
 app.use(inventoryRouter)
 app.use(productRouter)
 app.use(suppliesRouter)
 app.use(orderRouter)
+
+// expiryTracker()
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server running on port ${process.env.PORT}`);

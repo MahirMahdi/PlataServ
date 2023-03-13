@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const InventorySchema = new mongoose.Schema({
+export const InventorySchema = new mongoose.Schema({
     name: String,
     unit_price: Number,
     unit: String,
