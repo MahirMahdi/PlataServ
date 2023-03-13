@@ -6,6 +6,7 @@ import POSProvider from './contexts/POSContext';
 import Order from './pages/POS/Order';
 import Dashboard from './pages/POS/Dashboard';
 import Admin from './pages/Admin';
+import Notifications from './pages/Notifications';
 
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
       </POSProvider>
       <Routes>
         <Route path='/admin' element={<Admin/>}/>
+      </Routes>
+      <Routes>
+        <Route path='/notifications' element={<Notifications/>}/>
       </Routes>
       </>
   )

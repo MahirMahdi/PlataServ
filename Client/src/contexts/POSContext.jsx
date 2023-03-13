@@ -45,7 +45,7 @@ export default function POSProvider({children}){
         
         else localStorage.setItem("orders",JSON.stringify({...orders, [id]: orders[id] - 1}))
 
-        if (!Object.keys(JSON.parse(localStorage.getItem("orders"))).lengtconst) localStorage.removeItem("orders")
+        if (Object.keys(JSON.parse(localStorage.getItem("orders"))).length === 0) localStorage.removeItem("orders")
 
         calculateSubTotal('remove',price)
     }

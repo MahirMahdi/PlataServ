@@ -45,6 +45,8 @@ button:disabled{
   place-items: center;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
+  width: fit-content;
+  height: 2.5rem;
 }
 
 .done{
@@ -65,6 +67,16 @@ button:disabled{
 .confirm-order{
   width: 10rem;
   height: 2.5rem;
+}
+
+/*notifications*/
+.discount{
+  background-color: #166a4a;
+  padding: .5rem;
+}
+
+.food-bank{
+  background-color: #530a5a;
 }
 
 /* Radio */

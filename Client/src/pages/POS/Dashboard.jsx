@@ -1,13 +1,15 @@
 import { useState } from "react"
 import { Box, Typography } from "@mui/material"
-import Sidebar from "../../components/POS/Sidebar"
-import DashboardCard from "../../components/POS/DashboardCard"
+import Sidebar from "../../components/Shared/Sidebar"
+import DashboardCard from "../../components/POS/Dashboard/DashboardCard"
 import { headerBoxStyle, itemsBoxStyle, mainBoxStyle } from "../../mui-styles/SharedStyles"
 import axios from '../../api/api'
+import Alert from '../../components/Shared/Alert'
 
 export default function Dashboard(){
 
     const [dashboardDetails, setDashboardDetails] = useState(JSON.parse(localStorage.getItem('dashboard')))
+    const [open, setOpen] = useState(false)
 
     const postOrderDetails = async(order_id) => {
         // these data are needed for sales report
@@ -25,6 +27,8 @@ export default function Dashboard(){
         else localStorage.setItem('dashboard',JSON.stringify(dashboardDetails.filter(detail => detail.order_id !== order_id)))
 
         setDashboardDetails(JSON.parse(localStorage.getItem('dashboard')))
+
+        setOpen(true)
     }
 
     return(
@@ -37,6 +41,7 @@ export default function Dashboard(){
                         <Box sx={headerBoxStyle}>
                             <Typography variant="h5">Queue</Typography>
                         </Box>
+                        <Alert open={open} setOpen={setOpen} error={null} success={'Order completed!'}/>
                         <Box sx={itemsBoxStyle}>
                             {dashboardDetails? dashboardDetails.map((detail,i)=>(
                                 <DashboardCard key={i} name={detail.customerName} orderId={detail.order_id}

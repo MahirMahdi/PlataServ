@@ -1,11 +1,12 @@
-import { Box, Typography, Alert, Snackbar } from "@mui/material";
-import Sidebar from "../../components/POS/Sidebar";
-import OrderCard from "../../components/POS/OrderCard";
+import { Box, Typography } from "@mui/material";
+import Sidebar from "../../components/Shared/Sidebar";
+import OrderCard from "../../components/POS/Order/OrderCard";
 import { useEffect, useState } from "react";
 import { uid } from "uid";
 import usePOS from "../../hooks/usePOS";
 import axios from '../../api/api'
-import Radio from "../../components/POS/Radio";
+import Radio from "../../components/POS/Order/Radio";
+import POSAlert from "../../components/Shared/Alert";
 import { mainBoxStyle, headerBoxStyle, itemsBoxStyle} from "../../mui-styles/SharedStyles";
 import { orderInfoBoxStyle, calculationBoxStyle, calculationBoxItemStyle, customerInfoBoxStyle, radioBoxStyle, buttonBoxStyle } from '../../mui-styles/POS/OrderStyles'
 
@@ -26,6 +27,8 @@ export default function Order(){
     const [allProducts, setAllProducts] = useState([])
     const [dashboardDetails, setDashboardDetails] = useState(null)
     const [dashboardProducts, setDashboardProducts] = useState()
+    const [error, setError] = useState()
+    const [success, setSuccess] = useState()
 
     // these objects are created for avoiding repetition.
     const paymentMethod = {values:['Cash', 'Card'], method:function handlePayment(e){
@@ -46,7 +49,10 @@ export default function Order(){
 
     const handleProducts = (type, product_id, product,price) => {
         // product increament or decreament based on type and calculate subtotal
-        type === 'add'? add(product_id, product,price) : remove(product_id, product,price)
+        type === 'add'? 
+        add(product_id, product,price) 
+        :remove(product_id, product,price)
+
         setOrders(JSON.parse(localStorage.getItem("orders")))
         setSubtotal(JSON.parse(localStorage.getItem("subtotal")))
     }
@@ -75,8 +81,8 @@ export default function Order(){
         filteredProducts.map(product => {
             const {ingredients, ...rest} = product;
             ingredients.map(ingredient => {
-                const {name, unit_count, ...others} = ingredient
-                allingredients.push({name: name, unit_count: unit_count, quantity: orders[product.product_id]})
+                const {name, unit_count,_id, ...others} = ingredient
+                allingredients.push({id: _id, name: name, unit_count: unit_count, quantity: orders[product.product_id]})
             })
         })
         setProductIngredients(allingredients)
@@ -87,21 +93,24 @@ export default function Order(){
         ingredientsDetails()
     },[orders,allProducts])
 
-    const confirmOrder = () => {
-        saveDashboardDetails()
-        updateInventory()
-        removeOrderDetails()
+    const confirmOrder = async() => {
+        const response = await axios.put('/inventory',{ingredients: productIngredients})
+        if (response.data.error) setError(response.data.error)
+        else {
+            setError(null)
+            setSuccess(response.data.success)
+            saveDashboardDetails()
+            removeOrderDetails()
+        }
         setOpen(true)
     }
+
+    const confirmOrderCondition = orders && name && payment && point && destination 
 
     const saveDashboardDetails = () => {
         //saved to localstorage for persistent details
         const dashboard = JSON.parse(localStorage.getItem("dashboard"))
         localStorage.setItem("dashboard", JSON.stringify(!dashboard? [dashboardDetails] : [...dashboard, dashboardDetails]))
-    }
-
-    const updateInventory = async() => {
-        await axios.put('/inventory',{ingredients: productIngredients})
     }
 
     const removeOrderDetails = () => {
@@ -144,11 +153,7 @@ export default function Order(){
                             <OrderCard key={i} product={product} handleAdd={()=>{handleProducts('add',product.product_id, product.price)}} handleRemove={()=>{handleProducts('remove',product.product_id, product.price)}} count={orders[product.product_id]}/>
                         )):<Typography variant="h5">Empty</Typography>}
                     </Box>
-                    <Snackbar sx={{ width: '12.5rem', textAlign:'center'}} open={open} onClose={()=>{setOpen(false)}}>
-                        <Alert severity="success">
-                            Order confirmed!
-                        </Alert>
-                    </Snackbar>
+                    <POSAlert open={open} setOpen={setOpen} error={error} success={success}/>
                     <Box sx={orderInfoBoxStyle}>
                         <Box sx={calculationBoxStyle}>
                             <Box sx={calculationBoxItemStyle}>
@@ -199,7 +204,7 @@ export default function Order(){
                             </Box>
                         </Box>
                         <Box sx={buttonBoxStyle}>
-                            <button className="btn confirm-order" onClick={confirmOrder}>Confirm Order</button>
+                            <button className="btn confirm-order" disabled= {!confirmOrderCondition && true} onClick={confirmOrder}>Confirm Order</button>
                         </Box>
                     </Box>
                 </Box>

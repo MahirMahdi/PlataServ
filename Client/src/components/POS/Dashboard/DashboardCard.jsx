@@ -1,5 +1,5 @@
 import { Typography, Card, CardContent, Box} from "@mui/material";
-import { dashboardCardContentStyle, dashboardCardStyle, contentStyle, contentNameStyle } from "../../mui-styles/POS/DashboardStyles";
+import { dashboardCardContentStyle, dashboardCardStyle, contentStyle, contentNameStyle } from "../../../mui-styles/POS/DashboardStyles";
 
 function DashboardContent({name, value}){
     return(

@@ -4,11 +4,13 @@ import order from '../../assets/order.png';
 import menu from '../../assets/menu.png';
 import dashboard from '../../assets/dashboard.png';
 import admin from '../../assets/admin.png';
+import notification from '../../assets/notifications.png';
 import { memo } from 'react';
 import { ItemLogoStyle, itemNameStyle, logoStyle, sidebarBoxStyle, sidebarItemStyle, titleLogoStyle, titleStyle } from '../../mui-styles/SharedStyles';
 
 
 function Sidebar(){
+
     return(
         <Box sx={sidebarBoxStyle}>
             <Box sx={titleLogoStyle}>
@@ -32,6 +34,10 @@ function Sidebar(){
                 <Link href='/admin' sx={sidebarItemStyle}>
                     <CardMedia component="img" sx={ItemLogoStyle} image={admin} alt='admin'/>
                     <Typography sx={itemNameStyle} className='item-name'>Admin</Typography>
+                </Link>
+                <Link href='/notifications' sx={sidebarItemStyle}>
+                    <CardMedia component="img" sx={ItemLogoStyle} image={notification} alt='notification'/>
+                    <Typography sx={itemNameStyle} className='item-name'>Notifications</Typography>
                 </Link>
             </Box>
         </Box>

@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import MenuCard from '../../components/POS/MenuCard';
-import Sidebar from '../../components/POS/Sidebar';
-import Tabs from '../../components/POS/Tabs';
+import MenuCard from '../../components/POS/Menu/MenuCard';
+import Sidebar from '../../components/Shared/Sidebar';
+import Tabs from '../../components/POS/Menu/Tabs';
 import { Categories } from '../../data/data';
-import { Box, Grid, Typography, Alert, Snackbar } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import usePOS from '../../hooks/usePOS';
-import Loading from '../../components/POS/Loading';
+import Loading from '../../components/Shared/Loading';
 import axios from '../../api/api';
 import { mainBoxStyle } from '../../mui-styles/SharedStyles';
-import { productsBoxStyle } from '../../mui-styles/POS/HomeStyles';
+import { productsBoxStyle } from '../../mui-styles/POS/Menustyles';
+import Alert from '../../components/Shared/Alert'
 
 export default function Home(){
 
@@ -38,11 +39,7 @@ export default function Home(){
                 <Box sx={mainBoxStyle}>
                     <Typography sx={{paddingTop:'1rem'}} variant="h5">Categories</Typography>
                     <Tabs handleClick={handleCategory} tab_state={category} categories={Categories}/>
-                    <Snackbar open={open} onClose={()=>{setOpen(false)}}>
-                        <Alert severity="success" sx={{ width: '10rem' }}>
-                            Added to order!
-                        </Alert>
-                    </Snackbar>
+                    <Alert open={open} setOpen={setOpen} error={null} success={'Added to order!'}/>
                     <Typography sx={{padding:'2rem'}} variant="h5">Menu</Typography>
                     <Box sx={productsBoxStyle}>
                         <Grid container spacing={4}>

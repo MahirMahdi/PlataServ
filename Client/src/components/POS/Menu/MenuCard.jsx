@@ -1,5 +1,5 @@
 import { Card, CardMedia, CardContent, Typography, Box, Grid} from '@mui/material';
-import { menuCardStyle, menuCardContentStyle } from '../../mui-styles/POS/HomeStyles';
+import { menuCardStyle, menuCardContentStyle } from '../../../mui-styles/POS/Menustyles';
 
 export default function MenuCard({product,handleOrder}) {
 

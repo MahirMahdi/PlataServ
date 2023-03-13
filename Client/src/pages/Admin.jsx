@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react"
-import Sidebar from "../components/POS/Sidebar"
+import Sidebar from "../components/Shared/Sidebar"
 import { Box, Typography, Chip } from "@mui/material"
 import axios from '../api/api'
 import { uid } from "uid"
-import ProductForm from "../components/POS/ProductForm"
-import SuppliesForm from "../components/POS/SuppliesForm"
+import ProductForm from "../components/Admin/ProductForm"
+import SuppliesForm from "../components/Admin/SuppliesForm"
 import { mainBoxStyle } from "../mui-styles/SharedStyles"
 import { chipsBoxStyle } from "../mui-styles/adminStyles"
+import Alert from '../components/Shared/Alert'
 
 export default function Admin(){
 
     const [category, setCategory] = useState('Supplies')
+
+    //Alert states
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState()
+    const [success, setSuccess] = useState()
     
     const handleCategory = (e) => {
         setCategory(e.target.innerHTML)
@@ -63,7 +69,14 @@ export default function Admin(){
 
     const addProduct = async() => {
         const response = await axios.post('/product', productData,{headers:{'Content-Type':'multipart/form-data'}})
-
+        if (response.data.error) setError(response.data.error)
+        else{
+            setError(null)
+            setProductData(null)
+            setIngredients(null)
+            setSuccess(response.data.success)
+        }
+        setOpen(true)
     }
 
     useEffect(()=>{
@@ -110,7 +123,6 @@ export default function Admin(){
 
     const updateIngredients = (e) => {
         const item = e.target.parentElement.children[0].innerHTML;
-
         setIngredients(ingredients?.filter(ingredient=> ingredient.name !== item))
     }
 
@@ -152,13 +164,18 @@ export default function Admin(){
     const supplyCalculations = () => {
         var subTotal = 0
         supplies?.map(supply=> subTotal += (supply.total_unit * supply.unit_price))
-
         setSubTotal(subTotal)
     }
 
     const orderSupplies = async() => {
         const response = await axios.post('/inventory',supplies)
-        console.log(response);
+        if (response.data.error) setError(response.data.error)
+        else{
+            setError(null)
+            setSupplies([])
+            setSuccess(response.data.success)
+        }
+        setOpen(true)
     }
 
     useEffect(()=>{
@@ -178,6 +195,7 @@ export default function Admin(){
                     <Chip onClick={handleCategory} sx={{width:'40%',textAlign:'center'}} label="Supplies" component="div" clickable />
                 </Box>
                 <Box sx={{textAlign:'center',margin:'1.5rem 0'}}><Typography variant="h4">{category === 'Product'? 'Add a new product' : 'Order new supplies'}</Typography></Box>
+                <Alert open={open} setOpen={setOpen} error={error} success={success}/>
                 {category === 'Product'? 
                     <ProductForm type={type} productName={productName} price={price} description={description} image={image} ingredients={ingredients}
                     name={name} unit={unit} unitCount={unitCount} unitPrice={unitPrice} expiryPeriod={expiryPeriod} handleType={handleType} 
