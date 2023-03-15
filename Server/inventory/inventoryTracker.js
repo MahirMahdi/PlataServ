@@ -9,42 +9,64 @@ export default async function expiryTracker(){
     date.setDate(date.getDate() + 2)
     const three_days_before_expiry_date = date.toISOString()
 
-    const inventories_with_three_days_expiry_period = await Inventory.find({expiry_date: {$lte: three_days_before_expiry_date}})
+    const ingredients_with_three_days_expiry_period = await Inventory.find({expiry_date: {$lte: three_days_before_expiry_date}, total_count: {$gt: 0}})
     const expired_inventories = await Inventory.find({expiry_date: {$lte: present_day}, total_count: {$gt: 0}})
 
-    if (inventories_with_three_days_expiry_period.length !== 0) sendAlert('expiry', inventories_with_three_days_expiry_period)
+    const extra_inventory_filters = ingredients_with_three_days_expiry_period.map(ingredient => ({
+      $and: [
+        { name: ingredient.name },
+        { expiry_date: { $gt: three_days_before_expiry_date }}
+      ]
+    }))
+
+    const ingredients_with_three_days_expiry_period_and_extra_inventory = await Inventory.find({$or: extra_inventory_filters})
+
+    const ingredients_with_three_days_expiry_period_and_with_no_extra_inventory = ingredients_with_three_days_expiry_period.filter(ingredient => !ingredients_with_three_days_expiry_period_and_extra_inventory.some(extraInventory => extraInventory.name === ingredient.name))
+
+    if (ingredients_with_three_days_expiry_period_and_with_no_extra_inventory.length !== 0) sendAlert('expiry', ingredients_with_three_days_expiry_period_and_with_no_extra_inventory)
 
     if (expired_inventories.length !== 0) sendToWaste(expired_inventories)
+
+    // console.log(Math.round((new Date(ingredients_with_three_days_expiry_period[0].expiry_date).getTime() - new Date().getTime()) / 1000))
 }
 
 export async function totalCountTracker(req,res,next){
     try {
         const ingredients = req.body.ingredients
 
-        const unavailable_ingredients = ingredients.map(ingredient => ({
+        const unavailable_ingredients_filters = ingredients.map(ingredient => ({
             $and: [
               { name: ingredient.name },
               { total_count: { $type: 'number', $eq: 0 } }
             ]
           }));
+        
+        const unavailable_ingredients = await Inventory.find({$or: unavailable_ingredients_filters})
 
-    
         if(unavailable_ingredients.length !== 0) await Inventory.deleteMany({$or: unavailable_ingredients})
         
-        
-
-        // console.log(deleted);
-        
-        const filters = ingredients.map(ingredient => ({
+        const alerted_ingredients_filters = ingredients.map(ingredient => ({
             $and: [
               { name: ingredient.name },
-              { total_unit: { $type: 'number', $eq: 1 } }
+              { total_unit: { $type: 'number', $lte: 1 }}
             ]
         }));
 
-        const ingredients_alert = await Inventory.find({$or: filters})
+        const extra_inventory_filters = ingredients.map(ingredient => ({
+          $and: [
+            { name: ingredient.name },
+            { total_unit: { $type: 'number', $gt: 1 }},
+            {expiry_date:{$gt: new Date()}}
+          ]
+        }));
 
-        if(ingredients_alert.length !== 0) sendAlert('count', ingredients_alert)
+        const alerted_ingredients = await Inventory.find({$or: alerted_ingredients_filters})
+
+        const alerted_ingredients_with_extra_inventory = await Inventory.find({$or: extra_inventory_filters})
+
+        const alerted_ingredients_with_no_extra_inventory = alerted_ingredients.filter(ingredient => !alerted_ingredients_with_extra_inventory.some(extraIngredient => extraIngredient.name === ingredient.name))
+
+        if(alerted_ingredients_with_no_extra_inventory.length !== 0) sendAlert('count', alerted_ingredients_with_no_extra_inventory)
 
         return next()
 

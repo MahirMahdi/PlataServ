@@ -1,10 +1,8 @@
 import Inventory from './inventory.js'
 
 export default async function createInventory(req,res){
-
-    const supplies = req.body
-
     try {
+        const supplies = req.body
         await Inventory.create(supplies)
         res.json({success:"Ordered successfully!"})
     } catch (error) {
@@ -16,8 +14,6 @@ export async function updateInventory(req, res){
     try{
         const ingredients = req.body.ingredients
 
-        console.log(ingredients);
-
         const filters = ingredients.map(ingredient => ({
             $and: [
               { name: ingredient.name },
@@ -25,8 +21,22 @@ export async function updateInventory(req, res){
               { expiry_date: {$gt: new Date().toISOString()}}
             ]
           }));
+        
+        // to remove duplicate ingredients
+        const pipeline = [
+          { $match: {
+            name: {
+              $in: ingredients.map((ingredient) => ingredient.name),
+            },
+            total_count: { $type: 'number', $gt: 0 },
+            expiry_date: {$gt: new Date()}
+            }
+          },
+          { $group: { _id: "$name", document: { $first: "$$ROOT" } } },
+          { $replaceRoot: { newRoot: "$document" } }
+        ];
 
-        const count = await Inventory.countDocuments({ $or: filters })
+        const count = await Inventory.aggregate(pipeline)
 
         if (count !== ingredients.length) res.json({error:"Ingredient unavailable"})
 

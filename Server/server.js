@@ -8,7 +8,7 @@ import { productRouter } from './products/productAPI.js';
 import { suppliesRouter } from './supplies/suppliesAPI.js';
 import { orderRouter } from './orders/orderAPI.js';
 import expiryTracker from './inventory/inventoryTracker.js';
-import Inventory from './inventory/inventory.js';
+import { foodbankRouter } from './foodbank/foodbankAPI.js';
 
 const app = express();
 const env = dotenv.config();
@@ -36,8 +36,9 @@ app.use(inventoryRouter)
 app.use(productRouter)
 app.use(suppliesRouter)
 app.use(orderRouter)
+app.use(foodbankRouter)
 
-// expiryTracker()
+expiryTracker()
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server running on port ${process.env.PORT}`);
