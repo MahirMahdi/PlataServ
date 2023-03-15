@@ -66,17 +66,21 @@ button:disabled{
 
 .confirm-order{
   width: 10rem;
-  height: 2.5rem;
 }
 
 /*notifications*/
-.discount{
+.alert1{
   background-color: #166a4a;
-  padding: .5rem;
+  padding: .25rem .75rem;
 }
 
-.food-bank{
+.alert2{
   background-color: #530a5a;
+  padding: .25rem .75rem;
+}
+
+.alert3{
+  padding: .25rem .75rem;
 }
 
 /* Radio */
