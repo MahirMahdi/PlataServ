@@ -1,15 +1,16 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 export const InventorySchema = new mongoose.Schema({
     name: String,
-    unit_price: Number,
-    unit: String,
-    unit_count: Number,
-    total_unit: Number,
-    total_count: Number,
-    expiry_date: Date
-},{timestamps:true})
+    pack_price: Number,
+    unit_name: String,
+    units_in_a_pack: Number,
+    total_packs: Number,
+    total_units: Number,
+    expiry_date: Date,
+    alert_status: String
+},{timestamps:true});
 
-const Inventory = mongoose.model("Inventory", InventorySchema)
+const Inventory = mongoose.model("Inventory", InventorySchema);
 
-export default Inventory
+export default Inventory;

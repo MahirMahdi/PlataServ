@@ -6,9 +6,11 @@ import cors from 'cors';
 import { inventoryRouter } from './inventory/inventoryAPI.js';
 import { productRouter } from './products/productAPI.js';
 import { suppliesRouter } from './supplies/suppliesAPI.js';
-import { orderRouter } from './orders/orderAPI.js';
+import { salesRouter } from './sales/salesAPI.js';
 import expiryTracker from './inventory/inventoryTracker.js';
 import { foodbankRouter } from './foodbank/foodbankAPI.js';
+import { alertRouter } from './alert/alertAPI.js';
+import { discountRouter } from './discount/discountAPI.js';
 
 const app = express();
 const env = dotenv.config();
@@ -35,8 +37,10 @@ initDB()
 app.use(inventoryRouter)
 app.use(productRouter)
 app.use(suppliesRouter)
-app.use(orderRouter)
+app.use(salesRouter)
 app.use(foodbankRouter)
+app.use(alertRouter)
+app.use(discountRouter)
 
 expiryTracker()
 

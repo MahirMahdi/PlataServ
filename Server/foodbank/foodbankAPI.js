@@ -1,8 +1,8 @@
-import express from 'express'
-import createFoodBankDonation from './foodbankController.js'
+import express from 'express';
+import createFoodBankDonation from './foodbankController.js';
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/foodbank',createFoodBankDonation)
+router.post('/foodbank',createFoodBankDonation);
 
-export {router as foodbankRouter}
+export {router as foodbankRouter};

@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const ProductSchema = new mongoose.Schema({
     type: String,
@@ -8,14 +8,15 @@ const ProductSchema = new mongoose.Schema({
     description: String,
     ingredients:[{
         name: String,
-        unit: String,
-        unit_price: Number,
-        unit_count: Number,
+        unit_name: String,
+        pack_price: Number,
+        units_in_a_pack: Number,
         expiry_period: Number
     }],
-    image: String
-})
+    image: String,
+    discount_period: Date
+});
 
-const Product = mongoose.model("Product", ProductSchema)
+const Product = mongoose.model("Product", ProductSchema);
 
-export default Product
+export default Product;

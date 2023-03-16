@@ -22,3 +22,12 @@ export async function getAllProducts(req,res){
         res.json({error:error})
     }    
 }
+
+export async function validateDiscount(req,res,next){
+    try {
+        await Product.updateMany({discount_period: {$lte: new Date()}},{$unset: {discount_period: 1}})
+        return next()
+    } catch (error) {
+        console.log(error);
+    }
+}

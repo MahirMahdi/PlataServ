@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const OrderSchema = new mongoose.Schema({
+const SalesSchema = new mongoose.Schema({
     details:[{
         product_type: String,
         name: String,
@@ -15,6 +15,6 @@ const OrderSchema = new mongoose.Schema({
     destination: String
 },{timestamps:true})
 
-const Order = mongoose.model("Order", OrderSchema)
+const Sales = mongoose.model("Sales", SalesSchema)
 
-export default Order
+export default Sales

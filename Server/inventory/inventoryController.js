@@ -1,23 +1,23 @@
-import Inventory from './inventory.js'
+import Inventory from './inventory.js';
 
 export default async function createInventory(req,res){
     try {
-        const supplies = req.body
-        await Inventory.create(supplies)
-        res.json({success:"Ordered successfully!"})
+        const supplies = req.body;
+        await Inventory.create(supplies);
+        res.json({success:"Ordered successfully!"});
     } catch (error) {
-        res.json({error: 'Error'})
+        res.json({error: 'Error'});
     }
 }
 
 export async function updateInventory(req, res){
     try{
-        const ingredients = req.body.ingredients
+        const ingredients = req.body.ingredients;
 
         const filters = ingredients.map(ingredient => ({
             $and: [
               { name: ingredient.name },
-              { total_count: { $type: 'number', $gt: 0 }},
+              { total_packs: { $type: 'number', $gt: 0 }},
               { expiry_date: {$gt: new Date().toISOString()}}
             ]
           }));
@@ -28,7 +28,7 @@ export async function updateInventory(req, res){
             name: {
               $in: ingredients.map((ingredient) => ingredient.name),
             },
-            total_count: { $type: 'number', $gt: 0 },
+            total_packs: { $type: 'number', $gt: 0 },
             expiry_date: {$gt: new Date()}
             }
           },
@@ -36,17 +36,17 @@ export async function updateInventory(req, res){
           { $replaceRoot: { newRoot: "$document" } }
         ];
 
-        const count = await Inventory.aggregate(pipeline)
+        const count = await Inventory.aggregate(pipeline);
 
-        if (count !== ingredients.length) res.json({error:"Ingredient unavailable"})
+        if (count !== ingredients.length) res.json({error:"Ingredient unavailable"});
 
         else {
             const updates = ingredients.map(ingredient => ({
                 $inc: {
-                  total_count: -ingredient.quantity,
-                  total_unit: -(ingredient.quantity / ingredient.unit_count)
+                  total_units: -ingredient.quantity,
+                  total_packs: -(ingredient.quantity / ingredient.units_in_a_pack)
                 }
-              }))
+              }));
 
               const bulkUpdate = filters.map((filter, index) => ({
                 updateOne: {
@@ -55,10 +55,10 @@ export async function updateInventory(req, res){
                 }
               }));
               
-            const options = {new: true, sort: {expiry_date: 1}} 
+            const options = {new: true, sort: {expiry_date: 1}} ;
 
-            Inventory.bulkWrite(bulkUpdate,options)
-            res.json({success: "Inventory updated!"})
+            Inventory.bulkWrite(bulkUpdate,options);
+            res.json({success: "Inventory updated!"});
         }
     } catch(error) {
         console.log(error);
