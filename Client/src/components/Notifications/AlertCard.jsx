@@ -1,23 +1,25 @@
 import { Box, Card, CardContent, Typography } from "@mui/material"
 import { alertCardStyle, contentNameStyle } from "../../mui-styles/NotificationsStyles"
 
-export default function AlertCard({type, items}){
+export default function AlertCard({type, items, donateFoodBank, applyDiscount, parOrder, customOrder, alertDate}){
+
+
+    const diff_in_ms = new Date().getTime() - new Date(alertDate).getTime()
+    const diff_in_days = Math.floor(diff_in_ms / 86400000);
 
     const expiry = {
-        message: 'Expiring in 3 days!',
+        message: diff_in_days > 0? `Expiring in ${diff_in_days} days!`: 'Expiring in less than a day!',
         buttons:[
             {
                 name: 'Apply Discount',
-                className: 'alert1'
+                className: 'alert1',
+                method: applyDiscount
             },
             {
                 name: 'Donate Food Bank',
-                className: 'alert2'
-            },
-            // {
-            //     name: 'Leave it',
-            //     className: 'alert3'
-            // }
+                className: 'alert2',
+                method: donateFoodBank
+            }
         ]
     }
 
@@ -26,11 +28,13 @@ export default function AlertCard({type, items}){
         buttons:[
             {
                 name: 'PAR Order',
-                className: 'alert1'
+                className: 'alert1',
+                method: parOrder
             },
             {
                 name: 'Custom Order',
-                className: 'alert2'
+                className: 'alert2',
+                method: customOrder
             }
         ]
 
@@ -41,17 +45,19 @@ export default function AlertCard({type, items}){
                 <Typography variant="h6">{type === 'expiry'? expiry.message : count.message}</Typography>
                 <Box>
                     <Typography variant="body1">Name - <span style={contentNameStyle}>Total Count(Remaining)</span></Typography>
-                    <Typography variant="body1">Mustard - <span style={contentNameStyle}>10</span></Typography>
+                    {items && items.map((item,i) => (
+                        <Typography key={i} variant="body1">{item.name} - <span style={contentNameStyle}>{item.total_units}</span></Typography>
+                    ))}
                 </Box>
             </CardContent>
             <CardContent sx={{display:'grid',rowGap:'1rem',justifyItems:'center'}}>
                 {type === 'expiry'?
-                    expiry.buttons.map(button => (
-                        <button className={`btn ${button.className}`}>{button.name}</button>
+                    expiry.buttons.map((button,i) => (
+                        <button onClick={button.method} key={i} className={`btn ${button.className}`}>{button.name}</button>
                     ))
                     
-                    :count.buttons.map(button => (
-                        <button className={`btn ${button.className}`}>{button.name}</button>
+                    :count.buttons.map((button,i)=> (
+                        <button onClick={button.method} key={i} className={`btn ${button.className}`}>{button.name}</button>
                     ))
                 }
             </CardContent>

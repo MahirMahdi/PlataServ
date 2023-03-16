@@ -1,7 +1,11 @@
 import { Grid } from "@mui/material"
 import Chip from "./Chip"
 
-export default function ProductForm({type,productName,price,description,image,ingredients,name,unit,unitPrice,unitCount,expiryPeriod,handleType,handleProductName,handlePrice,handleDescription,handleImage,addIngredient,handleName,handleUnit,handleUnitPrice,handleUnitCount,handleExpiryPeriod,addProduct,updateIngredients}){
+export default function ProductForm({type,productName,price,description,image,ingredients,name,unitName,packPrice,unitsInAPack,expiryPeriod,handleType,handleProductName,handlePrice,handleDescription,handleImage,addIngredient,handleName,handleUnitName,handlePackPrice,handleUnitsInAPack,handleExpiryPeriod,addProduct,updateIngredients}){
+
+    const addIngredientCondition = name && unitName && packPrice && unitsInAPack && expiryPeriod? false : true
+
+    const addProductCondition = productName && price && type && description && image && ingredients.length !== 0? false : true
     return(
         <div className="formbold-main-wrapper">
             {/* Product form starts here*/}
@@ -78,11 +82,11 @@ export default function ProductForm({type,productName,price,description,image,in
                                 <div className="w-full sm:w-half formbold-px-3">
                                     <div className="formbold-mb-5">
                                     <input
-                                        value={unit}
+                                        value={unitName}
                                         required={true}
                                         type="text"
-                                        onChange={handleUnit}
-                                        placeholder="Unit"
+                                        onChange={handleUnitName}
+                                        placeholder="Unit Name"
                                         className="formbold-form-input"
                                     />
                                     </div>
@@ -90,11 +94,11 @@ export default function ProductForm({type,productName,price,description,image,in
                                 <div className="w-full sm:w-half formbold-px-3">
                                     <div className="formbold-mb-5">
                                     <input
-                                        value={unitPrice}
+                                        value={packPrice}
                                         required={true}
-                                        onChange={handleUnitPrice}
+                                        onChange={handlePackPrice}
                                         type="number"
-                                        placeholder="Unit price"
+                                        placeholder="Pack price"
                                         className="formbold-form-input"
                                     />
                                     </div>
@@ -102,11 +106,11 @@ export default function ProductForm({type,productName,price,description,image,in
                                 <div className="w-full sm:w-half formbold-px-3">
                                     <div className="formbold-mb-5">
                                     <input
-                                        value={unitCount}
+                                        value={unitsInAPack}
                                         required={true}
-                                        onChange={handleUnitCount}
+                                        onChange={handleUnitsInAPack}
                                         type="number"
-                                        placeholder="Unit count"
+                                        placeholder="Units In A Pack"
                                         className="formbold-form-input"
                                     />
                                     </div>
@@ -124,7 +128,7 @@ export default function ProductForm({type,productName,price,description,image,in
                                     </div>
                                 </div>
                             </div>
-                        <button disabled={name && unit && unitPrice && unitCount && expiryPeriod ? false : true} onClick={addIngredient} className="formbold-btn">Add</button>
+                        <button disabled={addIngredientCondition} onClick={addIngredient} className="formbold-btn">Add</button>
                         <Grid container spacing={2}>
                             {ingredients.map((ingredient,i)=>(
                                 <Grid key={i} item xs={12} sm={6} md={4}>
@@ -133,7 +137,7 @@ export default function ProductForm({type,productName,price,description,image,in
                             ))}
                         </Grid>
                 </div>
-                <button disabled={productName && price && type && description && image && ingredients.length !== 0? false : true} className="formbold-btn" onClick={addProduct}>Add new product</button>
+                <button disabled={addProductCondition} className="formbold-btn" onClick={addProduct}>Add new product</button>
             </div>
         </div>
     )

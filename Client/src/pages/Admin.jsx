@@ -32,15 +32,15 @@ export default function Admin(){
 
     // ingredient states
     const [name, setName] = useState('')
-    const [unit, setUnit] = useState('')
-    const [unitPrice,setUnitPrice] = useState('')
-    const [unitCount,setUnitCount] = useState('')
+    const [unitName, setUnitName] = useState('')
+    const [packPrice,setPackPrice] = useState('')
+    const [unitsInAPack,setUnitsInAPack] = useState('')
     const [expiryPeriod, setExpiryPeriod] = useState('')
     const [ingredients, setIngredients] = useState([])
 
     // supplies states
     const [itemInfo, setItemInfo] = useState([])
-    const [totalUnit, setTotalUnit] = useState('')
+    const [totalPacks, setTotalPacks] = useState('')
     const [supplies, setSupplies] = useState([])
     const [subTotal, setSubTotal] = useState(0)
     const currentDate = new Date()
@@ -96,16 +96,16 @@ export default function Admin(){
         setName(e.target.value)
     }
 
-    const handleUnit = (e) => {
-        setUnit(e.target.value)
+    const handleUnitName = (e) => {
+        setUnitName(e.target.value)
     }
 
-    const handleUnitPrice = (e) => {
-        setUnitPrice(e.target.value)
+    const handlePackPrice = (e) => {
+        setPackPrice(e.target.value)
     }
 
-    const handleUnitCount = (e) => {
-        setUnitCount(e.target.value)
+    const handleUnitsInAPack = (e) => {
+        setUnitsInAPack(e.target.value)
     }
 
     const handleExpiryPeriod = (e) => {
@@ -113,11 +113,11 @@ export default function Admin(){
     }
 
     const addIngredient = () => {
-        setIngredients(prev=> [...prev,{name:name, unit:unit, unit_price: unitPrice, unit_count: unitCount, expiry_period: expiryPeriod}])
+        setIngredients(prev=> [...prev,{name:name, unit_name:unitName, pack_price: packPrice, unit_in_a_pack: unitInAPack, expiry_period: expiryPeriod}])
         setName('')
-        setUnit('')
-        setUnitPrice('')
-        setUnitCount('')
+        setUnitName('')
+        setPackPrice('')
+        setUnitsInAPack('')
         setExpiryPeriod('')
     }
 
@@ -135,24 +135,24 @@ export default function Admin(){
     const handleSupplyInputs = (e) => {
         setName(e.target.value)
         const item = itemInfo.filter(info=> info.name === e.target.value)[0]
-        setUnit(item.unit)
-        setUnitPrice(item.unit_price)
-        setUnitCount(item.unit_count)
+        setUnitName(item.unit_name)
+        setPackPrice(item.pack_price)
+        setUnitsInAPack(item.units_in_a_pack)
         setExpiryPeriod(item.expiry_period)
     }
 
-    const handleTotalUnit = (e) => {
-        setTotalUnit(e.target.value)
+    const handleTotalPacks = (e) => {
+        setTotalPacks(e.target.value)
     }
 
     const addItem = () => {
-        setSupplies(prev=> [...prev,{name:name, unit:unit, unit_price: unitPrice, unit_count: unitCount, expiry_date: expiry_date, total_unit: totalUnit,total_count: (totalUnit* unitCount)}])
+        setSupplies(prev=> [...prev,{name: name, unit_name: unitName, pack_price: packPrice, units_in_a_pack: unitsInAPack, expiry_date: expiry_date, total_packs: totalPacks ,total_units: (totalPacks* unitsInAPack)}])
         setName('')
-        setUnit('')
-        setUnitPrice('')
-        setUnitCount('')
+        setUnitName('')
+        setPackPrice('')
+        setUnitsInAPack('')
         setExpiryPeriod('')
-        setTotalUnit('')
+        setTotalPacks('')
     }
 
     const updateSupplies = (e) => {
@@ -198,13 +198,13 @@ export default function Admin(){
                 <Alert open={open} setOpen={setOpen} error={error} success={success}/>
                 {category === 'Product'? 
                     <ProductForm type={type} productName={productName} price={price} description={description} image={image} ingredients={ingredients}
-                    name={name} unit={unit} unitCount={unitCount} unitPrice={unitPrice} expiryPeriod={expiryPeriod} handleType={handleType} 
+                    name={name} unitName={unitName} unitsInAPack={unitsInAPack} packPrice={packPrice} expiryPeriod={expiryPeriod} handleType={handleType} 
                     handleProductName={handleProductName} handlePrice={handlePrice} handleDescription={handleDescription} handleImage={handleImage}
-                    addIngredient={addIngredient} addProduct={addProduct} handleName={handleName} handleUnit={handleUnit} 
-                    handleUnitPrice={handleUnitPrice} handleUnitCount={handleUnitCount} handleExpiryPeriod={handleExpiryPeriod} updateIngredients={updateIngredients}/>
+                    addIngredient={addIngredient} addProduct={addProduct} handleName={handleName} handleUnit={handleUnitName} 
+                    handlePackPrice={handlePackPrice} handleUnitsInAPack={handleUnitsInAPack} handleExpiryPeriod={handleExpiryPeriod} updateIngredients={updateIngredients}/>
                     
-                    :<SuppliesForm supplies={supplies} itemInfo={itemInfo} ingredients={ingredients} name={name} unit={unit} unitCount={unitCount} unitPrice={unitPrice} 
-                    expiryPeriod={expiryPeriod} totalUnit={totalUnit} subTotal={subTotal} handleSupplyInputs={handleSupplyInputs} handleTotalUnit={handleTotalUnit} addItem={addItem} updateSupplies={updateSupplies} orderSupplies={orderSupplies}/>    
+                    :<SuppliesForm supplies={supplies} itemInfo={itemInfo} ingredients={ingredients} name={name} unitName={unitName} unitsInAPack={unitsInAPack} packPrice={packPrice} 
+                    expiryPeriod={expiryPeriod} totalPacks={totalPacks} subTotal={subTotal} handleSupplyInputs={handleSupplyInputs} handleTotalPacks={handleTotalPacks} addItem={addItem} updateSupplies={updateSupplies} orderSupplies={orderSupplies}/>    
                 }
             </Box>
         </Box>

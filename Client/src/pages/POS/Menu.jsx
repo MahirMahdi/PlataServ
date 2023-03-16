@@ -11,7 +11,7 @@ import { mainBoxStyle } from '../../mui-styles/SharedStyles';
 import { productsBoxStyle } from '../../mui-styles/POS/Menustyles';
 import Alert from '../../components/Shared/Alert'
 
-export default function Home(){
+export default function Menu(){
 
     const [category, setCategory] = useState('Burger')
     const [open, setOpen] = useState(false)
@@ -40,7 +40,7 @@ export default function Home(){
                     <Typography sx={{paddingTop:'1rem'}} variant="h5">Categories</Typography>
                     <Tabs handleClick={handleCategory} tab_state={category} categories={Categories}/>
                     <Alert open={open} setOpen={setOpen} error={null} success={'Added to order!'}/>
-                    <Typography sx={{padding:'2rem'}} variant="h5">Menu</Typography>
+                    <Typography sx={{padding:'1.5rem 0'}} variant="h5">Menu</Typography>
                     <Box sx={productsBoxStyle}>
                         <Grid container spacing={4}>
                             {allProducts.filter((product)=> product.type === category.toLowerCase()).map((data,index) => (

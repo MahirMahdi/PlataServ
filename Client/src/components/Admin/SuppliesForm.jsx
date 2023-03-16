@@ -4,7 +4,7 @@ import { Grid, Box, Typography } from "@mui/material";
 const calculationBox = {border:'1px solid #e4e9eb',padding:{xs:'1.25rem .25rem',md:'.5rem'},paddingRight:'0',display:'grid',rowGap:'1rem'}
 const calculationBoxItem = {display:'flex',justifyContent:'space-between', width:'15rem'}
 
-export default function SuppliesForm({supplies,itemInfo,name,unit,unitPrice,unitCount,expiryPeriod,addItem,totalUnit,handleSupplyInputs,handleTotalUnit,updateSupplies,subTotal,orderSupplies}){
+export default function SuppliesForm({supplies,itemInfo,name,unitName,packPrice,unitsInAPack,expiryPeriod,addItem,totalPacks,handleSupplyInputs,handleTotalPacks,updateSupplies,subTotal,orderSupplies}){
     return(
         <div className="formbold-main-wrapper">
             <div className="formbold-form-wrapper">
@@ -29,36 +29,36 @@ export default function SuppliesForm({supplies,itemInfo,name,unit,unitPrice,unit
                             </div>
                             <div className="w-full sm:w-half formbold-px-3">
                                 <div className="formbold-mb-5">
-                                <label>Unit</label>
+                                <label>Unit Name</label>
                                 <input
                                     readOnly
-                                    value={unit}
+                                    value={unitName}
                                     type="text"
-                                    placeholder="Unit"
+                                    placeholder="Unit Name"
                                     className="formbold-form-input"
                                 />
                                 </div>
                             </div>
                             <div className="w-full sm:w-half formbold-px-3">
                                 <div className="formbold-mb-5">
-                                <label>Unit Price</label>
+                                <label>Pack Price</label>
                                 <input
                                     readOnly
-                                    value={unitPrice}
+                                    value={packPrice}
                                     type="number"
-                                    placeholder="Unit price"
+                                    placeholder="Pack price"
                                     className="formbold-form-input"
                                 />
                                 </div>
                             </div>
                             <div className="w-full sm:w-half formbold-px-3">
                                 <div className="formbold-mb-5">
-                                <label>Unit Count</label>
+                                <label>Units In A Pack</label>
                                 <input
                                     readOnly
-                                    value={unitCount}
+                                    value={unitsInAPack}
                                     type="number"
-                                    placeholder="Unit count"
+                                    placeholder="Units In A Pack"
                                     className="formbold-form-input"
                                 />
                                 </div>
@@ -77,19 +77,19 @@ export default function SuppliesForm({supplies,itemInfo,name,unit,unitPrice,unit
                             </div>
                             <div className="w-full sm:w-half formbold-px-3">
                                 <div className="formbold-mb-5">
-                                <label>Total Unit</label>
+                                <label>Total Packs</label>
                                 <input
-                                    onChange={handleTotalUnit}
-                                    value={totalUnit}
+                                    onChange={handleTotalPacks}
+                                    value={totalPacks}
                                     required={true}
                                     type="number"
-                                    placeholder="Enter total unit"
+                                    placeholder="Enter total packs"
                                     className="formbold-form-input"
                                 />
                                 </div>
                             </div>       
                         </div>
-                        <button disabled={name && totalUnit? false : true} onClick={addItem} className="formbold-btn" style={{width:'fit-content',padding:'1rem 2rem',margin:'auto'}}>Add</button>
+                        <button disabled={name && totalPacks? false : true} onClick={addItem} className="formbold-btn" style={{width:'fit-content',padding:'1rem 2rem',margin:'auto'}}>Add</button>
                     </div>
                         <Box sx={{display:'grid',rowGap:'2.5rem',justifyItems:'center'}}>
                             <Grid container spacing={2}>
@@ -121,7 +121,7 @@ export default function SuppliesForm({supplies,itemInfo,name,unit,unitPrice,unit
                                     <Typography>${(subTotal + (subTotal * .1)).toFixed(2)}</Typography>
                                 </Box>
                             </Box>
-                            <button disabled={supplies.length > 0? false : true} onClick={orderSupplies} className="formbold-btn">Order Supplies</button>
+                            <button disabled={supplies.length > 0? false :true} onClick={orderSupplies} className="formbold-btn">Order Supplies</button>
                         </Box>
                     </div>
                 </div>

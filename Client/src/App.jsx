@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/pos/Home';
+import Menu from './pages/pos/Menu';
 import '../src/css/App.css'
 import '../src/css/POS.css'
 import POSProvider from './contexts/POSContext';
@@ -15,7 +15,7 @@ function App() {
       <>
       <POSProvider>
         <Routes>
-          <Route path='/' element={<Home/>}/>
+          <Route path='/' element={<Menu/>}/>
           <Route path='/order' element={<Order/>}/>
           <Route path='/dashboard' element={<Dashboard/>}/>
         </Routes>
