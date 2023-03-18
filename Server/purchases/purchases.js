@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
-import { InventorySchema } from "../inventory/inventory";
+import { InventorySchema } from "../inventory/inventory.js";
 
-const {expiry_date, ...rest} = InventorySchema;
+const schema = Object.assign({}, InventorySchema.obj)
 
-const PurchasesSchema = new mongoose.Schema({
-    type: rest
-});
+delete schema.expiry_date
 
-const Purchases = mongoose.model("Supplies",PurchasesSchema);
+const PurchasesSchema = new mongoose.Schema(schema, {
+    timestamps:true
+})
+
+const Purchases = mongoose.model("Purchases",PurchasesSchema);
 
 export default Purchases;

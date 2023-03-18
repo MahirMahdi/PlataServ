@@ -2,26 +2,27 @@ import Alert from "./alert.js";
 
 export default async function sendAlert(type,ingredients){
     try {
-        const alert = {
-            alert_tag: type,
-            items: ingredients
-        };
+        const alert = ingredients.map(ingredient => {
+            return {alert_tag: type, item: ingredient}
+        })
 
-        const existing_document_items = await Alert.find({
+        const existing_document = await Alert.find({
             alert_tag: type, 
-            items: {$elemMatch: {name: {$in: ingredients.map(ingredient => ingredient.name)},
-            expiry_date: ingredients.map(ingredient => ingredient.expiry_date)}}
+            "item.name": {$in: ingredients.map(ingredient => ingredient.name)},
+            "item.expiry_date": {$in: ingredients.map(ingredient => ingredient.expiry_date)}
         });
 
-        const all_items = existing_document_items.reduce((acc, curr) => {
-            return acc.concat(curr.items);
-          },[]);
-
-        if(all_items.length === 0) await Alert.create(alert);
+        if(existing_document.length === 0) await Alert.insertMany(alert);
 
         else{ 
-            const unmatched_items = ingredients.filter(item => !all_items.some(filterItem => filterItem.name === item.name));
-            if(unmatched_items.length !== 0) await Alert.create({alert_tag: type, items: unmatched_items});
+            const unmatched_items = ingredients.filter(item => !existing_document.some(filterItem => filterItem.item.name === item.name));
+            console.log(unmatched_items);
+            if(unmatched_items.length !== 0){
+                const newAlert = unmatched_items.map(item => {
+                    return { alert_tag: type, item: item}
+                })
+                await Alert.insertMany(newAlert)
+            }
         }
 
     } catch (error) {

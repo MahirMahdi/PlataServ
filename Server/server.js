@@ -11,6 +11,7 @@ import expiryTracker from './inventory/inventoryTracker.js';
 import { foodbankRouter } from './foodbank/foodbankAPI.js';
 import { alertRouter } from './alert/alertAPI.js';
 import { discountRouter } from './discount/discountAPI.js';
+import { purchasesRouter } from './purchases/purchasesAPI.js';
 
 const app = express();
 const env = dotenv.config();
@@ -41,6 +42,7 @@ app.use(salesRouter)
 app.use(foodbankRouter)
 app.use(alertRouter)
 app.use(discountRouter)
+app.use(purchasesRouter)
 
 expiryTracker()
 

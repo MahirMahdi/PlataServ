@@ -4,12 +4,11 @@ import FoodBank from './foodbank.js';
 
 export default async function createFoodBankDonation(req,res){
     try {
-        const {_id, items} = req.body;
-        const items_id = items.map(item => item._id);
+        const {_id, item} = req.body;
 
-        await FoodBank.create({items:items});
+        await FoodBank.insertMany(item);
 
-        await Inventory.deleteMany({_id:{$in: items_id}});
+        await Inventory.deleteOne({_id: item._id});
 
         await Alert.deleteOne({_id: _id});
     } catch (error) {
