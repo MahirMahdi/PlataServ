@@ -85,6 +85,7 @@ export default function SuppliesForm({supplies,itemInfo,name,unitName,packPrice,
                                     type="number"
                                     placeholder="Enter total packs"
                                     className="formbold-form-input"
+                                    min="1"
                                 />
                                 </div>
                             </div>       
@@ -102,8 +103,8 @@ export default function SuppliesForm({supplies,itemInfo,name,unitName,packPrice,
                             <Box sx={calculationBox}>
                                 {supplies?.map((supply,i)=>(
                                     <Box key={i} sx={calculationBoxItem}>
-                                        <Typography>{supply.name}({supply.total_unit})</Typography>
-                                        <Typography>${(supply.total_unit * supply.unit_price).toFixed(2)}</Typography>
+                                        <Typography>{supply.name}({supply.total_packs})</Typography>
+                                        <Typography>${(supply.total_packs * supply.pack_price).toFixed(2)}</Typography>
                                     </Box>
                                 ))}
                             </Box>

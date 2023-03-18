@@ -44,7 +44,7 @@ export default function Menu(){
                     <Box sx={productsBoxStyle}>
                         <Grid container spacing={4}>
                             {allProducts.filter((product)=> product.type === category.toLowerCase()).map((data,index) => (
-                                <MenuCard key={index} handleOrder={()=>{ add(data.product_id, data.price); setOpen(true)}} product={data}/>
+                                <MenuCard key={index} handleOrder={()=>{ add(data.product_id, data.discount_period, data.price); setOpen(true)}} product={data}/>
                             ))}
                         </Grid>
                     </Box>

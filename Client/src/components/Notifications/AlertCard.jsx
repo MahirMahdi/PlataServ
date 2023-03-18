@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Typography } from "@mui/material"
 import { alertCardStyle, contentNameStyle } from "../../mui-styles/NotificationsStyles"
 
-export default function AlertCard({type, items, donateFoodBank, applyDiscount, parOrder, customOrder, alertDate}){
+export default function AlertCard({type, item, donateFoodBank, applyDiscount, parOrder, customOrder, alertDate}){
 
 
     const diff_in_ms = new Date().getTime() - new Date(alertDate).getTime()
@@ -45,9 +45,7 @@ export default function AlertCard({type, items, donateFoodBank, applyDiscount, p
                 <Typography variant="h6">{type === 'expiry'? expiry.message : count.message}</Typography>
                 <Box>
                     <Typography variant="body1">Name - <span style={contentNameStyle}>Total Count(Remaining)</span></Typography>
-                    {items && items.map((item,i) => (
-                        <Typography key={i} variant="body1">{item.name} - <span style={contentNameStyle}>{item.total_units}</span></Typography>
-                    ))}
+                    <Typography variant="body1">{item.name} - <span style={contentNameStyle}>{item.total_units}</span></Typography>
                 </Box>
             </CardContent>
             <CardContent sx={{display:'grid',rowGap:'1rem',justifyItems:'center'}}>

@@ -40,7 +40,7 @@ export default function Notifications(){
                     <Box sx={itemsBoxStyle}>
                         {alerts? 
                             alerts.map(alert => (
-                                <AlertCard key={alert._id} type={alert.alert_tag} items={alert.items} alertDate={alert.createdAt} applyDiscount={()=> applyDiscount(alert)} donateFoodBank={()=> donateFoodBank(alert)}/>
+                                <AlertCard key={alert._id} type={alert.alert_tag} item={alert.item} alertDate={alert.createdAt} applyDiscount={()=> applyDiscount(alert)} donateFoodBank={()=> donateFoodBank(alert)}/>
                             ))
                             :<Typography variant="h5">Empty</Typography>}
                     </Box>

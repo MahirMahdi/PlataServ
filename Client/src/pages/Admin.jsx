@@ -163,11 +163,12 @@ export default function Admin(){
 
     const supplyCalculations = () => {
         var subTotal = 0
-        supplies?.map(supply=> subTotal += (supply.total_unit * supply.unit_price))
+        supplies?.map(supply=> subTotal += (supply.total_packs * supply.pack_price))
         setSubTotal(subTotal)
     }
 
     const orderSupplies = async() => {
+        await axios.post('/purchases',supplies)
         const response = await axios.post('/inventory',supplies)
         if (response.data.error) setError(response.data.error)
         else{

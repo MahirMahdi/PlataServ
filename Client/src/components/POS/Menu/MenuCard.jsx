@@ -21,12 +21,12 @@ export default function MenuCard({product,handleOrder}) {
               <Typography sx={{fontFamily: "'Roboto', sans-serif",fontSize:'1.25rem'}} gutterBottom component="div">
                 {name}
               </Typography>
-              <Typography sx={{fontSize:'.9rem'}} variant="body1" color="text.secondary">
+              <Typography sx={{fontSize:'.9rem',overflow:'hidden'}} variant="body1" color="text.secondary">
               {description}
               </Typography>
               {discount_period?
                   <div style={{fontFamily: "'Roboto', sans-serif",fontSize:'1.1rem'}}>
-                    <sup style={{fontWeight:'bold'}}>$</sup>{(price - (price * .1).toFixed(2))}
+                    <sup style={{fontWeight:'bold'}}>$</sup>{(price - (price * .1)).toFixed(2)}
                     <strike style={{fontSize:'.85rem'}}>${price}</strike>
                   </div>
                   

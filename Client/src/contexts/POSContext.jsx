@@ -6,10 +6,11 @@ export default function POSProvider({children}){
 
     // to avoid repetition these functions are passed throught this context.
 
-    const addToOrder = (id, price) => {
-
+    const addToOrder = (id, discount, price) => {
         // product_id is set as orders property because data structure is much simpler this way. 
         // If each order is an object and all the objects are in an array, the data structure becomes very complex and it's harder to query data.
+        
+        const product_price = discount? (price - (price * .1)).toFixed(2) : price
 
         const orders = JSON.parse(localStorage.getItem("orders"))
         
@@ -23,7 +24,7 @@ export default function POSProvider({children}){
 
         localStorage.setItem("orders", JSON.stringify(order))
 
-        calculateSubTotal('add',price)
+        calculateSubTotal('add',Number(product_price))
     }
 
     const removeOrder = (id) => {
@@ -34,10 +35,11 @@ export default function POSProvider({children}){
 
         localStorage.setItem("orders",JSON.stringify(order))
 
-        
     }
 
-    const removeFromOrder = (id,price) => {
+    const removeFromOrder = (id,discount,price) => {
+
+        const product_price = discount? (price - (price * .1)).toFixed(2) : price
 
         const orders = JSON.parse(localStorage.getItem("orders"))
 
@@ -47,12 +49,14 @@ export default function POSProvider({children}){
 
         if (Object.keys(JSON.parse(localStorage.getItem("orders"))).length === 0) localStorage.removeItem("orders")
 
-        calculateSubTotal('remove',price)
+        calculateSubTotal('remove',Number(product_price))
     }
 
     const calculateSubTotal = (type,price) => {
 
         const prevValue = parseFloat(localStorage.getItem("subtotal"))
+
+        console.log(typeof(price), typeof(prevValue));
 
         let newValue 
 

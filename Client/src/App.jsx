@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Menu from './pages/pos/Menu';
-import '../src/css/App.css'
-import '../src/css/POS.css'
+import '../src/css/App.css';
 import POSProvider from './contexts/POSContext';
 import Order from './pages/POS/Order';
 import Dashboard from './pages/POS/Dashboard';

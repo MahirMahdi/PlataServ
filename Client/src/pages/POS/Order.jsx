@@ -150,7 +150,7 @@ export default function Order(){
                     </Box>
                     <Box sx={itemsBoxStyle}>
                         {orders? allProducts?.filter(products => orders.hasOwnProperty(products.product_id)).map((product,i) => (
-                            <OrderCard key={i} product={product} handleAdd={()=>{handleProducts('add',product.product_id, product.price)}} handleRemove={()=>{handleProducts('remove',product.product_id, product.price)}} count={orders[product.product_id]}/>
+                            <OrderCard key={i} product={product} handleAdd={()=>{handleProducts('add',product.product_id, product.discount_period, product.price)}} handleRemove={()=>{handleProducts('remove',product.product_id, product.discount_period, product.price)}} count={orders[product.product_id]}/>
                         )):<Typography variant="h5">Empty</Typography>}
                     </Box>
                     <POSAlert open={open} setOpen={setOpen} error={error} success={success}/>
