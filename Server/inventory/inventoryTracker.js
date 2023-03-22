@@ -41,8 +41,7 @@ export default async function expiryTracker(){
     if (ingredients_with_three_days_expiry_period_but_without_extra_inventory.length !== 0) sendAlert('expiry', ingredients_with_three_days_expiry_period_but_without_extra_inventory);
 
     if (expired_inventories.length !== 0) sendToWaste(expired_inventories);
-
-    console.log(new Date());
+    
 }
 
 export async function totalCountTracker(req,res,next){

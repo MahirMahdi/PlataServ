@@ -16,7 +16,6 @@ export default async function sendAlert(type,ingredients){
 
         else{ 
             const unmatched_items = ingredients.filter(item => !existing_document.some(filterItem => filterItem.item.name === item.name));
-            console.log(unmatched_items);
             if(unmatched_items.length !== 0){
                 const newAlert = unmatched_items.map(item => {
                     return { alert_tag: type, item: item}

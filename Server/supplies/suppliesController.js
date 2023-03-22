@@ -1,6 +1,7 @@
 import Product from "../products/product.js"
 
 export default async function getSupplies(req,res){
+    // removing duplicate ingredients and sending them for ordering new supplies.
     try {
         let allIngredients = []
         let duplicateIngredientsRemoved = []

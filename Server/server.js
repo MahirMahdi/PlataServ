@@ -12,6 +12,7 @@ import { foodbankRouter } from './foodbank/foodbankAPI.js';
 import { alertRouter } from './alert/alertAPI.js';
 import { discountRouter } from './discount/discountAPI.js';
 import { purchasesRouter } from './purchases/purchasesAPI.js';
+import { parRouter } from './par/parAPI.js';
 
 const app = express();
 const env = dotenv.config();
@@ -26,7 +27,7 @@ app.use('/home',express.static('uploads'));
 
 async function initDB(){
     try {
-        await mongoose.connect(process.env.DATABASE,{ useNewUrlParser: true, useUnifiedTopology: true});
+        mongoose.connect(process.env.DATABASE,{ useNewUrlParser: true, useUnifiedTopology: true});
         console.log('mongodb is connected');
     } catch (error) {
         console.log(error);
@@ -43,6 +44,7 @@ app.use(foodbankRouter)
 app.use(alertRouter)
 app.use(discountRouter)
 app.use(purchasesRouter)
+app.use(parRouter)
 
 expiryTracker()
 

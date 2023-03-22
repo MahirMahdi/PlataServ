@@ -1,9 +1,25 @@
+import Alert from '../alert/alert.js';
 import Inventory from './inventory.js';
 
 export default async function createInventory(req,res){
     try {
+        const type = req.params.type
         const supplies = req.body;
-        await Inventory.create(supplies);
+        console.log(supplies, type);
+        const supplies_restructured = supplies.map(supply => {
+          const {expiry_period, ...rest} = supply;
+
+          const currentDate = new Date()
+          const expiry_date = new Date(currentDate.setDate(currentDate.getDate() + expiry_period))
+
+          const newSupply = Object.assign({expiry_date: expiry_date}, rest);
+
+          return newSupply;
+        })
+        if (type === 'alert'){ Alert.deleteOne({alert_tag: 'count', 'item.name': supplies[0].name},function(err,res){
+          console.log(err,res);
+        })}
+        await Inventory.insertMany(supplies_restructured);
         res.json({success:"Ordered successfully!"});
     } catch (error) {
         res.json({error: 'Error'});

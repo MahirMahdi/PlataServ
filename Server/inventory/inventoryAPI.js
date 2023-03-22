@@ -4,7 +4,7 @@ import { totalCountTracker } from './inventoryTracker.js';
 
 const router = express.Router();
 
-router.post('/inventory', createInventory);
+router.post('/inventory/:type', createInventory);
 router.put('/inventory', totalCountTracker, updateInventory);
 
 export {router as inventoryRouter};
