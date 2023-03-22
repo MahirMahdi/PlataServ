@@ -1,18 +1,17 @@
 //shared
 export const mainBoxStyle = {
-    position:'absolute',
+    marginTop:'2.5rem',
     display:'grid',
     placeItems:'center',
     justifyContent:'space-around',
-    width:{xs:'85vw',sm:'90vw',md:'82.5vw',lg:'85vw'},
-    right:'0',
+    width:'100vw',
 }
 
 export const headerBoxStyle = {
     width:{xs:'18.5rem',sm:'32.5rem',md:'35rem',lg:'40rem'},
     height:{xs:'5rem',sm:'6rem',md:'7.5rem'},
     borderRadius:'10px',
-    backgroundColor:'#C84B31',
+    backgroundColor:'#007ea7',
     display:'grid',
     justifyContent:'center',
     placeItems:'center',
@@ -71,7 +70,7 @@ export const itemNameStyle = {
 
 export const sidebarItemStyle = {
     width:{xs:'15vw',sm:'10vw',md:'17.5vw',lg:'15vw'},
-    '&:hover':{backgroundColor: '#C84B31',transition: 'ease-in-out 350ms'},
+    '&:hover':{backgroundColor: '#007ea7',transition: 'ease-in-out 350ms'},
     display:'flex',
     alignItems:'center',
     justifyContent:{xs:'center',md:'flex-start'},
@@ -81,5 +80,6 @@ export const sidebarItemStyle = {
 }
 
 export const ItemLogoStyle = {
+    display:{xs:'flex', md:'none'},
     width:{xs:'2rem',sm:'2.25rem', md:'2.75rem'}
 }

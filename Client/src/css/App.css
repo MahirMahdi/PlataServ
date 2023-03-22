@@ -7,15 +7,15 @@
 
 
 body{
-  background-color: #e4e9eb
+  background-color: #e2e8e8
 }
 
 
 #active{
-  border: 2px solid #C84B31;
+  border: 2px solid #007ea7;
 }
 .sidebar-item:hover{
-  background-color: #C84B31;
+  background-color: #007ea7;
   color: white;
   transition: ease-in-out 350ms;
 }
@@ -30,7 +30,7 @@ body{
   width: 4.5rem;
   height: 1.5rem;
   position: absolute;
-  background-color: green;
+  background-color: #2a9d8f;
   text-align: center;
   z-index: 1;
   color: white;
@@ -66,14 +66,14 @@ button:disabled{
   border-radius: 3.5px;
   border: none;
   text-align: center;
-  background-color: #182747;
+  background-color: #003459;
   color: white;
-  display: grid;
-  place-items: center;
+  text-align: center;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   width: fit-content;
-  height: 2.5rem;
+  height: 2.75rem;
+  overflow: hidden;
 }
 
 .done{
@@ -84,7 +84,7 @@ button:disabled{
 /* Menu */
 
 .add-order{
-  background-color:#C84B31;
+  background-color:#007ea7;
   width:7.5rem;
   height:2.5rem;
 }
@@ -97,12 +97,12 @@ button:disabled{
 
 /*notifications*/
 .alert1{
-  background-color: #166a4a;
+  background-color: #00a8e8;
   padding: .25rem .75rem;
 }
 
 .alert2{
-  background-color: #530a5a;
+  background-color: #003459;
   padding: .25rem .75rem;
 }
 
@@ -198,7 +198,7 @@ button:disabled{
   resize: none;
 }
 .formbold-form-input:focus {
-  border-color: #C84B31;
+  border-color: #007ea7;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -209,7 +209,7 @@ button:disabled{
   padding: 14px 32px;
   border: none;
   font-weight: 600;
-  background-color: #C84B31;
+  background-color: #007ea7;
   color: white;
   width: fit-content;
   cursor: pointer;
@@ -254,3 +254,10 @@ button:disabled{
   height: 5rem;
   padding: 0;
 }
+
+
+
+
+
+
+

@@ -40,7 +40,7 @@ export const tabStyle = {
     height:{xs:'5rem', sm:'7rem',md:'7.5rem'},
     textAlign:'center',fontWeight:'600',fontFamily:"'Roboto', sans-serif",
     fontSize:{xs:'.75rem',md:'.9rem'},
-    '&:hover':{border:'2px solid #C84B31',transition: 'ease-in 100ms'}
+    '&:hover':{border:'2px solid #007ea7',transition: 'ease-in 100ms'}
 }
 
 export const tabImgStyle = {

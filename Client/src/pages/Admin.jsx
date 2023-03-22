@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import Sidebar from "../components/Shared/Sidebar"
+import Sidebar from "../components/Sidebar/Sidebar"
 import { Box, Typography, Chip } from "@mui/material"
 import axios from '../api/api'
 import { uid } from "uid"
@@ -43,8 +43,6 @@ export default function Admin(){
     const [totalPacks, setTotalPacks] = useState('')
     const [supplies, setSupplies] = useState([])
     const [subTotal, setSubTotal] = useState(0)
-    const currentDate = new Date()
-    const expiry_date = new Date(currentDate.setDate(currentDate.getDate() + expiryPeriod))
     
     //product functions
     const handleType = (e) => {
@@ -113,7 +111,7 @@ export default function Admin(){
     }
 
     const addIngredient = () => {
-        setIngredients(prev=> [...prev,{name:name, unit_name:unitName, pack_price: packPrice, unit_in_a_pack: unitInAPack, expiry_period: expiryPeriod}])
+        setIngredients(prev=> [...prev,{name:name, unit_name:unitName, pack_price: packPrice, unit_in_a_pack: unitsInAPack, expiry_period: expiryPeriod}])
         setName('')
         setUnitName('')
         setPackPrice('')
@@ -146,7 +144,7 @@ export default function Admin(){
     }
 
     const addItem = () => {
-        setSupplies(prev=> [...prev,{name: name, unit_name: unitName, pack_price: packPrice, units_in_a_pack: unitsInAPack, expiry_date: expiry_date, total_packs: totalPacks ,total_units: (totalPacks* unitsInAPack)}])
+        setSupplies(prev=> [...prev,{name: name, unit_name: unitName, pack_price: packPrice, units_in_a_pack: unitsInAPack, expiry_period: expiryPeriod, total_packs: totalPacks ,total_units: (totalPacks* unitsInAPack)}])
         setName('')
         setUnitName('')
         setPackPrice('')
@@ -169,7 +167,7 @@ export default function Admin(){
 
     const orderSupplies = async() => {
         await axios.post('/purchases',supplies)
-        const response = await axios.post('/inventory',supplies)
+        const response = await axios.post('/inventory/admin',supplies)
         if (response.data.error) setError(response.data.error)
         else{
             setError(null)
@@ -188,7 +186,7 @@ export default function Admin(){
     },[supplies])
 
     return(
-        <Box sx={{width:'100vw',display:'flex'}}> 
+        <> 
             <Sidebar/>
             <Box sx={mainBoxStyle}>
                 <Box sx={chipsBoxStyle}>
@@ -208,6 +206,6 @@ export default function Admin(){
                     expiryPeriod={expiryPeriod} totalPacks={totalPacks} subTotal={subTotal} handleSupplyInputs={handleSupplyInputs} handleTotalPacks={handleTotalPacks} addItem={addItem} updateSupplies={updateSupplies} orderSupplies={orderSupplies}/>    
                 }
             </Box>
-        </Box>
+        </>
     )
 }

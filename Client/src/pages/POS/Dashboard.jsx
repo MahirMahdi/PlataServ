@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Box, Typography } from "@mui/material"
-import Sidebar from "../../components/Shared/Sidebar"
+import Sidebar from "../../components/Sidebar/Sidebar"
 import DashboardCard from "../../components/POS/Dashboard/DashboardCard"
 import { headerBoxStyle, itemsBoxStyle, mainBoxStyle } from "../../mui-styles/SharedStyles"
 import axios from '../../api/api'
@@ -33,7 +33,8 @@ export default function Dashboard(){
 
     return(
         <>
-            <Box sx={{width:'100vw',display:'flex'}}> 
+            <Sidebar/>
+            <Box sx={{width:'100vw',display:'flex',marginTop:'2.5rem'}}> 
                 <Sidebar/>
                 <Box sx={mainBoxStyle}>
                     <Box sx={{marginTop:'1.5rem'}}>
@@ -46,14 +47,12 @@ export default function Dashboard(){
                             {dashboardDetails? dashboardDetails.map((detail,i)=>(
                                 <DashboardCard key={i} name={detail.customerName} orderId={detail.order_id}
                                 paymentMethod={detail.payment_method} orderPoint={detail.order_point} destination={detail.destination}
-                                 totalPrice={detail.total_price} products={detail.details} timestamp={detail.timestamp} completeOrder={()=> postOrderDetails(detail.order_id)} id={detail.order_id || 'none'}/>
+                                    totalPrice={detail.total_price} products={detail.details} timestamp={detail.timestamp} completeOrder={()=> postOrderDetails(detail.order_id)} id={detail.order_id || 'none'}/>
                             )):<Typography variant="h5">Empty</Typography>}
                         </Box>
                     </Box>
                 </Box>
             </Box>
-            <div>
-            </div>
         </>
     )
 }

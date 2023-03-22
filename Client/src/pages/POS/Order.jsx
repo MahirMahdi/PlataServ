@@ -140,7 +140,7 @@ export default function Order(){
     },[orders,name,payment,point,destination])
 
     return(
-        <Box sx={{width:'100vw',display:'flex'}}>
+        <>
             <Sidebar/>
             <Box sx={mainBoxStyle}>
                 <Box sx={{marginTop:'1.5rem'}}>
@@ -209,6 +209,6 @@ export default function Order(){
                     </Box>
                 </Box>
             </Box>
-        </Box>
+        </>
     )
 }

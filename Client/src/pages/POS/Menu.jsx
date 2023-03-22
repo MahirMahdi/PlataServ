@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import MenuCard from '../../components/POS/Menu/MenuCard';
-import Sidebar from '../../components/Shared/Sidebar';
 import Tabs from '../../components/POS/Menu/Tabs';
 import { Categories } from '../../data/data';
 import { Box, Grid, Typography } from '@mui/material';
@@ -10,12 +9,15 @@ import axios from '../../api/api';
 import { mainBoxStyle } from '../../mui-styles/SharedStyles';
 import { productsBoxStyle } from '../../mui-styles/POS/Menustyles';
 import Alert from '../../components/Shared/Alert'
+import useAuth from '../../hooks/useAuth';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
 export default function Menu(){
 
     const [category, setCategory] = useState('Burger')
     const [open, setOpen] = useState(false)
     const [allProducts, setAllProducts] = useState([])
+    const [user, setUser] = useAuth()
     const {add} = usePOS()
 
     const handleCategory = (value) => { 
@@ -29,15 +31,15 @@ export default function Menu(){
 
     useEffect(()=>{
         getAllProducts()
+        console.log(user);
     },[])
 
     return(
         <>
+        <Sidebar/>
         {allProducts? 
-            <Box sx={{width:'100vw',display:'flex'}}>
-                <Sidebar/>
                 <Box sx={mainBoxStyle}>
-                    <Typography sx={{paddingTop:'1rem'}} variant="h5">Categories</Typography>
+                    <Typography variant="h5">Categories</Typography>
                     <Tabs handleClick={handleCategory} tab_state={category} categories={Categories}/>
                     <Alert open={open} setOpen={setOpen} error={null} success={'Added to order!'}/>
                     <Typography sx={{padding:'1.5rem 0'}} variant="h5">Menu</Typography>
@@ -48,8 +50,7 @@ export default function Menu(){
                             ))}
                         </Grid>
                     </Box>
-                </Box>
-            </Box> :
+                </Box> :
             <Loading/>
             }
         </>
