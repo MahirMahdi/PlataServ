@@ -61,7 +61,7 @@ export default function Table1({reports,header, type}) {
                 {report.name}
               </StyledTableCell>
               <StyledTableCell >{report.units_in_a_pack}</StyledTableCell>
-              <StyledTableCell >{report.total_packs}</StyledTableCell>
+              <StyledTableCell >{(report.total_packs).toFixed(2)}</StyledTableCell>
               <StyledTableCell >{report.total_units}</StyledTableCell>
               <StyledTableCell >{report.pack_price}</StyledTableCell>
               <StyledTableCell >{(report.pack_price * report.total_packs).toFixed(2)}</StyledTableCell>

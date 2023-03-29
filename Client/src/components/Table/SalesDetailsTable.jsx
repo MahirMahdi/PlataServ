@@ -27,7 +27,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function DetailsTable({reports,type}){
-  
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 'fit-content' }} aria-label="customized table">

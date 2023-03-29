@@ -41,7 +41,7 @@ const DropdownLink = styled(Link)`
   }
 `;
 
-export default function SubMenu() {
+export default function SubMenu({item}) {
 
   const [subnav, setSubnav] = useState(false);
 
