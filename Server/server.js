@@ -7,7 +7,7 @@ const server = http.createServer(app)
 mongoose.set('strictQuery', false)
 
 async function initDB(){
-    
+
     try {
         mongoose.connect(process.env.DATABASE,{ useNewUrlParser: true, useUnifiedTopology: true});
         console.log('mongodb is connected');

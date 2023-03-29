@@ -3,19 +3,19 @@ import Inventory from './inventory.js';
 
 export default async function createInventory(req,res){
     try {
-        const type = req.params.type;
+        const type = req.params.type
         const supplies = req.body;
         const supplies_restructured = supplies.map(supply => {
           const {expiry_period, ...rest} = supply;
 
-          const currentDate = new Date();
-          const expiry_date = new Date(currentDate.setDate(currentDate.getDate() + expiry_period));
+          const currentDate = new Date()
+          const expiry_date = new Date(currentDate.setDate(currentDate.getDate() + expiry_period))
 
           const newSupply = Object.assign({expiry_date: expiry_date}, rest);
 
           return newSupply;
         })
-        if (type === 'alert') await Alert.deleteOne({alert_tag: 'count', 'item.name': supplies[0].name});
+        if (type === 'alert') await Alert.deleteOne({alert_tag: 'count', 'item.name': supplies[0].name})
         await Inventory.insertMany(supplies_restructured);
         res.json({success:"Ordered successfully!"});
     } catch (error) {
@@ -30,7 +30,7 @@ export async function updateInventory(req, res){
         const filters = ingredients.map(ingredient => ({
             $and: [
               { name: ingredient.name },
-              { total_units: { $gt: 0 }},
+              { total_units: { $gte: ingredient.quantity }},
               { expiry_date: {$gt: new Date()}}
             ]
           }));
@@ -70,8 +70,14 @@ export async function updateInventory(req, res){
               
             const options = {new: true, sort: {expiry_date: 1}} ;
 
-            Inventory.bulkWrite(bulkUpdate,options);
-            res.json({success: "Inventory updated!"});
+            Inventory.bulkWrite(bulkUpdate,options,function(err,result){
+              if(!err && result.nMatched > 0){
+                res.json({success: "Inventory updated!"});
+              }
+              else{
+                res.json({error:"Ingredient unavailable"});
+              }
+            });
         }
     } catch(error) {
         console.log(error);
@@ -80,8 +86,8 @@ export async function updateInventory(req, res){
 
 export async function inventoryReport(req,res){
   try {
-    const reports = await Inventory.find({});
-    res.json({reports: reports});
+    const reports = await Inventory.find({total_units:{$gt: 0}});
+    res.json({reports: reports})
   } catch (error) {
       console.log(error);
   }

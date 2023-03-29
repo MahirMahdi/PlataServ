@@ -46,14 +46,14 @@ export default async function expiryTracker(){
 }
 
 export async function totalCountTracker(req,res,next){
-  
+
     try {
         const ingredients = req.body.ingredients;
 
         const unavailable_ingredients_filters = ingredients.map(ingredient => ({
             $and: [
               { name: ingredient.name },
-              { total_units: { $type: 'number', $eq: 0 } }
+              { total_units: { $type: 'number', $lte: 1 }}
             ]
           }));
         
