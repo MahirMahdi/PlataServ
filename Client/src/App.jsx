@@ -1,6 +1,6 @@
 import "react-datepicker/dist/react-datepicker.css";
 import { Routes, Route } from 'react-router-dom';
-import Menu from './pages/pos/Menu';
+import Menu from './pages/POS/Menu';
 import '../src/css/App.css';
 import Order from './pages/POS/Order';
 import Dashboard from './pages/POS/Dashboard';
