@@ -54,7 +54,7 @@ export default function CashReportTable({reports,type}) {
                 <StyledTableCell component="th" scope="row">
                   {report.label}
                 </StyledTableCell>
-                <StyledTableCell>{report.transaction_amount}</StyledTableCell>
+                <StyledTableCell>{(report.transaction_amount).toFixed(2)}</StyledTableCell>
               </StyledTableRow>
             ))}
         </TableBody>
@@ -76,7 +76,7 @@ export default function CashReportTable({reports,type}) {
             <StyledTableCell component="th" scope="row">
               {report.label}
             </StyledTableCell>
-            <StyledTableCell>{report.transaction_amount}</StyledTableCell>
+            <StyledTableCell>{(report.transaction_amount).toFixed(2)}</StyledTableCell>
           </StyledTableRow>
           ))}
         </TableBody>
@@ -98,7 +98,7 @@ export default function CashReportTable({reports,type}) {
             <StyledTableCell component="th" scope="row">
               {report.label}
             </StyledTableCell>
-            <StyledTableCell>{report.transaction_amount}</StyledTableCell>
+            <StyledTableCell>{(report.transaction_amount).toFixed(2)}</StyledTableCell>
           </StyledTableRow>
           ))}
         </TableBody>
@@ -120,7 +120,7 @@ export default function CashReportTable({reports,type}) {
             <StyledTableCell component="th" scope="row">
               {report.label}
             </StyledTableCell>
-            <StyledTableCell>{report.transaction_amount}</StyledTableCell>
+            <StyledTableCell>{(report.transaction_amount).toFixed(2)}</StyledTableCell>
           </StyledTableRow>
           ))}
         </TableBody>

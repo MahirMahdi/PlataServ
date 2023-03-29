@@ -63,7 +63,7 @@ export default function TransactionTable({reports,type}) {
             <StyledTableCell sx={{fontWeight:'bolder'}} align="right">Total Count</StyledTableCell>
             <StyledTableCell sx={{fontWeight:'bolder'}} align="right">{reports?.reduce((acc,curr) => acc + curr.transaction_count,0)}</StyledTableCell>
             <StyledTableCell sx={{fontWeight:'bolder'}} align="right">Total Amount</StyledTableCell>
-            <StyledTableCell sx={{fontWeight:'bolder'}} align="right">{reports?.reduce((acc,curr) => acc + curr.transaction_amount,0)}</StyledTableCell>
+            <StyledTableCell sx={{fontWeight:'bolder'}} align="right">{(reports?.reduce((acc,curr) => acc + curr.transaction_amount,0)).toFixed(2)}</StyledTableCell>
           </StyledTableRow>}
         </TableBody>
       </Table>
