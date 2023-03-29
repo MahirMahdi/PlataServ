@@ -6,7 +6,7 @@ import { uid } from "uid";
 import ProductForm from "../components/Admin/ProductForm";
 import SuppliesForm from "../components/Admin/SuppliesForm";
 import { mainBoxStyle } from "../mui-styles/SharedStyles";
-import { chipsBoxStyle } from "../mui-styles/adminStyles";
+import { chipsBoxStyle } from "../mui-styles/AdminStyles";
 import Alert from '../components/Shared/Alert';
 
 export default function Admin(){
