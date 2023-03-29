@@ -29,28 +29,28 @@ export default function App() {
   return (
       <Routes>
         <Route path="/" element={<Layout/>}>
-          <Route path="unauthorized" element={<Unauthorized/>}/>
+          <Route path="/unauthorized" element={<Unauthorized/>}/>
           <Route element={<PersistLogin/>}>
-            <Route path='login' element={<Login/>}/>
-            <Route path='logout' element={<Logout/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/logout' element={<Logout/>}/>
             <Route path="/" element={<RouteHandler/>}/>
             <Route element={<RequireAuth allowedRoles={'Cashier'}/>}>
-                <Route path='menu' element={<Menu/>}/> 
-                <Route path='order' element={<Order/>}/>
-                <Route path='dashboard' element={<Dashboard/>}/>
+                <Route path='/menu' element={<Menu/>}/> 
+                <Route path='/order' element={<Order/>}/>
+                <Route path='/dashboard' element={<Dashboard/>}/>
             </Route>
             <Route element={<RequireAuth allowedRoles={'Manager'}/>}>
-                <Route path='report/bank-info' element={<BankingInformation/>}/>
-                <Route path='report/cash' element={<CashReport/>}/>
-                <Route path='report/sales-details' element={<SalesDetails/>}/>
-                <Route path='report/sales-chart' element={<SalesChart/>}/>
-                <Route path='report/speed-of-service' element={<SpeedOfService/>}/>
-                <Route path='report/inventory' element={<Inventory/>}/>  
-                <Route path='report/waste' element={<Waste/>}/> 
-                <Route path='report/purchases' element={<Purchases/>}/>
-                <Route path='report/foodbank' element={<FoodBank/>}/>
-                <Route path='admin' element={<Admin/>}/>
-                <Route path='alerts' element={<Alerts/>}/>   
+                <Route path='/report/bank-info' element={<BankingInformation/>}/>
+                <Route path='/report/cash' element={<CashReport/>}/>
+                <Route path='/report/sales-details' element={<SalesDetails/>}/>
+                <Route path='/report/sales-chart' element={<SalesChart/>}/>
+                <Route path='/report/speed-of-service' element={<SpeedOfService/>}/>
+                <Route path='/report/inventory' element={<Inventory/>}/>  
+                <Route path='/report/waste' element={<Waste/>}/> 
+                <Route path='/report/purchases' element={<Purchases/>}/>
+                <Route path='/report/foodbank' element={<FoodBank/>}/>
+                <Route path='/admin' element={<Admin/>}/>
+                <Route path='/alerts' element={<Alerts/>}/>   
             </Route>
           </Route>
           <Route path="*" element={<Missing/>} />
