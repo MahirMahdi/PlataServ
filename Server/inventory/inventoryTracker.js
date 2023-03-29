@@ -53,7 +53,7 @@ export async function totalCountTracker(req,res,next){
         const unavailable_ingredients_filters = ingredients.map(ingredient => ({
             $and: [
               { name: ingredient.name },
-              { total_units: { $type: 'number', $lte: 1 }}
+              { total_units: { $type: 'number', $eq: 0 }}
             ]
           }));
         
