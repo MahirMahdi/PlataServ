@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
-import { chipStyle } from "../../mui-styles/adminStyles";
+import { chipStyle } from "../../mui-styles/AdminStyles";
 
 export default function Chip({name,remove}){
 
