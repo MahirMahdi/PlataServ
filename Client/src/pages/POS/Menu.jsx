@@ -14,25 +14,24 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 
 export default function Menu(){
 
-    const [category, setCategory] = useState('Burger')
-    const [open, setOpen] = useState(false)
-    const [allProducts, setAllProducts] = useState([])
-    const [user, setUser] = useAuth()
-    const {add} = usePOS()
+    const [category, setCategory] = useState('Burger');
+    const [open, setOpen] = useState(false);
+    const [allProducts, setAllProducts] = useState([]);
+    const {user} = useAuth();
+    const {add} = usePOS();
 
     const handleCategory = (value) => { 
         setCategory(value)
-    }
+    };
 
     const getAllProducts = async() => {
         const response = await axios.get('/products')
         setAllProducts(response.data.products)
-    }
+    };
 
     useEffect(()=>{
         getAllProducts()
-        console.log(user);
-    },[])
+    },[]);
 
     return(
         <>
@@ -54,5 +53,5 @@ export default function Menu(){
             <Loading/>
             }
         </>
-        )
-    }
+    );
+}

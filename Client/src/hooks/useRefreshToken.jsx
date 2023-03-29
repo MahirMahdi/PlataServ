@@ -1,24 +1,24 @@
 import useAuth from "./useAuth";
-import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = 'https://xzqwvstecbjuqyaroyxd.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6cXd2c3RlY2JqdXF5YXJveXhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzg5OTMwOTcsImV4cCI6MTk5NDU2OTA5N30.CHC4VkgUDIK5ia1YovvqcOqjc8RcHJhKYjbHJ-7AH7w'
-const supabase = createClient(supabaseUrl, supabaseKey)
-
+import axios from "../api/api";
 
 export default function useRefreshToken(){
 
-    const [setUser] = useAuth();
+    const {setUser} = useAuth();
 
     //function for fetching new access token if access token expires.
-    async function refresh(){
-        const { data, error } = await supabase.auth.refreshSession()
-        const { session, user } = data
+    const refresh = async() => {
+        
+        const response = await axios.get('/refresh',{
+            withCredentials:true,
+        });
         
         //set user state with new access token
-        setUser({user:user, accessToken: session.access_token});
+        setUser(prev=>{
+            return {...prev, user:response.data.user, accessToken: response.data.accessToken}
+        });
 
-        return session.access_token
-    }
+        return response.data.accessToken;
+    };
 
     return refresh;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -36,12 +36,13 @@ const DropdownLink = styled(Link)`
   font-size: 18px;
 
   &:hover {
-    background: #632ce4;
+    background: #007ea7;
     cursor: pointer;
   }
 `;
 
-const SubMenu = ({ item }) => {
+export default function SubMenu() {
+
   const [subnav, setSubnav] = useState(false);
 
   const showSubnav = () => setSubnav(!subnav);
@@ -70,6 +71,4 @@ const SubMenu = ({ item }) => {
         })}
     </>
   );
-};
-
-export default SubMenu;
+}

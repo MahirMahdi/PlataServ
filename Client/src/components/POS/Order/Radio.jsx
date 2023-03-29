@@ -11,5 +11,5 @@ export default function Radio({id,value, isSelected, method}){
             />
             <label htmlFor={id}>{value}</label>
         </div>
-    )
+    );
 }

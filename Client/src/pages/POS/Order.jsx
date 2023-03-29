@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import Sidebar from "../../components/Shared/Sidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import OrderCard from "../../components/POS/Order/OrderCard";
 import { useEffect, useState } from "react";
 import { uid } from "uid";
@@ -8,10 +8,14 @@ import axios from '../../api/api'
 import Radio from "../../components/POS/Order/Radio";
 import POSAlert from "../../components/Shared/Alert";
 import { mainBoxStyle, headerBoxStyle, itemsBoxStyle} from "../../mui-styles/SharedStyles";
-import { orderInfoBoxStyle, calculationBoxStyle, calculationBoxItemStyle, customerInfoBoxStyle, radioBoxStyle, buttonBoxStyle } from '../../mui-styles/POS/OrderStyles'
-
-
-const orderId = uid(5)
+import { 
+    orderInfoBoxStyle, 
+    calculationBoxStyle, 
+    calculationBoxItemStyle, 
+    customerInfoBoxStyle, 
+    radioBoxStyle, 
+    buttonBoxStyle 
+} from '../../mui-styles/POS/OrderStyles'
 
 export default function Order(){
     
@@ -20,32 +24,33 @@ export default function Order(){
     const [payment, setPayment] = useState();
     const [point, setPoint] = useState();
     const [destination, setDestination] = useState();
-    const [name, setName] = useState()
-    const [subTotal, setSubtotal] = useState(JSON.parse(localStorage.getItem("subtotal")))
-    const [orders, setOrders] = useState(JSON.parse(localStorage.getItem("orders")))
-    const [productIngredients, setProductIngredients] = useState()
-    const [allProducts, setAllProducts] = useState([])
-    const [dashboardDetails, setDashboardDetails] = useState(null)
-    const [dashboardProducts, setDashboardProducts] = useState()
-    const [error, setError] = useState()
-    const [success, setSuccess] = useState()
+    const [name, setName] = useState();
+    const [subTotal, setSubtotal] = useState(JSON.parse(localStorage.getItem("subtotal")));
+    const [orders, setOrders] = useState(JSON.parse(localStorage.getItem("orders")));
+    const [productIngredients, setProductIngredients] = useState();
+    const [allProducts, setAllProducts] = useState([]);
+    const [dashboardDetails, setDashboardDetails] = useState(null);
+    const [dashboardProducts, setDashboardProducts] = useState();
+    const [error, setError] = useState();
+    const [success, setSuccess] = useState();
+    const [orderId, setOrderId] = useState(uid(7));
 
     // these objects are created for avoiding repetition.
-    const paymentMethod = {values:['Cash', 'Card'], method:function handlePayment(e){
-        setPayment(e.target.value)
-    }}
+    const paymentMethod = {values:['Cash', 'Credit card', 'Debit card'], method:function handlePayment(e){
+        setPayment(e.target.value);
+    }};
 
     const orderPoint = {values:['Counter', 'Uber eats', 'Mobile'], method:function handleOrderPoint(e){
-        setPoint(e.target.value)
-    }}
+        setPoint(e.target.value);
+    }};
 
-    const destinations = {values:['Eat In', 'Delivery', 'Take Out'], method:function handleDestination(e){
+    const destinations = {values:['Dine in', 'Delivery', 'Take out'], method:function handleDestination(e){
         setDestination(e.target.value);
-    }}
+    }};
 
     const handleName = (e) => {
-        setName(e.target.value)
-    }
+        setName(e.target.value);
+    };
 
     const handleProducts = (type, product_id, product,price) => {
         // product increament or decreament based on type and calculate subtotal
@@ -53,48 +58,56 @@ export default function Order(){
         add(product_id, product,price) 
         :remove(product_id, product,price)
 
-        setOrders(JSON.parse(localStorage.getItem("orders")))
-        setSubtotal(JSON.parse(localStorage.getItem("subtotal")))
+        setOrders(JSON.parse(localStorage.getItem("orders")));
+        setSubtotal(JSON.parse(localStorage.getItem("subtotal")));
     }
 
     const getAllProducts = async() => {
-        const response = await axios.get('/products')
-        setAllProducts(response.data.products)
-    }
+        const response = await axios.get('/products');
+        setAllProducts(response.data.products);
+    };
 
     useEffect(()=>{
         getAllProducts()
-    },[orders])
+    },[orders]);
 
     const dashboardProductsDetails = () => {
-        const filteredProducts = allProducts.filter(products => orders?.hasOwnProperty(products.product_id))
-        const dashboardProducts = filteredProducts.map(product => {return {...product, ['quantity']: orders[product.product_id]}})
+        const filteredProducts = allProducts.filter(products => orders?.hasOwnProperty(products.product_id));
+        const dashboardProducts = filteredProducts.map(product => {return {...product, ['quantity']: orders[product.product_id]}});
         setDashboardProducts(dashboardProducts.map(product => {
-            const {name, type, ...rest} = product
-            return {name: name, product_type: type, quantity: orders[product.product_id]}
-        }))
-    }
+            const { name, type, price } = product;
+            return {
+                name: name,
+                product_type: type, 
+                quantity: orders[product.product_id],
+                price:product.discount_period? 
+                Number(((price - (price * .1)) * orders[product.product_id]).toFixed(2)) 
+                :Number((price * orders[product.product_id]).toFixed(2))}
+        }));
+    };
 
     const ingredientsDetails = () => {
-        const filteredProducts = allProducts.filter(products => orders?.hasOwnProperty(products.product_id))
-        let allingredients = []    
+        const filteredProducts = allProducts.filter(products => orders?.hasOwnProperty(products.product_id));
+        let allingredients = [];    
         filteredProducts.map(product => {
-            const {ingredients, ...rest} = product;
+            const { ingredients } = product;
             ingredients.map(ingredient => {
-                const {name, unit_count,_id, ...others} = ingredient
-                allingredients.push({id: _id, name: name, unit_count: unit_count, quantity: orders[product.product_id]})
+                const { name, units_in_a_pack, _id } = ingredient;
+                allingredients.push({id: _id, name: name, units_in_a_pack: units_in_a_pack, quantity: orders[product.product_id]});
             })
         })
-        setProductIngredients(allingredients)
-    }
+
+        setProductIngredients(allingredients);
+    };
 
     useEffect(()=>{
         dashboardProductsDetails()
         ingredientsDetails()
-    },[orders,allProducts])
+    },[orders,allProducts]);
 
     const confirmOrder = async() => {
-        const response = await axios.put('/inventory',{ingredients: productIngredients})
+        const response = await axios.put('/inventory',{ingredients: productIngredients});
+
         if (response.data.error) setError(response.data.error)
         else {
             setError(null)
@@ -102,26 +115,27 @@ export default function Order(){
             saveDashboardDetails()
             removeOrderDetails()
         }
-        setOpen(true)
-    }
 
-    const confirmOrderCondition = orders && name && payment && point && destination 
+        setOpen(true);
+    };
+
+    const confirmOrderCondition = orders && name && payment && point && destination;
 
     const saveDashboardDetails = () => {
         //saved to localstorage for persistent details
-        const dashboard = JSON.parse(localStorage.getItem("dashboard"))
-        localStorage.setItem("dashboard", JSON.stringify(!dashboard? [dashboardDetails] : [...dashboard, dashboardDetails]))
-    }
+        const dashboard = JSON.parse(localStorage.getItem("dashboard"));
+        localStorage.setItem("dashboard", JSON.stringify(!dashboard? [dashboardDetails] : [...dashboard, dashboardDetails]));
+    };
 
     const removeOrderDetails = () => {
-        localStorage.removeItem("orders")
-        localStorage.removeItem("subtotal")
-        setOrders(null)
-        setSubtotal(null)
-        setPayment(null)
-        setPoint(null)
-        setDestination(null)
-    }
+        localStorage.removeItem("orders");
+        localStorage.removeItem("subtotal");
+        setOrders(null);
+        setSubtotal(null);
+        setPayment(null);
+        setPoint(null);
+        setDestination(null);
+    };
 
     useEffect(()=>{
         // timestamp is for measuring service of time.
@@ -135,9 +149,9 @@ export default function Order(){
             order_point: point,
             destination: destination,
             total_quantity: orders && Object.values(orders).reduce((a,b) => {return a + b})
-        })
+        });
 
-    },[orders,name,payment,point,destination])
+    },[orders,name,payment,point,destination]);
 
     return(
         <>
@@ -210,5 +224,5 @@ export default function Order(){
                 </Box>
             </Box>
         </>
-    )
+    );
 }

@@ -1,9 +1,16 @@
-import { Card, CardMedia, CardContent, Typography, Box, Grid} from '@mui/material';
+import { 
+  Card, 
+  CardMedia, 
+  CardContent, 
+  Typography, 
+  Box, 
+  Grid 
+} from '@mui/material';
 import { menuCardStyle, menuCardContentStyle } from '../../../mui-styles/POS/Menustyles';
 
 export default function MenuCard({product,handleOrder}) {
 
-  const {image,description,price,name, discount_period} = product
+  const {image,description,price,name, discount_period} = product;
 
   return (
     <Grid item xs={12} sm={6} md={4}>

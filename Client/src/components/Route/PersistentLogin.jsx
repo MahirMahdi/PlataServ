@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import useRefreshToken from "../hooks/useRefreshToken";
-import Loading from "./Shared/Loading";
+import useAuth from "../../hooks/useAuth";
+import useRefreshToken from "../../hooks/useRefreshToken";
+import Loading from "../Shared/Loading";
 
 export default function PersistLogin(){
     
@@ -11,7 +11,7 @@ export default function PersistLogin(){
     //refresh token hook
     const refresh = useRefreshToken();
 
-    const [user] = useAuth();
+    const {user} = useAuth();
 
     //verifies whether the access token has been expired or not
     useEffect(()=>{
@@ -28,16 +28,14 @@ export default function PersistLogin(){
 
         !user?.accessToken ? verifyRefreshToken() : setIsLoading(false);
 
-    },[])
+    },[]);
 
     return(
         <>
             {isLoading?
-
                 <Loading/>
-
                 :<Outlet/>
             }
         </>
-    )
+    );
 }

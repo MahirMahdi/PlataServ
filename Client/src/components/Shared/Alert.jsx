@@ -2,7 +2,7 @@ import { Snackbar, Alert } from "@mui/material";
 
 export default function POSAlert({error,open, setOpen, success}){
     return(
-        <Snackbar sx={{ width: 'fit-content', textAlign:'center'}} autoHideDuration={750} open={open} onClose={()=>{setOpen(false)}}>
+        <Snackbar sx={{ width: '15rem', textAlign:'center'}} autoHideDuration={750} open={open} onClose={()=>{setOpen(false)}}>
             {!error? 
                 <Alert severity="success">
                     {success}
@@ -13,5 +13,5 @@ export default function POSAlert({error,open, setOpen, success}){
                 </Alert>
             }
         </Snackbar>
-    )
+    );
 }

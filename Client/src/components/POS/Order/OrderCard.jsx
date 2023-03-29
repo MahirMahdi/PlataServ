@@ -1,6 +1,18 @@
 import AddOn from "./AddOn";
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { orderCardStyle, orderCardMediaStyle, orderCardContentStyle, orderCardContentNameBoxStyle, orderCardProductNameStyle, orderCardProductPriceStyle } from "../../../mui-styles/POS/OrderStyles";
+import { Box, 
+    Card, 
+    CardContent, 
+    CardMedia, 
+    Typography 
+} from "@mui/material";
+import { 
+    orderCardStyle,
+    orderCardMediaStyle, 
+    orderCardContentStyle, 
+    orderCardContentNameBoxStyle, 
+    orderCardProductNameStyle, 
+    orderCardProductPriceStyle 
+} from "../../../mui-styles/POS/OrderStyles";
 
 export default function OrderCard({product,handleAdd,handleRemove,count}){
     const {name,price,image,discount_period} = product
@@ -16,5 +28,5 @@ export default function OrderCard({product,handleAdd,handleRemove,count}){
                 <Typography variant="h6" sx={orderCardProductPriceStyle}><sup style={{fontWeight:'bolder'}}>$</sup>{product_price}</Typography>
             </CardContent>
         </Card>
-    )
+    );
 }

@@ -1,11 +1,12 @@
-import { Grid } from "@mui/material"
-import Chip from "./Chip"
+import { Grid } from "@mui/material";
+import Chip from "./Chip";
 
 export default function ProductForm({type,productName,price,description,image,ingredients,name,unitName,packPrice,unitsInAPack,expiryPeriod,handleType,handleProductName,handlePrice,handleDescription,handleImage,addIngredient,handleName,handleUnitName,handlePackPrice,handleUnitsInAPack,handleExpiryPeriod,addProduct,updateIngredients}){
 
-    const addIngredientCondition = name && unitName && packPrice && unitsInAPack && expiryPeriod? false : true
+    const addIngredientCondition = name && unitName && packPrice && unitsInAPack && expiryPeriod? false : true;
 
-    const addProductCondition = productName && price && type && description && image && ingredients.length !== 0? false : true
+    const addProductCondition = productName && price && type && description && image && ingredients.length !== 0? false : true;
+
     return(
         <div className="formbold-main-wrapper">
             {/* Product form starts here*/}
@@ -136,9 +137,9 @@ export default function ProductForm({type,productName,price,description,image,in
                                 </Grid>
                             ))}
                         </Grid>
-                </div>
+                    </div>
                 <button disabled={addProductCondition} className="formbold-btn" onClick={addProduct}>Add new product</button>
             </div>
         </div>
-    )
+    );
 }

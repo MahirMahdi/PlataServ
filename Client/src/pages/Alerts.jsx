@@ -12,45 +12,45 @@ import Alert from '../components/Shared/Alert';
 export default function Alerts(){
 
     const [alerts, setAlerts] = useState();
-    const [preview, setPreview] = useState(false)
-    const [previewType, setPreviewType] = useState()
-    const [previewAlert, setPreviewAlert] = useState()
-    const [parOrder, setPAROrder] = useState()
-    const [totalPacks, setTotalPacks] = useState()
-    const [open, setOpen] = useState(false)
-    const [error, setError] = useState()
-    const [success, setSuccess] = useState()
+    const [preview, setPreview] = useState(false);
+    const [previewType, setPreviewType] = useState();
+    const [previewAlert, setPreviewAlert] = useState();
+    const [parOrder, setPAROrder] = useState();
+    const [totalPacks, setTotalPacks] = useState();
+    const [open, setOpen] = useState(false);
+    const [error, setError] = useState();
+    const [success, setSuccess] = useState();
 
     const getAlerts = async() => {
         const response = await axios.get('/alerts');
         setAlerts(response.data.alerts);
-    }
+    };
 
     const applyDiscount = async(alert) => {
         const response = await axios.post('/discount',alert);
         getAlerts();
-    }
+    };
 
     const donateFoodBank = async(alert) => {
         const response = await axios.post('/foodbank',alert);
         getAlerts();
-    }
+    };
 
     const getPARBuilderOrder = async() => {
         const count_alerts = alerts?.filter(alert => alert.alert_tag === 'count')
         const response = alerts && await axios.post('/par', count_alerts)
         setPAROrder(response?.data.par)
-    }
+    };
 
     const previewOrderCard = (e,alertItem) => {
         setPreview(true)
         setPreviewType(e.target.innerHTML);
         setPreviewAlert(alertItem)
-    }
+    };
 
     const handleTotalPacks = (e) => {
         setTotalPacks(e.target.value)
-    }
+    };
 
     const confirmOrder = async(details,orderType) => {
         if(orderType === 'Custom Order'){
@@ -90,17 +90,15 @@ export default function Alerts(){
         }
 
         getAlerts();
-    }
+    };
 
     useEffect(()=>{
         getAlerts();
-    },[])
+    },[donateFoodBank,applyDiscount]);
 
     useEffect(()=> {
         getPARBuilderOrder();
-    },[alerts])
-
-    useEffect(()=>{parOrder && console.log(parOrder);},[getPARBuilderOrder])
+    },[alerts]);
 
     return(
         <> 
@@ -118,7 +116,6 @@ export default function Alerts(){
                     </Box>
                     :
                     <Box sx={{marginTop:'1.5rem'}}>
-                        <Typography sx={{paddingTop:'1rem'}} variant="h4">Notifications</Typography>
                         <Box sx={headerBoxStyle}>
                             <Typography variant="h5">Alerts</Typography>
                         </Box>
@@ -136,5 +133,5 @@ export default function Alerts(){
                 }
             </Box>
         </>
-    )
+    );
 }

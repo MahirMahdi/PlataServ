@@ -1,130 +1,122 @@
-import Chip from "./Chip"
+import Chip from "./Chip";
 import { Grid, Box, Typography } from "@mui/material";
 
-const calculationBox = {border:'1px solid #e4e9eb',padding:{xs:'1.25rem .25rem',md:'.5rem'},paddingRight:'0',display:'grid',rowGap:'1rem'}
-const calculationBoxItem = {display:'flex',justifyContent:'space-between', width:'15rem'}
+const calculationBox = {border:'1px solid #e4e9eb',padding:{xs:'1.25rem .25rem',md:'.5rem'},paddingRight:'0',display:'grid',rowGap:'1rem'};
+const calculationBoxItem = {display:'flex',justifyContent:'space-between', width:'15rem'};
 
-export default function SuppliesForm({supplies,itemInfo,name,unitName,packPrice,unitsInAPack,expiryPeriod,addItem,totalPacks,handleSupplyInputs,handleTotalPacks,updateSupplies,subTotal,orderSupplies}){
+export default function SuppliesForm({supplies,itemInfo,name,unitName,packPrice,unitsInAPack,expiryPeriod,addItem,totalPacks,handleSupplyInputs,handleTotalPacks,updateSupplies,total,orderSupplies}){
     return(
         <div className="formbold-main-wrapper">
             <div className="formbold-form-wrapper">
-                    <div className="formbold-mb-5 formbold-pt-3">
-                        <label className="formbold-form-label formbold-form-label-2">
-                        Add an item
-                        </label>
-                        <div className="flex flex-wrap formbold--mx-3">
-                            <div className="w-full sm:w-half formbold-px-3">
-                                <div className="formbold-mb-5">
-                                <label>Item</label>
-                                <select
-                                required={true}
-                                onChange={handleSupplyInputs}
-                                className="formbold-form-input"
-                                >
-                                    {itemInfo?.map((info,i)=>{
-                                        return <option key={i}>{info.name}</option>
-                                    })}
-                                </select>
-                                </div>
+                <div className="formbold-mb-5 formbold-pt-3">
+                    <label className="formbold-form-label formbold-form-label-2">
+                    Add an item
+                    </label>
+                    <div className="flex flex-wrap formbold--mx-3">
+                        <div className="w-full sm:w-half formbold-px-3">
+                            <div className="formbold-mb-5">
+                            <label>Item</label>
+                            <select
+                            required={true}
+                            onChange={handleSupplyInputs}
+                            className="formbold-form-input"
+                            >
+                                {itemInfo?.map((info,i)=>{
+                                    return <option key={i}>{info.name}</option>
+                                })}
+                            </select>
                             </div>
-                            <div className="w-full sm:w-half formbold-px-3">
-                                <div className="formbold-mb-5">
-                                <label>Unit Name</label>
-                                <input
-                                    readOnly
-                                    value={unitName}
-                                    type="text"
-                                    placeholder="Unit Name"
-                                    className="formbold-form-input"
-                                />
-                                </div>
-                            </div>
-                            <div className="w-full sm:w-half formbold-px-3">
-                                <div className="formbold-mb-5">
-                                <label>Pack Price</label>
-                                <input
-                                    readOnly
-                                    value={packPrice}
-                                    type="number"
-                                    placeholder="Pack price"
-                                    className="formbold-form-input"
-                                />
-                                </div>
-                            </div>
-                            <div className="w-full sm:w-half formbold-px-3">
-                                <div className="formbold-mb-5">
-                                <label>Units In A Pack</label>
-                                <input
-                                    readOnly
-                                    value={unitsInAPack}
-                                    type="number"
-                                    placeholder="Units In A Pack"
-                                    className="formbold-form-input"
-                                />
-                                </div>
-                            </div>
-                            <div className="w-full sm:w-half formbold-px-3">
-                                <div className="formbold-mb-5">
-                                <label>Expiry Period</label>
-                                <input
-                                    readOnly
-                                    value={expiryPeriod}
-                                    type="number"
-                                    placeholder="Expiry period in days"
-                                    className="formbold-form-input"
-                                />
-                                </div>
-                            </div>
-                            <div className="w-full sm:w-half formbold-px-3">
-                                <div className="formbold-mb-5">
-                                <label>Total Packs</label>
-                                <input
-                                    onChange={handleTotalPacks}
-                                    value={totalPacks}
-                                    required={true}
-                                    type="number"
-                                    placeholder="Enter total packs"
-                                    className="formbold-form-input"
-                                    min="1"
-                                />
-                                </div>
-                            </div>       
                         </div>
-                        <button disabled={name && totalPacks? false : true} onClick={addItem} className="formbold-btn" style={{width:'fit-content',padding:'1rem 2rem',margin:'auto'}}>Add</button>
+                        <div className="w-full sm:w-half formbold-px-3">
+                            <div className="formbold-mb-5">
+                            <label>Unit Name</label>
+                            <input
+                                readOnly
+                                value={unitName}
+                                type="text"
+                                placeholder="Unit Name"
+                                className="formbold-form-input"
+                            />
+                            </div>
+                        </div>
+                        <div className="w-full sm:w-half formbold-px-3">
+                            <div className="formbold-mb-5">
+                            <label>Pack Price</label>
+                            <input
+                                readOnly
+                                value={packPrice}
+                                type="number"
+                                placeholder="Pack price"
+                                className="formbold-form-input"
+                            />
+                            </div>
+                        </div>
+                        <div className="w-full sm:w-half formbold-px-3">
+                            <div className="formbold-mb-5">
+                            <label>Units In A Pack</label>
+                            <input
+                                readOnly
+                                value={unitsInAPack}
+                                type="number"
+                                placeholder="Units In A Pack"
+                                className="formbold-form-input"
+                            />
+                            </div>
+                        </div>
+                        <div className="w-full sm:w-half formbold-px-3">
+                            <div className="formbold-mb-5">
+                            <label>Expiry Period</label>
+                            <input
+                                readOnly
+                                value={expiryPeriod}
+                                type="number"
+                                placeholder="Expiry period in days"
+                                className="formbold-form-input"
+                            />
+                            </div>
+                        </div>
+                        <div className="w-full sm:w-half formbold-px-3">
+                            <div className="formbold-mb-5">
+                            <label>Total Packs</label>
+                            <input
+                                onChange={handleTotalPacks}
+                                value={totalPacks}
+                                required={true}
+                                type="number"
+                                placeholder="Enter total packs"
+                                className="formbold-form-input"
+                                min="1"
+                            />
+                            </div>
+                        </div>       
                     </div>
-                        <Box sx={{display:'grid',rowGap:'2.5rem',justifyItems:'center'}}>
-                            <Grid container spacing={2}>
-                                {supplies.map((supply,i)=>(
-                                    <Grid key={i} item xs={12} sm={6} md={4}>
-                                        <Chip name={supply.name} remove={updateSupplies}/>
-                                    </Grid>
-                                ))}
-                            </Grid>
-                            <Box sx={calculationBox}>
-                                {supplies?.map((supply,i)=>(
-                                    <Box key={i} sx={calculationBoxItem}>
-                                        <Typography>{supply.name}({supply.total_packs})</Typography>
-                                        <Typography>${(supply.total_packs * supply.pack_price).toFixed(2)}</Typography>
-                                    </Box>
-                                ))}
-                            </Box>
-                            <Box sx={calculationBox}>
-                                <Box sx={calculationBoxItem}>
-                                    <Typography>Subtotal</Typography>
-                                    <Typography>${subTotal.toFixed(2)}</Typography>
-                                </Box>
-                                <Box sx={calculationBoxItem}>
-                                    <Typography>Tax</Typography>
-                                    <Typography>${(subTotal * .1).toFixed(2)}</Typography>
-                                </Box>
-                                <Box sx={calculationBoxItem}>
-                                    <Typography>Total</Typography>
-                                    <Typography>${(subTotal + (subTotal * .1)).toFixed(2)}</Typography>
-                                </Box>
-                            </Box>
-                            <button disabled={supplies.length > 0? false :true} onClick={orderSupplies} className="formbold-btn">Order Supplies</button>
-                        </Box>
-                    </div>
+                    <button disabled={name && totalPacks? false : true} onClick={addItem} className="formbold-btn" style={{width:'fit-content',padding:'1rem 2rem',margin:'auto'}}>Add</button>
                 </div>
-    )
+                <Box sx={{display:'grid',rowGap:'2.5rem',justifyItems:'center'}}>
+                    <Grid container spacing={2}>
+                        {supplies.map((supply,i)=>(
+                            <Grid key={i} item xs={12} sm={6} md={4}>
+                                <Chip name={supply.name} remove={updateSupplies}/>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <Box sx={calculationBox}>
+                        {supplies?.map((supply,i)=>(
+                            <Box key={i} sx={calculationBoxItem}>
+                                <Typography>{supply.name}({supply.total_packs})</Typography>
+                                <Typography>${(supply.total_packs * supply.pack_price).toFixed(2)}</Typography>
+                            </Box>
+                        ))}
+                    </Box>
+                    <Box sx={calculationBox}>
+                        <Box sx={calculationBoxItem}>
+                            <Typography>Total</Typography>
+                            <Typography>${total.toFixed(2)}</Typography>
+                        </Box>
+                    </Box>
+                        <button disabled={supplies.length > 0? false :true} onClick={orderSupplies} className="formbold-btn">Order Supplies</button>
+                </Box>
+            </div>
+        </div>
+    );
 }

@@ -1,5 +1,9 @@
 import { Box, CardMedia, Card } from '@mui/material';
-import { tabsWrapperStyle, tabStyle, tabImgStyle } from '../../../mui-styles/POS/Menustyles';
+import { 
+    tabsWrapperStyle, 
+    tabStyle, 
+    tabImgStyle 
+} from '../../../mui-styles/POS/Menustyles';
 
 export default function Tabs({handleClick,tab_state,categories}){
     return(
@@ -11,5 +15,5 @@ export default function Tabs({handleClick,tab_state,categories}){
                 </Card>
             ))}
         </Box>
-    )
+    );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import * as FaIcons from 'react-icons/fa';
@@ -10,6 +10,7 @@ import { CardMedia,Typography, Box } from '@mui/material';
 import plataserv from '../../assets/plataserv.png'
 import { logoStyle } from '../../mui-styles/SharedStyles';
 import useAuth from '../../hooks/useAuth';
+import UserAvatar from './Avatar';
 
 const Nav = styled.div`
   background: #15171c;
@@ -48,9 +49,10 @@ const SidebarWrap = styled.div`
   font-family: 'Roboto', sans-serif;
 `;
 
-const Sidebar = () => {
+export default function Sidebar() {
+
   const [sidebar, setSidebar] = useState(false);
-  const [user] = useAuth();
+  const {user} = useAuth();
 
   const showSidebar = () => setSidebar(!sidebar);
 
@@ -58,14 +60,18 @@ const Sidebar = () => {
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         <Nav>
-          <Box sx={{display:'flex',justifyContent:'space-around',alignItems:'center',width:{xs:'12.5rem', md:'17.5rem'},fontFamily: "'Roboto', sans-serif"}}>
-            <NavIcon to='#'>
-                <FaIcons.FaBars onClick={showSidebar} />
-            </NavIcon>
-            <CardMedia component="img" image={plataserv} sx={logoStyle}/>
-            <Typography sx={{color:'white',fontSize:{xs:'1.25rem',md:'1.75rem'}}} noWrap component="div">
-                PlataServ
-            </Typography>
+          <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'center',width:'100vw'}}>
+            <Box sx={{display:'flex',justifyContent:'space-around',alignItems:'center',width:{xs:'12.5rem',md:'17.5rem'}}}>
+              <NavIcon to='#'>
+                  <FaIcons.FaBars onClick={showSidebar} />
+              </NavIcon>
+              <Link style={{display:'flex', width:'25rem',fontFamily: "'Roboto', sans-serif",textDecoration:'none'}} to='/'>
+                <CardMedia component="img" image={plataserv} sx={logoStyle}/>
+                <Typography sx={{color:'white',fontSize:{xs:'1.25rem',md:'1.75rem'}}} noWrap component="div">
+                    PlataServ
+                </Typography>
+              </Link>
+            </Box>
           </Box>
         </Nav>
         <SidebarNav sidebar={sidebar}>
@@ -73,14 +79,14 @@ const Sidebar = () => {
             <NavIcon to='#'>
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </NavIcon>
-            {SidebarData.filter(item => item.roles.includes(user.user.user_metadata.role)).map((item, index) => {
+            <UserAvatar name={user?.user.username} role={user?.user.role}/>
+            {SidebarData.filter(item => item.roles.includes(user?.user.role)).map((item, index) => {
               return <SubMenu item={item} key={index} />;
             })}
+            <SubMenu item={{title:'Logout', path:'/logout'}}/>
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>
     </>
   );
-};
-
-export default Sidebar;
+}

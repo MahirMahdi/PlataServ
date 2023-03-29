@@ -1,7 +1,3 @@
-import React from 'react';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import * as IoIcons from 'react-icons/io';
 import * as RiIcons from 'react-icons/ri';
 
 export const SidebarData = [
@@ -16,17 +12,32 @@ export const SidebarData = [
         path: '/alerts'
     },
     {
-        roles: ['Manager', 'Supervisor'],
+        roles: ['Manager'],
         title: 'Inventory',
-        path: '/inventory'
+        iconClosed: <RiIcons.RiArrowDownSFill />,
+        iconOpened: <RiIcons.RiArrowUpSFill />,
+
+        subNav: [
+            {
+                title: 'Inventory',
+                path: '/report/inventory'
+            },
+            {
+                title: 'Purchases',
+                path: '/report/purchases'
+            },
+            {
+                title: 'Waste',
+                path: '/report/waste'
+            },
+            {
+                title: 'FoodBank',
+                path: '/report/foodbank'
+            },
+        ]
     },
     {
-        roles: ['Manager', 'Supervisor'],
-        title: 'Purchases',
-        path: '/purchases'
-    },
-    {
-        roles: ['Manager', 'Supervisor'],
+        roles: ['Manager'],
         title: 'Finance',
         iconClosed: <RiIcons.RiArrowDownSFill />,
         iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -34,7 +45,7 @@ export const SidebarData = [
         subNav: [
         {
             title: 'Banking Information',
-            path: '/report/bank',
+            path: '/report/bank-info',
         },
         {
             title: 'Cash Report',
@@ -43,7 +54,7 @@ export const SidebarData = [
         ]
     },
     {
-        roles: ['Manager', 'Supervisor'],
+        roles: ['Manager'],
         title: 'Sales',
         iconClosed: <RiIcons.RiArrowDownSFill />,
         iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -51,22 +62,17 @@ export const SidebarData = [
         subNav: [
         {
             title: 'Details',
-            path: '/reports/details',
+            path: '/report/sales-details',
         },
         {
             title: 'Speed of Service',
-            path: '/service-speed'
+            path: '/report/speed-of-service'
         },
         {
             title: 'Chart',
-            path: '/reports/chart',
+            path: '/report/sales-chart',
         },
         ]
-    },
-    {
-        roles: ['Manager', 'Supervisor'],
-        title: 'Waste',
-        path: '/waste'
     },
     {
         roles: ['Cashier'],
@@ -83,4 +89,5 @@ export const SidebarData = [
         title: 'Dashboard',
         path: '/dashboard',
     }
+
 ];

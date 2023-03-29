@@ -7,14 +7,15 @@ export default function POSProvider({children}){
     // to avoid repetition these functions are passed throught this context.
 
     const addToOrder = (id, discount, price) => {
+
         // product_id is set as orders property because data structure is much simpler this way. 
         // If each order is an object and all the objects are in an array, the data structure becomes very complex and it's harder to query data.
         
-        const product_price = discount? (price - (price * .1)).toFixed(2) : price
+        const product_price = discount? (price - (price * .1)).toFixed(2) : price;
 
-        const orders = JSON.parse(localStorage.getItem("orders"))
+        const orders = JSON.parse(localStorage.getItem("orders"));
         
-        let order
+        let order;
 
         if (!orders) order = {[id] : 1}
 
@@ -22,26 +23,26 @@ export default function POSProvider({children}){
 
         else order = {...orders, [id]: 1}
 
-        localStorage.setItem("orders", JSON.stringify(order))
+        localStorage.setItem("orders", JSON.stringify(order));
 
-        calculateSubTotal('add',Number(product_price))
-    }
+        calculateSubTotal('add',Number(product_price));
+    };
 
     const removeOrder = (id) => {
 
-        const order = JSON.parse(localStorage.getItem("orders"))
+        const order = JSON.parse(localStorage.getItem("orders"));
 
-        delete order[id];
+        delete order[id];;
 
-        localStorage.setItem("orders",JSON.stringify(order))
+        localStorage.setItem("orders",JSON.stringify(order));
 
     }
 
     const removeFromOrder = (id,discount,price) => {
 
-        const product_price = discount? (price - (price * .1)).toFixed(2) : price
+        const product_price = discount? (price - (price * .1)).toFixed(2) : price;
 
-        const orders = JSON.parse(localStorage.getItem("orders"))
+        const orders = JSON.parse(localStorage.getItem("orders"));
 
         if (orders[id] === 1) removeOrder(id)
         
@@ -49,16 +50,16 @@ export default function POSProvider({children}){
 
         if (Object.keys(JSON.parse(localStorage.getItem("orders"))).length === 0) localStorage.removeItem("orders")
 
-        calculateSubTotal('remove',Number(product_price))
+        calculateSubTotal('remove',Number(product_price));
     }
 
     const calculateSubTotal = (type,price) => {
 
-        const prevValue = parseFloat(localStorage.getItem("subtotal"))
+        const prevValue = parseFloat(localStorage.getItem("subtotal"));
 
         console.log(typeof(price), typeof(prevValue));
 
-        let newValue 
+        let newValue;
 
         if (type === 'add' && prevValue) newValue = (prevValue + price).toFixed(2)
 
@@ -66,12 +67,12 @@ export default function POSProvider({children}){
         
         else newValue = (prevValue - price).toFixed(2)
 
-        localStorage.setItem("subtotal", newValue)
+        localStorage.setItem("subtotal", newValue);
     }
 
     return(
         <POSContext.Provider value={{add: addToOrder,remove: removeFromOrder}}>
             {children}
         </POSContext.Provider>
-    )
+    );
 }

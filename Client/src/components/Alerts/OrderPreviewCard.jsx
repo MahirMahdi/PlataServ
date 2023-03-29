@@ -1,4 +1,5 @@
 export default function OrderPreviewCard({name,unitName,packPrice,unitsInAPack,expiryPeriod,previewType,handleTotalPacks,confirmOrder,totalPacks}){
+    
     return(
         <div className="formbold-main-wrapper">
             <div className="formbold-form-wrapper">
@@ -105,5 +106,5 @@ export default function OrderPreviewCard({name,unitName,packPrice,unitsInAPack,e
                 </div>
             </div>
         </div>
-    )
+    );
 }

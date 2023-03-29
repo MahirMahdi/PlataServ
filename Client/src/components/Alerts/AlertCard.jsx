@@ -1,10 +1,9 @@
-import { Box, Card, CardContent, Typography } from "@mui/material"
-import { alertCardStyle, contentNameStyle } from "../../mui-styles/AlertsStyles"
+import { Box, Card, CardContent, Typography } from "@mui/material";
+import { alertCardStyle, contentNameStyle } from "../../mui-styles/AlertsStyles";
 
 export default function AlertCard({type, item, donateFoodBank, applyDiscount, alertDate, preview}){
 
-
-    const diff_in_ms = new Date().getTime() - new Date(alertDate).getTime()
+    const diff_in_ms = new Date().getTime() - new Date(alertDate).getTime();
     const diff_in_days = Math.floor(diff_in_ms / 86400000);
 
     const expiry = {
@@ -21,7 +20,7 @@ export default function AlertCard({type, item, donateFoodBank, applyDiscount, al
                 method: donateFoodBank
             }
         ]
-    }
+    };
 
     const count = {
         message: 'New Supplies needed!',
@@ -37,8 +36,8 @@ export default function AlertCard({type, item, donateFoodBank, applyDiscount, al
                 method: preview
             }
         ]
+    };
 
-    }
     return(
         <Card sx={alertCardStyle}>
             <CardContent sx={{display:'grid',rowGap:'2rem'}}>
@@ -60,5 +59,5 @@ export default function AlertCard({type, item, donateFoodBank, applyDiscount, al
                 }
             </CardContent>
         </Card>
-    )
+    );
 }
