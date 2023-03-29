@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [react()],
   build: {
     chunkSizeWarningLimit: 1000 * 1024
-  }
+  },
+  esbuild: {
+    jsxInject: `import React from 'react'`,
+  },
 })
