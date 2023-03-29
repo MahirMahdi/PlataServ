@@ -3,33 +3,35 @@ import FoodBank from "../foodbank/foodbank.js";
 import Waste from "../waste/waste.js";
 
 export default async function getPAROrder(req, res) {
-    const alerts = req.body
+    const alerts = req.body;
   
-    const filter = alerts?.map((alert) => alert.item.name)
+    const filter = alerts?.map((alert) => alert.item.name);
   
-    const par = await PARBuilder(filter)
+    const par = await PARBuilder(filter);
   
-    res.json({par: par})
+    res.json({par: par});
   }
   
   async function PARBuilder(filters) {
+
     const par_of_all_items = filters.map(async (filter) => {
-      const purchases = await Purchases.find({ name: filter })
-      const wastes = await Waste.find({ name: filter })
-      const foodbank = await FoodBank.find({ name: filter })
-  
+
+      const purchases = await Purchases.find({ name: filter });
+      const wastes = await Waste.find({ name: filter });
+      const foodbank = await FoodBank.find({ name: filter });
+
       const purchases_total_packs = purchases.reduce(
         (acc, curr) => acc + curr.total_packs,
         0
-      )
+      );;
       const wastes_total_packs = wastes.reduce(
         (acc, curr) => acc + curr.total_packs,
         0
-      )
+      );
       const foodbank_total_packs = foodbank.reduce(
         (acc, curr) => acc + curr.total_packs,
         0
-      )
+      );
 
       const {name, pack_price, unit_name, units_in_a_pack, expiry_date, createdAt} = purchases[0];
 
@@ -53,5 +55,5 @@ export default async function getPAROrder(req, res) {
       return par_of_each_item;
     })
   
-    return Promise.all(par_of_all_items)
+    return Promise.all(par_of_all_items);
   }

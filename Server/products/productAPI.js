@@ -17,10 +17,8 @@ const upload = multer({storage:storage});
 const router = express.Router();
 
 
-router.post('/product',upload.single('image'),createProduct)
-router.get('/products', validateDiscount, getAllProducts)
-// router.get('/product/:type',getSpecificCategoryProducts)
-// router.post('/orderProductsDetails',getOrderProductsDetails)
+router.post('/product',upload.single('image'),createProduct);
+router.get('/products', validateDiscount, getAllProducts);
 
-export {router as productRouter}
+export {router as productRouter};
 

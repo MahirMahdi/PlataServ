@@ -6,8 +6,9 @@ const AlertSchema = new mongoose.Schema({
     item:{
         type: Object.assign({},InventorySchema.obj)
     }
-},{timestamps:true})
+},
+{timestamps:true});
 
-const Alert = mongoose.model("Alert", AlertSchema)
+const Alert = mongoose.model("Alert", AlertSchema);
 
-export default Alert
+export default Alert;

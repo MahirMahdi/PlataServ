@@ -1,8 +1,8 @@
 import express from 'express';
 import getSupplies from './suppliesController.js';
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/supplies', getSupplies)
+router.get('/supplies', getSupplies);
 
-export {router as suppliesRouter}
+export {router as suppliesRouter};

@@ -11,7 +11,8 @@ export default async function expiryTracker(){
 
     const ingredients_with_three_days_expiry_period = await Inventory.find({
       expiry_date: {
-        $lte: three_days_before_expiry_date
+        $lte: three_days_before_expiry_date,
+        $gt: new Date()
       }, 
       total_units: {
         $gt: 0
@@ -45,8 +46,9 @@ export default async function expiryTracker(){
 }
 
 export async function totalCountTracker(req,res,next){
+  
     try {
-        const ingredients = req.body.ingredients
+        const ingredients = req.body.ingredients;
 
         const unavailable_ingredients_filters = ingredients.map(ingredient => ({
             $and: [

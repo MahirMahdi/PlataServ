@@ -4,7 +4,8 @@ const SalesSchema = new mongoose.Schema({
     details:[{
         product_type: String,
         name: String,
-        quantity: Number
+        quantity: Number,
+        price: Number
     }],
     total_price: Number,
     total_quantity: Number,
@@ -13,8 +14,9 @@ const SalesSchema = new mongoose.Schema({
     order_id: String,
     order_point: String,
     destination: String
-},{timestamps:true})
+},
+{timestamps:true});
 
-const Sales = mongoose.model("Sales", SalesSchema)
+const Sales = mongoose.model("Sales", SalesSchema);
 
-export default Sales
+export default Sales;

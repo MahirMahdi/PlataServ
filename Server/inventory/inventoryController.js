@@ -3,22 +3,19 @@ import Inventory from './inventory.js';
 
 export default async function createInventory(req,res){
     try {
-        const type = req.params.type
+        const type = req.params.type;
         const supplies = req.body;
-        console.log(supplies, type);
         const supplies_restructured = supplies.map(supply => {
           const {expiry_period, ...rest} = supply;
 
-          const currentDate = new Date()
-          const expiry_date = new Date(currentDate.setDate(currentDate.getDate() + expiry_period))
+          const currentDate = new Date();
+          const expiry_date = new Date(currentDate.setDate(currentDate.getDate() + expiry_period));
 
           const newSupply = Object.assign({expiry_date: expiry_date}, rest);
 
           return newSupply;
         })
-        if (type === 'alert'){ Alert.deleteOne({alert_tag: 'count', 'item.name': supplies[0].name},function(err,res){
-          console.log(err,res);
-        })}
+        if (type === 'alert') await Alert.deleteOne({alert_tag: 'count', 'item.name': supplies[0].name});
         await Inventory.insertMany(supplies_restructured);
         res.json({success:"Ordered successfully!"});
     } catch (error) {
@@ -33,8 +30,8 @@ export async function updateInventory(req, res){
         const filters = ingredients.map(ingredient => ({
             $and: [
               { name: ingredient.name },
-              { total_packs: { $type: 'number', $gt: 0 }},
-              { expiry_date: {$gt: new Date().toISOString()}}
+              { total_units: { $gt: 0 }},
+              { expiry_date: {$gt: new Date()}}
             ]
           }));
         
@@ -44,7 +41,7 @@ export async function updateInventory(req, res){
             name: {
               $in: ingredients.map((ingredient) => ingredient.name),
             },
-            total_packs: { $type: 'number', $gt: 0 },
+            total_units: { $gt: 0 },
             expiry_date: {$gt: new Date()}
             }
           },
@@ -54,7 +51,7 @@ export async function updateInventory(req, res){
 
         const count = await Inventory.aggregate(pipeline);
 
-        if (count !== ingredients.length) res.json({error:"Ingredient unavailable"});
+        if (count.length !== ingredients.length) res.json({error:"Ingredient unavailable"});
 
         else {
             const updates = ingredients.map(ingredient => ({
@@ -79,4 +76,13 @@ export async function updateInventory(req, res){
     } catch(error) {
         console.log(error);
     }
+}
+
+export async function inventoryReport(req,res){
+  try {
+    const reports = await Inventory.find({});
+    res.json({reports: reports});
+  } catch (error) {
+      console.log(error);
+  }
 }

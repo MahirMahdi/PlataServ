@@ -5,11 +5,15 @@ export const InventorySchema = new mongoose.Schema({
     pack_price: Number,
     unit_name: String,
     units_in_a_pack: Number,
-    total_packs: Number,
+    total_packs: {
+        type: Number,
+        set: v => parseFloat(v).toFixed(2)
+    },
     total_units: Number,
     expiry_date: Date,
     alert_status: String
-},{timestamps:true});
+},
+{timestamps:true});
 
 const Inventory = mongoose.model("Inventory", InventorySchema);
 

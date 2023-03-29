@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 import { InventorySchema } from "../inventory/inventory.js";
 
-const {expiry_date, ...rest} = InventorySchema.obj
+const {expiry_date, ...rest} = InventorySchema.obj;
 
-const Waste = mongoose.model("Waste",rest)
+const WasteSchema = new mongoose.Schema(rest,{timestamps:true});
 
-export default Waste
+const Waste = mongoose.model("Waste",WasteSchema);
+
+export default Waste;
