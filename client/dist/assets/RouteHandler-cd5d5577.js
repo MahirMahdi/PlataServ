@@ -1,0 +1,1 @@
+import{E as o,r,j as s}from"./index-94eab420.js";import a from"./Loading-b0b78ba4.js";import"./chunk-6CSUKJP7-90322ddf.js";import"./chunk-FQ7BGFQK-51c77e93.js";function u(){const e=o();return r.useEffect(()=>{const t=window.sessionStorage.getItem("role");e(t==="cashier"?"/menu":"/inventory")},[]),s(a,{})}export{u as default};

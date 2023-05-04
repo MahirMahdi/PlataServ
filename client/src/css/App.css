@@ -1,0 +1,124 @@
+body {
+  background-color: #edf2f6;
+  overflow-x: hidden;
+}
+
+#active {
+  background-color: #323130;
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #edf2f6;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #323130;
+  border-radius: 20px;
+  border: 3px solid #edf2f6;
+}
+
+/* Form */
+.formbold-mb-5 {
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.formbold-pt-3 {
+  padding-top: 12px;
+  display: grid;
+  place-items: center;
+}
+.formbold-main-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  border-radius: 10px;
+  font-family: "PT Sans", sans-serif;
+  background-color: white;
+  margin: 0 auto;
+}
+
+.formbold-form-wrapper {
+  margin: 0 auto;
+  max-width: 675px;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+}
+.formbold-form-label {
+  display: block;
+  font-weight: 500;
+  font-size: 16px;
+  color: #07074d;
+  margin-bottom: 12px;
+}
+.formbold-form-label-2 {
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.formbold-form-input {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  background: white;
+  font-weight: 500;
+  font-size: 16px;
+  color: #6b7280;
+  outline: none;
+  resize: none;
+}
+.formbold-form-input:focus {
+  border-color: #007ea7;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.formbold-btn {
+  text-align: center;
+  font-size: 16px;
+  border-radius: 6px;
+  padding: 14px 32px;
+  border: none;
+  font-weight: 600;
+  background-color: #007ea7;
+  color: white;
+  width: fit-content;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+.formbold-btn:hover {
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.formbold--mx-3 {
+  margin-left: -12px;
+  margin-right: -12px;
+}
+.formbold-px-3 {
+  padding-left: 12px;
+  padding-right: 12px;
+  overflow: hidden;
+}
+.flex {
+  display: flex;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.w-full {
+  width: 100%;
+}
+@media (min-width: 540px) {
+  .sm\:w-half {
+    width: 50%;
+  }
+}

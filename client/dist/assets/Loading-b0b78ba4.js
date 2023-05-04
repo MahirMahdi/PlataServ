@@ -1,0 +1,1 @@
+import{j as r}from"./index-94eab420.js";import{B as e}from"./chunk-6CSUKJP7-90322ddf.js";import{C as o}from"./chunk-FQ7BGFQK-51c77e93.js";function s(){return r(e,{w:"100vw",h:"100vh",display:"grid",placeItems:"center",children:r(o,{color:"#323130",isIndeterminate:!0})})}export{s as default};
