@@ -128,7 +128,7 @@ function SidebarBody() {
       </Box>
       <Divider orientation="horizontal" />
       <Box
-        height="50vh"
+        height="fit-content"
         color="#323130"
         padding="1rem .25rem"
         display="flex"
@@ -151,7 +151,7 @@ function SidebarBody() {
       </Box>
       <Divider orientation="horizontal" />
       <Box
-        height="15vh"
+        height="fit-content"
         padding="1rem .25rem"
         color="#323130"
         display="flex"
