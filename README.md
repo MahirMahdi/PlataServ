@@ -19,6 +19,10 @@ This is a comprehensive restaurant management system that includes a point-of-sa
 
 - **PAR builder**: The system generates PARs based on inventory levels, sales and wastes data, helping users manage their inventory more effectively.
 
+## Technologies Used
+
+- **Client:** React, Vite, Chakra UI, Axios, React-Chartjs-2
+- **Server:** Node.js, Express, MongoDB, ImageKit
 
 ## Run Locally
 
@@ -68,10 +72,6 @@ Start the server
 ```
 This will start the server on http://localhost:5000
 
-## Technologies Used
-
-- **Client:** React, Vite, Chakra UI, Axios, React-Chartjs-2
-- **Server:** Node.js, Express, MongoDB, ImageKit
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
