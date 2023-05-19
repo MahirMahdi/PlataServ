@@ -44,7 +44,11 @@ app.use(purchasesRouter);
 app.use(parRouter);
 app.use(wasteRouter);
 app.use(financeRouter);
-
-setInterval(() => {
-  expiryTracker();
-}, 86400000);
+app.get("/trigger-tracker", async (req, res) => {
+  try {
+    await expiryTracker();
+    res.json({ message: "Triggered successfully" });
+  } catch (error) {
+    res.json({ error: error });
+  }
+});
