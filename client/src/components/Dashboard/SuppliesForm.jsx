@@ -8,6 +8,7 @@ import {
   Box,
   Button,
   Text,
+  Checkbox
 } from "@chakra-ui/react";
 import Chip from "./Chip";
 
@@ -25,9 +26,12 @@ export default function SuppliesForm({
   totalPacks,
   handleSupplyInputs,
   handleTotalPacks,
-  updateSupplies,
+  decreaseSupplyItems,
+  increaseSupplyItems,
   total,
   orderSupplies,
+  checkAllItems,
+  allItems
 }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -40,6 +44,9 @@ export default function SuppliesForm({
               <label className="formbold-form-label formbold-form-label-2">
                 Add an item
               </label>
+              <Box display="flex" rowGap="1rem" flexWrap="wrap" alignItems="center" justifyContent="space-between" paddingBottom="1rem">
+              <Checkbox isChecked={allItems} onChange={checkAllItems} colorScheme='green' flex="1 0 50%">All Items</Checkbox>
+              </Box>
               <div className="flex flex-wrap formbold--mx-3">
                 <div className="w-full sm:w-half formbold-px-3">
                   <div className="formbold-mb-5">
@@ -141,7 +148,7 @@ export default function SuppliesForm({
               >
                 {supplies?.map((supply, i) => (
                   <GridItem key={i}>
-                    <Chip name={supply.name} remove={updateSupplies} />
+                    <Chip name={supply.name} remove={decreaseSupplyItems} add={increaseSupplyItems}/>
                   </GridItem>
                 ))}
               </Grid>
