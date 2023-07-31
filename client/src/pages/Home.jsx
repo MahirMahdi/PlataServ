@@ -68,7 +68,7 @@ export default function Home() {
           Streamline Your Restaurant With <br /> Our Management System
         </Heading>
         <Text
-          fontSize={{ base: "xs", md: "sm" }}
+          fontSize={{ base: "xs", md: "md" }}
           fontFamily='"Inter", sans-serif'
         >
           We Simplify Your Restaurant Operations,
@@ -79,7 +79,7 @@ export default function Home() {
           color="white"
           borderRadius="5px"
           fontFamily='"Inter", sans-serif'
-          fontSize="2xs"
+          fontSize="xs"
           fontWeight="normal"
           onClick={() => scrollToSection("#features")}
         >
@@ -200,7 +200,7 @@ export default function Home() {
             borderRadius="5px"
             color="#323130"
             fontFamily='"Inter", sans-serif'
-            fontSize="2xs"
+            fontSize="xs"
             fontWeight="normal"
             w="fit-content"
             onClick={() => scrollToSection("#top")}
