@@ -195,6 +195,7 @@ export function SalesTable({ reports }) {
 }
 
 export function SpeedOfServiceTable({ reports }) {
+  const totalTicketCount = reports.by_period?.reduce((acc,curr)=> acc + curr.count,0)
   return (
     <TableContainer border=".25px solid #dfe6e0" borderRadius="5px">
       <Table
@@ -222,6 +223,10 @@ export function SpeedOfServiceTable({ reports }) {
               </Td>
             </Tr>
           ))}
+          <Tr>
+            <Td fontWeight="semibold">Total</Td>
+            <Td textAlign="center">{totalTicketCount}</Td>
+          </Tr>
         </Tbody>
         <Thead>
           <Tr>
@@ -243,6 +248,10 @@ export function SpeedOfServiceTable({ reports }) {
               </Td>
             </Tr>
           ))}
+          <Tr>
+            <Td fontWeight="semibold">Total</Td>
+            <Td textAlign="center">{totalTicketCount}</Td>
+          </Tr>
         </Tbody>
       </Table>
     </TableContainer>
