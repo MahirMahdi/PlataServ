@@ -9,6 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Chip from "./Chip";
+import { FcAddImage } from "react-icons/fc";
 
 export default function ProductForm({
   isOpen,
@@ -116,14 +117,20 @@ export default function ProductForm({
               />
             </div>
             <div className="formbold-mb-5">
-              <label className="formbold-form-label"> Image</label>
+              <label className="formbold-form-label" style={{display:"grid", rowGap:".75rem"}}>
+                Image
               <input
                 required={true}
                 onChange={handleImage}
                 accept="image/*"
                 type="file"
                 className="formbold-form-input"
+                style={{ display: "none" }}
               />
+              <span style={{width:"100%", borderRadius:"5px", border:"1px solid #e0e0e0", display:"flex", alignItems:"center", columnGap:"1rem", padding:".75rem 1.25rem", cursor:"pointer"}}>
+                <FcAddImage size="24px"/>
+              {image ? `${image.name}` : "Upload image"}
+              </span></label>
             </div>
 
             {/* Ingredient form starts here*/}
