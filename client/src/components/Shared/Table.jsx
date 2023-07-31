@@ -158,9 +158,8 @@ export function FinanceTable({ reports }) {
 }
 
 export function SalesTable({ reports }) {
-  const totalPrice = (total_packs, pack_price) => {
-    return Number((total_packs * pack_price).toFixed(2));
-  };
+  const totalSales = Number(reports.reduce((acc,curr)=> acc + curr.total_sales,0)).toFixed(2)
+  const totalUnitsSold = reports.reduce((acc,curr)=> acc + curr.units_sold,0)
 
   return (
     <TableContainer border=".25px solid #dfe6e0" borderRadius="5px">
@@ -184,6 +183,11 @@ export function SalesTable({ reports }) {
               <Td>{report.total_sales}</Td>
             </Tr>
           ))}
+          <Tr>
+          <Td fontWeight="semibold">Total</Td>
+              <Td>{totalUnitsSold}</Td>
+              <Td>{totalSales}</Td>
+          </Tr>
         </Tbody>
       </Table>
     </TableContainer>
