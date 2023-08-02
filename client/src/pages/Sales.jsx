@@ -210,8 +210,16 @@ export default function Sales() {
         ml={{ lg: "17.5vw", xl: "15vw" }}
         minH="100vh"
       >
+        <Text
+            padding={{ base: "1rem 0", sm: "0" }}
+            fontFamily="'Poppins', sans-serif"
+            fontSize="1.75rem"
+            fontWeight="semibold"
+          >
+            Revenue
+          </Text>
         <MobileSidebar />
-        <Box mt="1rem" display="grid" rowGap="1rem">
+        <Box mt="1rem" display="grid" rowGap="1rem" paddingBottom="2.5rem">
           <Box display="flex" alignItems="center" columnGap="1rem">
             <Select
               placeholder="Select filter type"
@@ -311,6 +319,15 @@ export default function Sales() {
               />
             </Box>
           </Box>
+          <Text
+            padding={{ base: "1rem 0", sm: "0" }}
+            fontFamily="'Poppins', sans-serif"
+            fontSize="1.75rem"
+            fontWeight="semibold"
+            mt="2.5rem"
+          >
+            Speed of Service
+          </Text>
           <Box display="flex" alignItems="center" columnGap="1rem">
             <Select
               placeholder="Select filter type"
