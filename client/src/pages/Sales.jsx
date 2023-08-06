@@ -211,13 +211,13 @@ export default function Sales() {
         minH="100vh"
       >
         <Text
-            padding={{ base: "1rem 0", sm: "0" }}
-            fontFamily="'Poppins', sans-serif"
-            fontSize="1.75rem"
-            fontWeight="semibold"
-          >
-            Revenue
-          </Text>
+          padding={{ base: "1rem 0", sm: "0" }}
+          fontFamily="'Poppins', sans-serif"
+          fontSize="1.75rem"
+          fontWeight="semibold"
+        >
+          Revenue
+        </Text>
         <MobileSidebar />
         <Box mt="1rem" display="grid" rowGap="1rem" paddingBottom="2.5rem">
           <Box display="flex" alignItems="center" columnGap="1rem">
