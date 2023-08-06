@@ -1,4 +1,16 @@
-import { Box, IconButton, Input, Select, Text } from "@chakra-ui/react";
+import {
+  Box,
+  IconButton,
+  Input,
+  Select,
+  Stat,
+  Text,
+  StatGroup,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+} from "@chakra-ui/react";
 import { MobileSidebar } from "../components/Sidebar/Sidebar";
 import { BsSearch } from "react-icons/bs";
 import { useState, useEffect } from "react";
@@ -16,6 +28,7 @@ export default function Finance() {
   const [tablePeriod, setTablePeriod] = useState(new Date());
   const [chartPeriod, setChartPeriod] = useState(new Date());
   const [reports, setReports] = useState([]);
+  const [expenses, setExpenses] = useState([]);
   const [chartReports, setChartReports] = useState();
   const [recentTransaction, setRecentTransaction] = useState();
 
@@ -74,6 +87,12 @@ export default function Finance() {
         date: tablePeriod,
       });
       setReports(response.data.reports);
+
+      const expense = await axios.post("/report/purchases", {
+        type: "daily",
+        date: tablePeriod,
+      });
+      setExpenses(expense.data.reports);
     } else if (tableFilterType === "Weekly") {
       const startDate = new Date(
         moment(tablePeriod).startOf("week").toDate()
@@ -81,20 +100,32 @@ export default function Finance() {
       const endDate = new Date(
         moment(tablePeriod).endOf("week").toDate()
       ).toISOString();
-      console.log(startDate, endDate);
       const response = await axios.post("/report/cash", {
         type: "weekly",
         start_date: startDate,
         end_date: endDate,
       });
-      console.log(response);
       setReports(response.data.reports);
+
+      const expense = await axios.post("/report/purchases", {
+        type: "weekly",
+        start_date: startDate,
+        end_date: endDate,
+      });
+
+      setExpenses(expense.data.reports);
     } else {
       const response = await axios.post("/report/cash", {
         type: "monthly",
         month: tablePeriod,
       });
       setReports(response.data.reports);
+
+      const expense = await axios.post("/report/purchases", {
+        type: "monthly",
+        month: tablePeriod,
+      });
+      setExpenses(expense.data.reports);
     }
   };
 
@@ -106,13 +137,11 @@ export default function Finance() {
       const endDate = new Date(
         moment(chartPeriod).endOf("week").toDate()
       ).toISOString();
-      console.log(startDate, endDate);
       const response = await axios.post("/chart/bank-info", {
         type: "weekly",
         start_date: startDate,
         end_date: endDate,
       });
-      console.log(response);
       setChartReports(response.data.reports);
     } else {
       const response = await axios.post("/chart/bank-info", {
@@ -134,6 +163,27 @@ export default function Finance() {
     }
   };
 
+  const totalExpense = (total_packs, pack_price) => {
+    return Number((total_packs * pack_price).toFixed(2));
+  };
+
+  const total_expense = Number(
+    expenses.reduce(
+      (acc, curr) => acc + totalExpense(curr.total_packs, curr.pack_price),
+      0
+    )
+  ).toFixed(2);
+
+  const revenue = Number(
+    reports?.filter((report) => report.label === "Gross sales")[0]
+      ?.transaction_amount
+  ).toFixed(2);
+
+  const turnover = () => {
+    const result = ([(revenue - total_expense) / revenue] * 100).toFixed(2);
+    return isNaN(result) ? 0.00 : result;
+  };
+
   return (
     <Box display="flex" w="100vw" h="100vh">
       <Box
@@ -148,39 +198,80 @@ export default function Finance() {
         minH="100vh"
       >
         <MobileSidebar />
-        <Box mt="1rem" display="grid" rowGap="1rem">
-          <Box display="flex" alignItems="center" columnGap="1rem">
-            <Select
-              placeholder="Select filter type"
-              size="sm"
-              type="month"
-              borderRadius="5px"
-              onChange={handleTableFilterType}
-              defaultValue={tableFilterType}
-              w="10rem"
-            >
-              <option value="Daily">Daily</option>
-              <option value="Weekly">Weekly</option>
-              <option value="Monthly">Monthly</option>
-            </Select>
-            <Input
-              placeholder="Select Date and Time"
-              size="sm"
-              onChange={handleTablePeriod}
-              type={tableCalendarType}
-              borderRadius="5px"
-              w="10rem"
-              cursor="pointer"
-            />
-            <IconButton
-              size="sm"
-              aria-label="Search database"
-              icon={<BsSearch />}
-              bgColor="#323130"
-              color="white"
-              onClick={queryTableReport}
-            />
-          </Box>
+        <Box display="flex" alignItems="center" columnGap="1rem">
+          <Select
+            placeholder="Select filter type"
+            size="sm"
+            type="month"
+            borderRadius="5px"
+            onChange={handleTableFilterType}
+            defaultValue={tableFilterType}
+            w="10rem"
+          >
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+          </Select>
+          <Input
+            placeholder="Select Date and Time"
+            size="sm"
+            onChange={handleTablePeriod}
+            type={tableCalendarType}
+            borderRadius="5px"
+            w="10rem"
+            cursor="pointer"
+          />
+          <IconButton
+            size="sm"
+            aria-label="Search database"
+            icon={<BsSearch />}
+            bgColor="#323130"
+            color="white"
+            onClick={queryTableReport}
+          />
+        </Box>
+        <Text
+          mt="1.5rem"
+          padding={{ base: "1rem 0", sm: "0" }}
+          fontFamily="'Poppins', sans-serif"
+          fontSize="1.75rem"
+          fontWeight="semibold"
+        >
+          Profit & Loss
+        </Text>
+        <StatGroup
+          mt="1rem"
+          w="100%"
+          border="1px solid #e0e0e0"
+          padding="1rem 2rem"
+          borderRadius="10px"
+        >
+          <Stat>
+            <StatLabel>Revenue</StatLabel>
+            <StatNumber>${revenue}</StatNumber>
+          </Stat>
+          <Stat>
+            <StatLabel>Expenses</StatLabel>
+            <StatNumber>${total_expense}</StatNumber>
+          </Stat>
+          <Stat>
+            <StatLabel>Profit/Loss</StatLabel>
+            <StatNumber>{turnover()}%</StatNumber>
+            <StatHelpText>
+              <StatArrow type={turnover() > 0 ? "increase" : "decrease"} />
+            </StatHelpText>
+          </Stat>
+        </StatGroup>
+        <Text
+          mt="2.5rem"
+          padding={{ base: "1rem 0", sm: "0" }}
+          fontFamily="'Poppins', sans-serif"
+          fontSize="1.75rem"
+          fontWeight="semibold"
+        >
+          Transactions
+        </Text>
+        <Box mt="1rem" display="grid" rowGap="1rem" paddingBottom="2.5rem">
           <Text
             padding={{ base: "1rem 0", sm: "0" }}
             fontFamily="'Poppins', sans-serif"
