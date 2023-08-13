@@ -28,6 +28,8 @@ import { MdOutlinePointOfSale, MdTrackChanges } from "react-icons/md";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import FeatureCard from "../components/Home/FeatureCard";
+import BannerListItem from "../components/Home/BannerListItem";
+import FooterContentList from "../components/Home/FooterContent";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -270,22 +272,6 @@ const banner_list = [
   },
 ];
 
-function BannerListItem({ item }) {
-  const { name, icon, fontFamily } = item;
-  return (
-    <Box display="flex" alignItems="center">
-      {icon}
-      <Text
-        fontFamily={fontFamily}
-        fontSize={{ base: "16px", sm: "18px", lg: "20px" }}
-        fontWeight="medium"
-      >
-        {name}
-      </Text>
-    </Box>
-  );
-}
-
 const feature_list = [
   {
     icon: <MdOutlinePointOfSale size={20} color="white" />,
@@ -339,34 +325,3 @@ const footer_content_list = [
     content_list: ["Blog", "Community", "Services", "Pricing"],
   },
 ];
-
-function FooterContentList({ content }) {
-  const { heading, content_list } = content;
-  return (
-    <Box
-      textAlign="center"
-      display="grid"
-      rowGap=".25rem"
-      flexBasis={{ base: "33.33%", sm: "25%" }}
-      h="fit-content"
-    >
-      <Heading
-        fontSize={{ base: "xl", md: "2xl" }}
-        fontFamily='"Cabin", sans-serif'
-        mb=".5rem"
-      >
-        {heading}
-      </Heading>
-      {content_list.map((item, i) => (
-        <Text
-          key={i}
-          fontSize={{ base: "xs", md: "sm" }}
-          color="#595959"
-          fontFamily='"Inter", sans-serif'
-        >
-          {item}
-        </Text>
-      ))}
-    </Box>
-  );
-}
