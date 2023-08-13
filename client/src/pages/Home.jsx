@@ -27,6 +27,7 @@ import {
 import { MdOutlinePointOfSale, MdTrackChanges } from "react-icons/md";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import FeatureCard from "../components/Home/FeatureCard";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -157,6 +158,7 @@ export default function Home() {
             feature={feature}
             authFunction={auth}
             align={i === 1 && "reverse"}
+            buttonIcon={<IoIosArrowRoundForward size={24} />}
           />
         ))}
       </Box>
@@ -311,75 +313,6 @@ const feature_list = [
     image: "tracker.png",
   },
 ];
-
-function FeatureCard({ feature, align, authFunction }) {
-  const { icon, headline, tagline, image, buttonName, role } = feature;
-  return (
-    <Box
-      display={{ base: "grid", lg: "flex" }}
-      flexDirection={align === "reverse" && "row-reverse"}
-      alignItems="center"
-      justifyContent="space-between"
-      rowGap="2rem"
-      w="100%"
-    >
-      <Box
-        w={{ base: "100%", lg: "50%" }}
-        display="grid"
-        placeItems={{
-          base: "start",
-          lg: align === "reverse" ? "end" : "start",
-        }}
-        rowGap=".5rem"
-      >
-        <Box
-          w="2.5rem"
-          h="2.5rem"
-          borderRadius="50%"
-          display="grid"
-          placeItems="center"
-          bgColor="#323130"
-        >
-          {icon}
-        </Box>
-        <Heading
-          size={{ base: "md", lg: "lg" }}
-          fontFamily='"Cabin", sans-serif'
-          textAlign="start"
-        >
-          {headline}
-        </Heading>
-        <Text
-          w={{ base: "70%", lg: "60%" }}
-          fontSize={{ base: "xs", md: "sm" }}
-          fontFamily='"Inter", sans-serif'
-          textAlign="start"
-        >
-          {tagline}
-        </Text>
-        {buttonName && (
-          <Button
-            rightIcon={<IoIosArrowRoundForward size={24} />}
-            variant="link"
-            colorScheme="purple"
-            onClick={() => authFunction(role)}
-          >
-            {buttonName}
-          </Button>
-        )}
-      </Box>
-      <Image
-        src={`${import.meta.env.VITE_CDN_URL}/tr:ar-1.875/${image}`}
-        alt={image}
-        width={{ base: "100%", lg: "50%" }}
-        height="100%"
-        borderRadius="5px"
-        border="1px solid #e8e8e8"
-        loading="lazy"
-      />
-    </Box>
-  );
-}
 
 function scrollToSection(section) {
   document.querySelector(section).scrollIntoView({
