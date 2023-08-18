@@ -1,4 +1,9 @@
 {
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "name": "client",
   "private": true,
   "version": "0.0.0",
@@ -6,7 +11,9 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cypress": "cypress open",
+    "test": "npm run start && npm run cypress"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
@@ -36,6 +43,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.14",
     "cypress": "^12.17.3",
+    "cypress-vite": "^1.4.2",
     "jsdom": "^21.1.1",
     "postcss": "^8.4.21",
     "vite": "^4.1.0"
