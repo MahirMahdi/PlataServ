@@ -7,12 +7,10 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider theme={customTheme}>
-      <Router>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
-      </Router>
-    </ChakraProvider>
+    <Router>
+      <Routes>
+        <Route path="/*" element={<App />} />
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
