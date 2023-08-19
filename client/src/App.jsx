@@ -10,6 +10,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Home from "./pages/Home";
 import Loading from "./components/Shared/Loading";
 
+const Login = lazy(() => import("./pages/Login"));
 const Menu = lazy(() => import("./pages/POS/Menu"));
 const Orders = lazy(() => import("./pages/POS/Orders"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -29,6 +30,7 @@ export default function App() {
       <ChakraProvider theme={customTheme}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/route-handler" element={<RouteHandler />} />
           <Route path="/help-support" element={<HelpAndSupport />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
