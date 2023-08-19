@@ -168,6 +168,7 @@ function SidebarBody() {
                 route={item.route}
                 icon={item.icon}
                 item={item.item}
+                testid={item.testid}
               />
             ))
           )}
@@ -176,7 +177,7 @@ function SidebarBody() {
   );
 }
 
-function SidebarItem({ route, icon, item }) {
+function SidebarItem({ route, icon, item, testid }) {
   const hoverStyle = {
     textDecoration: "none",
     color: "white",
@@ -198,6 +199,7 @@ function SidebarItem({ route, icon, item }) {
         alignItems="center"
         justifyContent="flex-start"
         columnGap="1rem"
+        data-testid={testid}
       >
         {icon}
         <Text
@@ -220,11 +222,13 @@ const sidebar_data = [
         item: "Menu",
         route: "/menu",
         icon: <IoFastFoodOutline size={24} />,
+        testid: "test-menu",
       },
       {
         item: "Orders",
         route: "/orders",
         icon: <RiFileListLine size={24} />,
+        testid: "test-orders",
       },
     ],
   },
@@ -235,21 +239,25 @@ const sidebar_data = [
         item: "Dashboard",
         route: "/dashboard",
         icon: <MdOutlineSpaceDashboard size={24} />,
+        testid: "test-dashboard",
       },
       {
         item: "Inventory",
         route: "/inventory",
         icon: <MdOutlineInventory size={24} />,
+        testid: "test-inventory",
       },
       {
         item: "Finance",
         route: "/finance",
         icon: <BsCashCoin size={24} />,
+        testid: "test-finance",
       },
       {
         item: "Sales",
         route: "/sales",
         icon: <GiCoins size={24} />,
+        testid: "test-sales",
       },
     ],
   },
@@ -260,11 +268,13 @@ const sidebar_data = [
         item: "Help & Support",
         route: "/help-support",
         icon: <AiOutlineInfoCircle size={24} />,
+        testid: "test-help-support",
       },
       {
         item: "Logout",
         route: "/",
         icon: <IoLogOutOutline size={24} />,
+        testid: "test-logout",
       },
     ],
   },
