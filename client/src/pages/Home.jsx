@@ -26,17 +26,13 @@ import {
 } from "react-icons/bs";
 import { MdOutlinePointOfSale, MdTrackChanges } from "react-icons/md";
 import { IoIosArrowRoundForward } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 import FeatureCard from "../components/Home/FeatureCard";
 import BannerListItem from "../components/Home/BannerListItem";
-import FooterContentList from "../components/Home/FooterContent";
+import FooterContentList from "../components/Home/FooterContentList";
 
 export default function Home() {
-  const navigate = useNavigate();
-
   const auth = (role) => {
     window.sessionStorage.setItem("role", role);
-    navigate("/route-handler");
   };
 
   return (
@@ -67,6 +63,7 @@ export default function Home() {
         <Heading
           size={{ base: "lg", md: "xl" }}
           fontFamily='"Cabin", sans-serif'
+          data-testid="landing-page-header"
         >
           Streamline Your Restaurant With <br /> Our Management System
         </Heading>
@@ -85,6 +82,7 @@ export default function Home() {
           fontSize="xs"
           fontWeight="normal"
           onClick={() => scrollToSection("#features")}
+          data-testid="demo-button"
         >
           View Demo
         </Button>
@@ -132,7 +130,6 @@ export default function Home() {
             flexWrap="wrap"
             columnGap=".75rem"
             rowGap="1rem"
-            id="features"
           >
             {banner_list.map((item, i) => (
               <BannerListItem key={i} item={item} />
@@ -153,6 +150,7 @@ export default function Home() {
           lg: "2.5rem 7.5vw",
           xl: "2.5rem 10vw",
         }}
+        id="features"
       >
         {feature_list.map((feature, i) => (
           <FeatureCard
@@ -161,6 +159,8 @@ export default function Home() {
             authFunction={auth}
             align={i === 1 && "reverse"}
             buttonIcon={<IoIosArrowRoundForward size={24} />}
+            featureTestId={feature.featureTestId}
+            linkTestId={feature.linkTestId}
           />
         ))}
       </Box>
@@ -205,9 +205,10 @@ export default function Home() {
             color="#323130"
             fontFamily='"Inter", sans-serif'
             fontSize="xs"
-            fontWeight="normal"
+            fontWeight="600"
             w="fit-content"
             onClick={() => scrollToSection("#top")}
+            data-testid="get-started-button"
           >
             Get Started
           </Button>
@@ -281,6 +282,8 @@ const feature_list = [
     image: "pos.png",
     buttonName: "Explore POS",
     role: "cashier",
+    featureTestId: "feature-card-pos",
+    linkTestId: "pos-link",
   },
   {
     icon: <GiStack size={20} color="white" />,
@@ -290,6 +293,8 @@ const feature_list = [
     image: "finance.png",
     buttonName: "Try it now",
     role: "manager",
+    featureTestId: "feature-card-admin",
+    linkTestId: "admin-link",
   },
   {
     icon: <MdTrackChanges size={20} color="white" />,
