@@ -1,10 +1,13 @@
 import { Box, Image, Heading, Text, Button } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 export default function FeatureCard({
   feature,
   align,
   authFunction,
   buttonIcon,
+  featureTestId,
+  linkTestId,
 }) {
   const { icon, headline, tagline, image, buttonName, role } = feature;
   return (
@@ -15,6 +18,7 @@ export default function FeatureCard({
       justifyContent="space-between"
       rowGap="2rem"
       w="100%"
+      data-testid={featureTestId}
     >
       <Box
         w={{ base: "100%", lg: "50%" }}
@@ -51,14 +55,17 @@ export default function FeatureCard({
           {tagline}
         </Text>
         {buttonName && (
-          <Button
-            rightIcon={buttonIcon}
-            variant="link"
-            colorScheme="purple"
-            onClick={() => authFunction(role)}
-          >
-            {buttonName}
-          </Button>
+          <Link to="/route-handler">
+            <Button
+              rightIcon={buttonIcon}
+              variant="link"
+              colorScheme="purple"
+              onClick={() => authFunction(role)}
+              data-testid={linkTestId}
+            >
+              {buttonName}
+            </Button>
+          </Link>
         )}
       </Box>
       <Image
