@@ -29,18 +29,40 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import FeatureCard from "../components/Home/FeatureCard";
 import BannerListItem from "../components/Home/BannerListItem";
 import FooterContentList from "../components/Home/FooterContentList";
+import { LandingPageButton } from "../components/Shared/Buttons";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   const auth = (role) => {
     window.sessionStorage.setItem("role", role);
   };
 
   return (
     <Box w="100vw" id="top">
-      <Box
-        padding={{ base: "1.5rem 0rem", sm: "1.5rem .5rem", xl: "1.5rem 1rem" }}
-      >
-        <Logo />
+      <Box w="100%" as="header">
+        <Box
+          as="nav"
+          w="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          padding={{
+            base: "1.5rem 0rem",
+            sm: "1.5rem .5rem",
+            xl: "1.5rem 2rem",
+          }}
+          paddingRight={{ base: "1rem", sm: "1.5rem", xl: "3.5rem" }}
+        >
+          <Logo />
+          <LandingPageButton
+            name="Login"
+            type="primary"
+            section={null}
+            testid="login-button"
+            navigate={() => navigate("/login")}
+          />
+        </Box>
       </Box>
       <Box
         w={{ base: "90vw", sm: "80vw", md: "75vw", lg: "60vw", xl: "45vw" }}
@@ -74,18 +96,13 @@ export default function Home() {
           We Simplify Your Restaurant Operations,
           <br /> Letting You Do What You Do Best!
         </Text>
-        <Button
-          bgColor="#323130"
-          color="white"
-          borderRadius="5px"
-          fontFamily='"Inter", sans-serif'
-          fontSize="xs"
-          fontWeight="normal"
-          onClick={() => scrollToSection("#features")}
-          data-testid="demo-button"
-        >
-          View Demo
-        </Button>
+
+        <LandingPageButton
+          name="View Demo"
+          type="primary"
+          section="#features"
+          testid="demo-button"
+        />
         <Image
           src={`${import.meta.env.VITE_CDN_URL}/tr:ar-1.875/hero-image.png`}
           alt="hero-image"
@@ -199,19 +216,13 @@ export default function Home() {
           >
             Join <strong>1000+</strong> Restaurants
           </Text>
-          <Button
-            bgColor="#dff4ce"
-            borderRadius="5px"
-            color="#323130"
-            fontFamily='"Inter", sans-serif'
-            fontSize="xs"
-            fontWeight="600"
-            w="fit-content"
-            onClick={() => scrollToSection("#top")}
-            data-testid="get-started-button"
-          >
-            Get Started
-          </Button>
+          <LandingPageButton
+            name="Get Started"
+            type="secondary"
+            section={null}
+            testid="login-button"
+            navigate={() => navigate("/login")}
+          />
         </Box>
       </Box>
       <Box
@@ -304,12 +315,6 @@ const feature_list = [
     image: "tracker.png",
   },
 ];
-
-function scrollToSection(section) {
-  document.querySelector(section).scrollIntoView({
-    behavior: "smooth",
-  });
-}
 
 const footer_content_list = [
   {
