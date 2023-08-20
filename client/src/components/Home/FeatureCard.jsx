@@ -68,14 +68,12 @@ export default function FeatureCard({
           </Link>
         )}
       </Box>
-      <Image
-        src={`${import.meta.env.VITE_CDN_URL}/tr:ar-1.875/${image}`}
-        alt={image}
-        width={{ base: "100%", lg: "50%" }}
-        height="100%"
-        borderRadius="5px"
-        border="1px solid #e8e8e8"
-        loading="lazy"
+      <img
+        src={`${import.meta.env.VITE_CDN_URL}/tr:ar-2-1,w-0.3/${image}`}
+        alt="hero-image"
+        width="640"
+        height="480"
+        style={{ borderRadius: "5px", border: "1px solid #e8e8e8" }}
       />
     </Box>
   );

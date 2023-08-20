@@ -5,8 +5,6 @@ import {
   TagLabel,
   TagLeftIcon,
   Text,
-  Image,
-  Button,
 } from "@chakra-ui/react";
 import Logo from "../components/Shared/Logo";
 import { FaBolt, FaGripfire } from "react-icons/fa";
@@ -103,13 +101,13 @@ export default function Home() {
           section="#features"
           testid="demo-button"
         />
-        <Image
-          src={`${import.meta.env.VITE_CDN_URL}/tr:ar-1.875/hero-image.png`}
+        <img
+          fetchpriority="high"
+          src={`${import.meta.env.VITE_CDN_URL}/tr:ar-2-1,w-0.3/hero-image.png`}
           alt="hero-image"
-          width="100%"
-          height="100%"
-          borderRadius="5px"
-          border="1px solid #e8e8e8"
+          width="640"
+          height="480"
+          style={{ borderRadius: "5px", border: "1px solid #e8e8e8" }}
         />
       </Box>
       <Box
