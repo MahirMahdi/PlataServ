@@ -22,7 +22,9 @@
     "mongoose": "^6.9.2",
     "mongoose-findorcreate": "^4.0.0",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.18.6",
