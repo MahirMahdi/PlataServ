@@ -15,6 +15,7 @@ import { purchasesRouter } from "./purchases/purchasesAPI.js";
 import { parRouter } from "./par/parAPI.js";
 import { wasteRouter } from "./waste/wasteAPI.js";
 import { financeRouter } from "./finance/financeAPI.js";
+import { authRouter } from "./auth/authAPI.js";
 
 export const app = express();
 const env = dotenv.config();
@@ -44,6 +45,8 @@ app.use(purchasesRouter);
 app.use(parRouter);
 app.use(wasteRouter);
 app.use(financeRouter);
+app.use(authRouter);
+
 app.get("/trigger-tracker", async (req, res) => {
   try {
     await expiryTracker();
