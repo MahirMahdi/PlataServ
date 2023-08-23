@@ -9,6 +9,7 @@ import { customTheme } from "./utils/theme";
 import { ChakraProvider } from "@chakra-ui/react";
 import Home from "./pages/Home";
 import Loading from "./components/Shared/Loading";
+import AuthProvider from "./contexts/AuthContext";
 
 const Login = lazy(() => import("./pages/Login"));
 const Menu = lazy(() => import("./pages/POS/Menu"));
@@ -28,38 +29,40 @@ export default function App() {
   return (
     <Suspense fallback={<Loading />}>
       <ChakraProvider theme={customTheme}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/route-handler" element={<RouteHandler />} />
-          <Route path="/help-support" element={<HelpAndSupport />} />
-          <Route path="/unauthorized" element={<Unauthorized />} />
-          <Route element={<ProtectedRoute providedRole="cashier" />}>
-            <Route
-              path="/menu"
-              element={
-                <POSProvider>
-                  <Menu />
-                </POSProvider>
-              }
-            />
-            <Route
-              path="/orders"
-              element={
-                <POSProvider>
-                  <Orders />
-                </POSProvider>
-              }
-            />
-          </Route>
-          <Route element={<ProtectedRoute providedRole="manager" />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/inventory" element={<Inventory />} />
-            <Route path="/finance" element={<Finance />} />
-            <Route path="/sales" element={<Sales />} />
-          </Route>
-          <Route path="*" element={<Error404 />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/route-handler" element={<RouteHandler />} />
+            <Route path="/help-support" element={<HelpAndSupport />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route element={<ProtectedRoute providedRole="cashier" />}>
+              <Route
+                path="/menu"
+                element={
+                  <POSProvider>
+                    <Menu />
+                  </POSProvider>
+                }
+              />
+              <Route
+                path="/orders"
+                element={
+                  <POSProvider>
+                    <Orders />
+                  </POSProvider>
+                }
+              />
+            </Route>
+            <Route element={<ProtectedRoute providedRole="manager" />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/inventory" element={<Inventory />} />
+              <Route path="/finance" element={<Finance />} />
+              <Route path="/sales" element={<Sales />} />
+            </Route>
+            <Route path="*" element={<Error404 />} />
+          </Routes>
+        </AuthProvider>
       </ChakraProvider>
     </Suspense>
   );

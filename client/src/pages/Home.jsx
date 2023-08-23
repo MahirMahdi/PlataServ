@@ -62,64 +62,12 @@ export default function Home() {
           />
         </Box>
       </Box>
-      <Box
-        w={{ base: "90vw", sm: "80vw", md: "75vw", lg: "60vw", xl: "45vw" }}
-        display="grid"
-        placeItems="center"
-        rowGap="1.5rem"
-        textAlign="center"
-        m={{
-          base: "2.5rem 5vw",
-          sm: "2.5rem 10vw",
-          md: "2.5rem 12.5vw",
-          lg: "2.5rem 20vw",
-          xl: "2.5rem 27.5vw",
-        }}
-      >
-        <Tag borderRadius="full" bgColor="#dff4ce" size="sm" padding=".5rem">
-          <TagLeftIcon as={FaBolt} />
-          <TagLabel>CREATE FOR EFFICIENCY</TagLabel>
-        </Tag>
-        <Heading
-          size={{ base: "lg", md: "xl" }}
-          fontFamily='"Cabin", sans-serif'
-          data-testid="landing-page-header"
-        >
-          Streamline Your Restaurant With <br /> Our Management System
-        </Heading>
-        <Text
-          fontSize={{ base: "xs", md: "md" }}
-          fontFamily='"Inter", sans-serif'
-        >
-          We Simplify Your Restaurant Operations,
-          <br /> Letting You Do What You Do Best!
-        </Text>
-
-        <LandingPageButton
-          name="View Demo"
-          type="primary"
-          section="#features"
-          testid="demo-button"
-        />
-        <img
-          fetchpriority="high"
-          src={`${import.meta.env.VITE_CDN_URL}/tr:ar-2-1,w-0.3/hero-image.png`}
-          alt="hero-image"
-          width="640"
-          height="480"
-          style={{ borderRadius: "5px", border: "1px solid #e8e8e8" }}
-        />
-      </Box>
-      <Box
-        h="fit-content"
-        w="100%"
-        bgColor="#EDF2F6"
-        m="100px 0"
-        display="grid"
-        placeItems="center"
-      >
+      <Box as="main">
         <Box
           w={{ base: "90vw", sm: "80vw", md: "75vw", lg: "60vw", xl: "45vw" }}
+          display="grid"
+          placeItems="center"
+          rowGap="1.5rem"
           textAlign="center"
           m={{
             base: "2.5rem 5vw",
@@ -128,102 +76,159 @@ export default function Home() {
             lg: "2.5rem 20vw",
             xl: "2.5rem 27.5vw",
           }}
-          display="grid"
-          rowGap="1.5rem"
         >
+          <Tag borderRadius="full" bgColor="#dff4ce" size="sm" padding=".5rem">
+            <TagLeftIcon as={FaBolt} />
+            <TagLabel>CREATE FOR EFFICIENCY</TagLabel>
+          </Tag>
           <Heading
-            fontSize={{ base: "xl", md: "2xl" }}
+            size={{ base: "lg", md: "xl" }}
             fontFamily='"Cabin", sans-serif'
+            data-testid="landing-page-header"
           >
-            Trusted by the fastest growing restaurants
+            Streamline Your Restaurant With <br /> Our Management System
           </Heading>
-          <Box
-            w="100%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexWrap="wrap"
-            columnGap=".75rem"
-            rowGap="1rem"
+          <Text
+            fontSize={{ base: "xs", md: "md" }}
+            fontFamily='"Inter", sans-serif'
           >
-            {banner_list.map((item, i) => (
-              <BannerListItem key={i} item={item} />
-            ))}
+            We Simplify Your Restaurant Operations,
+            <br /> Letting You Do What You Do Best!
+          </Text>
+
+          <LandingPageButton
+            name="View Demo"
+            type="primary"
+            section="#features"
+            testid="demo-button"
+          />
+          <img
+            fetchpriority="high"
+            src={`${
+              import.meta.env.VITE_CDN_URL
+            }/tr:ar-2-1,w-0.3/hero-image.png`}
+            alt="hero-image"
+            width="640"
+            height="480"
+            style={{ borderRadius: "5px", border: "1px solid #e8e8e8" }}
+          />
+        </Box>
+        <Box
+          h="fit-content"
+          w="100%"
+          bgColor="#EDF2F6"
+          m="100px 0"
+          display="grid"
+          placeItems="center"
+        >
+          <Box
+            w={{ base: "90vw", sm: "80vw", md: "75vw", lg: "60vw", xl: "45vw" }}
+            textAlign="center"
+            m={{
+              base: "2.5rem 5vw",
+              sm: "2.5rem 10vw",
+              md: "2.5rem 12.5vw",
+              lg: "2.5rem 20vw",
+              xl: "2.5rem 27.5vw",
+            }}
+            display="grid"
+            rowGap="1.5rem"
+          >
+            <Heading
+              fontSize={{ base: "xl", md: "2xl" }}
+              fontFamily='"Cabin", sans-serif'
+            >
+              Trusted by the fastest growing restaurants
+            </Heading>
+            <Box
+              w="100%"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              flexWrap="wrap"
+              columnGap=".75rem"
+              rowGap="1rem"
+            >
+              {banner_list.map((item, i) => (
+                <BannerListItem key={i} item={item} />
+              ))}
+            </Box>
+          </Box>
+        </Box>
+        <Box
+          w={{ base: "90vw", sm: "80vw", md: "75vw", lg: "85vw", xl: "80vw" }}
+          display="grid"
+          placeItems="center"
+          rowGap="5rem"
+          textAlign="center"
+          m={{
+            base: "1.5rem 5vw",
+            sm: "1.5rem 10vw",
+            md: "1.5rem 12.5vw",
+            lg: "2.5rem 7.5vw",
+            xl: "2.5rem 10vw",
+          }}
+          id="features"
+        >
+          {feature_list.map((feature, i) => (
+            <FeatureCard
+              key={i}
+              feature={feature}
+              authFunction={auth}
+              align={i === 1 && "reverse"}
+              buttonIcon={<IoIosArrowRoundForward size={24} />}
+              featureTestId={feature.featureTestId}
+              linkTestId={feature.linkTestId}
+            />
+          ))}
+        </Box>
+        <Box
+          h="fit-content"
+          w="100%"
+          bgColor="#323130"
+          m="100px 0"
+          display="grid"
+          placeItems="center"
+        >
+          <Box
+            w={{ base: "90vw", sm: "80vw", md: "75vw", lg: "60vw", xl: "45vw" }}
+            textAlign="center"
+            m={{
+              base: "2.5rem 5vw",
+              sm: "2.5rem 10vw",
+              md: "2.5rem 12.5vw",
+              lg: "2.5rem 20vw",
+              xl: "2.5rem 27.5vw",
+            }}
+            display="grid"
+            placeItems="center"
+            rowGap="1.5rem"
+            color="white"
+          >
+            <Heading
+              fontSize={{ base: "2xl", md: "3xl" }}
+              fontFamily='"Cabin", sans-serif'
+            >
+              Let Us Handle The Heavy Lifting For You
+            </Heading>
+            <Text
+              fontSize={{ base: "lg", md: "xl" }}
+              fontFamily='"Inter", sans-serif'
+            >
+              Join <strong>1000+</strong> Restaurants
+            </Text>
+            <LandingPageButton
+              name="Get Started"
+              type="secondary"
+              section={null}
+              testid="login-button"
+              navigate={() => navigate("/login")}
+            />
           </Box>
         </Box>
       </Box>
       <Box
-        w={{ base: "90vw", sm: "80vw", md: "75vw", lg: "85vw", xl: "80vw" }}
-        display="grid"
-        placeItems="center"
-        rowGap="5rem"
-        textAlign="center"
-        m={{
-          base: "1.5rem 5vw",
-          sm: "1.5rem 10vw",
-          md: "1.5rem 12.5vw",
-          lg: "2.5rem 7.5vw",
-          xl: "2.5rem 10vw",
-        }}
-        id="features"
-      >
-        {feature_list.map((feature, i) => (
-          <FeatureCard
-            key={i}
-            feature={feature}
-            authFunction={auth}
-            align={i === 1 && "reverse"}
-            buttonIcon={<IoIosArrowRoundForward size={24} />}
-            featureTestId={feature.featureTestId}
-            linkTestId={feature.linkTestId}
-          />
-        ))}
-      </Box>
-      <Box
-        h="fit-content"
-        w="100%"
-        bgColor="#323130"
-        m="100px 0"
-        display="grid"
-        placeItems="center"
-      >
-        <Box
-          w={{ base: "90vw", sm: "80vw", md: "75vw", lg: "60vw", xl: "45vw" }}
-          textAlign="center"
-          m={{
-            base: "2.5rem 5vw",
-            sm: "2.5rem 10vw",
-            md: "2.5rem 12.5vw",
-            lg: "2.5rem 20vw",
-            xl: "2.5rem 27.5vw",
-          }}
-          display="grid"
-          placeItems="center"
-          rowGap="1.5rem"
-          color="white"
-        >
-          <Heading
-            fontSize={{ base: "2xl", md: "3xl" }}
-            fontFamily='"Cabin", sans-serif'
-          >
-            Let Us Handle The Heavy Lifting For You
-          </Heading>
-          <Text
-            fontSize={{ base: "lg", md: "xl" }}
-            fontFamily='"Inter", sans-serif'
-          >
-            Join <strong>1000+</strong> Restaurants
-          </Text>
-          <LandingPageButton
-            name="Get Started"
-            type="secondary"
-            section={null}
-            testid="login-button"
-            navigate={() => navigate("/login")}
-          />
-        </Box>
-      </Box>
-      <Box
+        as="footer"
         borderTop="1px solid #e8e8e8"
         w="100%"
         padding="2rem"
