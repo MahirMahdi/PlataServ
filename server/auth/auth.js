@@ -9,9 +9,6 @@ const UserSchema = new mongoose.Schema(
       min: 4,
       max: 80,
     },
-    img: {
-      type: String,
-    },
     email: {
       type: String,
       max: 40,
@@ -23,6 +20,7 @@ const UserSchema = new mongoose.Schema(
       min: 8,
       max: 40,
     },
+    role: [String],
   },
   { timestamps: true }
 );

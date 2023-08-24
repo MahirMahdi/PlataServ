@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 
-export const hashPassword = function (password) {
-  return bcrypt.hashSync(password, 10);
+export const hashPassword = (password) => {
+  const saltRounds = 10;
+  return bcrypt.hashSync(password, saltRounds);
 };
-export const comparePassword = function (password, dbPassword) {
+export const comparePassword = (password, dbPassword) => {
   return bcrypt.compareSync(password, dbPassword);
 };

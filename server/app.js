@@ -18,7 +18,7 @@ import { financeRouter } from "./finance/financeAPI.js";
 import { authRouter } from "./auth/authAPI.js";
 
 export const app = express();
-const env = dotenv.config();
+dotenv.config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
