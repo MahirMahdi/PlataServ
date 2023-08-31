@@ -53,6 +53,58 @@ export default async function handleSignup(req, res) {
   }
 }
 
-export async function handleLogin() {
-  return;
+export async function handleLogin(req, res) {
+  const user_data = req.body;
+  const { email, password, role } = user_data;
+
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    return res
+      .status(401)
+      .json({ message: "User with this email doesn't exist." });
+  }
+
+  if (!user.role.includes(role)) {
+    return res
+      .status(401)
+      .json({ message: `You are not authorized to access as a ${role}` });
+  }
+
+  const check_password = comparePassword(password, user.password);
+
+  if (check_password === false) {
+    return res.status(401).json({ message: "Invalid password." });
+  }
+
+  try {
+    const one_day = 86400; // one day in ms
+    const one_hour = 300; //one hour in ms
+
+    const refresh_token = jwt.sign(
+      { email: email },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: one_day }
+    );
+
+    const access_token = jwt.sign(
+      { email: email },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: one_hour }
+    );
+
+    res.cookie("jwt", refresh_token, {
+      maxAge: one_day,
+      secure: false,
+      httpOnly: true,
+    });
+
+    return res.status(201).json({
+      ...user_data,
+      accessToken: access_token,
+      message: "Successfully logged in.",
+    });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 }
