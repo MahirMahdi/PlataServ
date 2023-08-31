@@ -6,11 +6,11 @@ export default async function handleSignup(req, res) {
   const user_data = req.body;
   const { email, password, username, role } = user_data;
 
-  const check_if_user_exists = User.findOne({ email: email });
+  const check_if_user_exists = await User.findOne({ email: email });
 
-  if (check_if_user_exists.length > 0) {
+  if (check_if_user_exists) {
     return res
-      .status(400)
+      .status(401)
       .json({ message: "User with this email already exists." });
   }
 
@@ -43,9 +43,13 @@ export default async function handleSignup(req, res) {
       httpOnly: true,
     });
 
-    return res.status(201).json({ ...user_data, accessToken: access_token });
+    return res.status(201).json({
+      ...user_data,
+      accessToken: access_token,
+      message: "Your account has been successfully created.",
+    });
   } catch (error) {
-    res.status(400).json(error);
+    return res.status(400).json(error);
   }
 }
 
