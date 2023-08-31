@@ -1,27 +1,70 @@
 import {
   FormControl,
-  FormLabel,
+  FormErrorMessage,
   Input,
   Button,
   Box,
-  SimpleGrid,
   Heading,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "../api/api";
 import { useState } from "react";
+import { FaCashRegister, FaUsersCog } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function Auth() {
+  const toast = useToast();
+  const navigate = useNavigate();
   const [authType, setAuthType] = useState("signup");
+
   const [signupUsername, setSignupUsername] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
   const [signupRole, setSignupRole] = useState([]);
 
-  const [signinRole, setSigninRole] = useState("");
-  const [signinPassword, setSigninPassword] = useState("");
-  const [signinEmail, setSigninEmail] = useState("");
+  const [loginRole, setLoginRole] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+
+  const roles = [
+    {
+      name: "Cashier",
+      role: ["Cashier"],
+      active: signupRole.length === 1 && signupRole[0] === "Cashier",
+    },
+    {
+      name: "Manager",
+      role: ["Manager"],
+      active: signupRole.length === 1 && signupRole[0] === "Manager",
+    },
+    {
+      name: "Both",
+      role: ["Cashier", "Manager"],
+      active: signupRole.length === 2 && signupRole[1] === "Manager",
+    },
+  ];
+
+  const enableSignup =
+    signupEmail &&
+    signupPassword &&
+    signupUsername &&
+    signupPassword &&
+    signupConfirmPassword &&
+    signupRole.length > 0 &&
+    signupConfirmPassword === signupPassword;
+
+  const enableLogin = loginEmail && loginPassword && loginRole;
+
+  const showToast = (type, message) => {
+    return toast({
+      title: message,
+      status: type,
+      duration: 1000,
+      isClosable: true,
+    });
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -36,21 +79,22 @@ export default function Auth() {
         },
         { withCredentials: true }
       );
+      showToast("success", response.data.message);
+      navigate("/route-handler");
     } catch (error) {
-      console.log(error);
+      showToast("error", error.response.data.message);
     }
   };
 
-  const handleSignin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "/signup",
+        "/login",
         {
-          username: signupUsername,
-          password: signupPassword,
-          email: signupEmail,
-          role: ["cashier"],
+          email: loginEmail,
+          password: loginPassword,
+          role: loginRole,
         },
         { withCredentials: true }
       );
@@ -78,7 +122,7 @@ export default function Auth() {
         rowGap="1.5rem"
         paddingX={{ base: "1.5rem", md: "2.5rem", xl: "4.5rem" }}
       >
-        <Box>
+        <Box w="100%" textAlign="left">
           <Heading
             size={{ base: "lg", md: "xl" }}
             fontFamily='"Cabin", sans-serif'
@@ -87,21 +131,21 @@ export default function Auth() {
             {authType === "signup" ? "Create an account" : "Welcome back"}
           </Heading>
           <Text
-            fontSize={{ base: "xs", md: "md" }}
+            fontSize={{ base: "sm", md: "md" }}
             fontFamily='"Inter", sans-serif'
           >
             {authType === "signup"
               ? "Sign up now and get started."
-              : "Please select a role and enter your details."}
+              : "Please select a role and enter your details to login."}
           </Text>
         </Box>
         {authType === "signup" && (
           <form
-            onSubmit={handleSignup}
             style={{
               width: "100%",
-              display: "grid",
-              placeItems: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
               rowGap: "1rem",
             }}
           >
@@ -126,18 +170,71 @@ export default function Auth() {
               placeholder="Password"
               variant="flushed"
             />
-            <Input
-              type="password"
-              onChange={(e) => setSignupPassword(e.target.value)}
-              value={signupPassword}
-              placeholder="Confirm Password"
-              variant="flushed"
-            />
+            <FormControl isInvalid={signupPassword !== signupConfirmPassword}>
+              <Input
+                type="password"
+                onChange={(e) => setSignupConfirmPassword(e.target.value)}
+                value={signupConfirmPassword}
+                placeholder="Confirm Password"
+                variant="flushed"
+              />
+              <FormErrorMessage>Password does not match</FormErrorMessage>
+            </FormControl>
+            <Text
+              fontSize={{ base: "sm", md: "md" }}
+              fontFamily='"Inter", sans-serif'
+              alignSelf="flex-start"
+              mt={4}
+            >
+              Please select a role
+            </Text>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              w="100%"
+            >
+              {roles.map((role) => (
+                <Button
+                  key={role.name}
+                  bgColor={role.active ? "#dff4ce" : "#323130"}
+                  color={role.active ? "#323130" : "white"}
+                  fontFamily='"Inter", sans-serif'
+                  fontSize="xs"
+                  onClick={() => setSignupRole(role.role)}
+                >
+                  {role.name}
+                </Button>
+              ))}
+            </Box>
           </form>
         )}
-        {authType === "signin" && (
+        {!loginRole && authType === "login" && (
+          <Box w="100%" display="grid" rowGap="1rem">
+            <Button
+              onClick={() => setLoginRole("Cashier")}
+              variant="outline"
+              leftIcon={<FaCashRegister />}
+              w="100%"
+              bgColor="#323130"
+              color="white"
+            >
+              Cashier
+            </Button>
+            <Button
+              onClick={() => setLoginRole("Manager")}
+              variant="outline"
+              leftIcon={<FaUsersCog />}
+              w="100%"
+              bgColor="#323130"
+              color="white"
+            >
+              Manager
+            </Button>
+          </Box>
+        )}
+        {loginRole && authType === "login" && (
           <form
-            onSubmit={handleSignup}
             style={{
               width: "100%",
               display: "grid",
@@ -148,14 +245,14 @@ export default function Auth() {
             <Input
               type="email"
               variant="flushed"
-              onChange={(e) => setSignupEmail(e.target.value)}
-              value={signupEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              value={loginEmail}
               placeholder="Email"
             />
             <Input
               type="password"
-              onChange={(e) => setSignupPassword(e.target.value)}
-              value={signupPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+              value={loginPassword}
               placeholder="Password"
               variant="flushed"
             />
@@ -169,6 +266,8 @@ export default function Auth() {
               bgColor="#323130"
               color="white"
               type="submit"
+              isDisabled={!enableSignup}
+              onClick={handleSignup}
             >
               Signup
             </Button>
@@ -186,14 +285,14 @@ export default function Auth() {
                 color="#3182CE"
                 cursor="pointer"
                 _hover={{ opacity: ".45" }}
-                onClick={() => setAuthType("signin")}
+                onClick={() => setAuthType("login")}
               >
-                Signin
+                Login
               </Text>
             </Box>
           </>
         )}
-        {authType === "signin" && (
+        {loginRole && authType === "login" && (
           <>
             <Button
               w="100%"
@@ -201,8 +300,10 @@ export default function Auth() {
               bgColor="#323130"
               color="white"
               type="submit"
+              isDisabled={!enableLogin}
+              onClick={handleLogin}
             >
-              Signin
+              Login
             </Button>
             <Box display="flex" alignItems="center" columnGap=".25rem">
               <Text
@@ -218,7 +319,10 @@ export default function Auth() {
                 color="#3182CE"
                 cursor="pointer"
                 _hover={{ opacity: ".45" }}
-                onClick={() => setAuthType("signup")}
+                onClick={() => {
+                  setAuthType("signup");
+                  setLoginRole("");
+                }}
               >
                 Signup
               </Text>
