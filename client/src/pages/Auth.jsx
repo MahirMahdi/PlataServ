@@ -17,6 +17,7 @@ export default function Auth() {
   const toast = useToast();
   const navigate = useNavigate();
   const [authType, setAuthType] = useState("signup");
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const [signupUsername, setSignupUsername] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
@@ -47,7 +48,7 @@ export default function Auth() {
   ];
 
   const enableSignup =
-    signupEmail &&
+    emailRegex.test(signupEmail) &&
     signupPassword &&
     signupUsername &&
     signupPassword &&
@@ -55,7 +56,7 @@ export default function Auth() {
     signupRole.length > 0 &&
     signupConfirmPassword === signupPassword;
 
-  const enableLogin = loginEmail && loginPassword && loginRole;
+  const enableLogin = emailRegex.test(loginEmail) && loginPassword && loginRole;
 
   const showToast = (type, message) => {
     return toast({
@@ -82,7 +83,7 @@ export default function Auth() {
       showToast("success", response.data.message);
       navigate("/route-handler");
     } catch (error) {
-      showToast("error", error.response.data.message);
+      showToast("error", error.response.data.message ?? "Error");
     }
   };
 
@@ -98,8 +99,10 @@ export default function Auth() {
         },
         { withCredentials: true }
       );
+      showToast("success", response.data.message);
+      navigate("/route-handler");
     } catch (error) {
-      console.log(error);
+      showToast("error", error.response.data.message ?? "Error");
     }
   };
 
@@ -156,13 +159,16 @@ export default function Auth() {
               value={signupUsername}
               placeholder="Username"
             />
-            <Input
-              type="email"
-              variant="flushed"
-              onChange={(e) => setSignupEmail(e.target.value)}
-              value={signupEmail}
-              placeholder="Email"
-            />
+            <FormControl isInvalid={!emailRegex.test(signupEmail)}>
+              <Input
+                type="email"
+                variant="flushed"
+                onChange={(e) => setSignupEmail(e.target.value)}
+                value={signupEmail}
+                placeholder="Email"
+              />
+              <FormErrorMessage>Invalid email.</FormErrorMessage>
+            </FormControl>
             <Input
               type="password"
               onChange={(e) => setSignupPassword(e.target.value)}
@@ -188,12 +194,7 @@ export default function Auth() {
             >
               Please select a role
             </Text>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              w="100%"
-            >
+            <Box display="flex" alignItems="center" columnGap="1rem" w="100%">
               {roles.map((role) => (
                 <Button
                   key={role.name}
@@ -242,13 +243,16 @@ export default function Auth() {
               rowGap: "1rem",
             }}
           >
-            <Input
-              type="email"
-              variant="flushed"
-              onChange={(e) => setLoginEmail(e.target.value)}
-              value={loginEmail}
-              placeholder="Email"
-            />
+            <FormControl isInvalid={!emailRegex.test(loginEmail)}>
+              <Input
+                type="email"
+                variant="flushed"
+                onChange={(e) => setLoginEmail(e.target.value)}
+                value={loginEmail}
+                placeholder="Email"
+              />
+              <FormErrorMessage>Invalid email.</FormErrorMessage>
+            </FormControl>
             <Input
               type="password"
               onChange={(e) => setLoginPassword(e.target.value)}
