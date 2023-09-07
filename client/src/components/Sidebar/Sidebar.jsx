@@ -22,6 +22,9 @@ import { BsCashCoin } from "react-icons/bs";
 import { GiCoins } from "react-icons/gi";
 import { MdOutlineSpaceDashboard, MdOutlineInventory } from "react-icons/md";
 import Logo from "../Shared/Logo";
+import useAuth from "../../hooks/useAuth";
+import api from "../../api/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
   return (
@@ -89,7 +92,18 @@ export const theme = extendTheme({
 });
 
 function SidebarBody() {
-  const role = window.sessionStorage.getItem("role");
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await api.get("/logout", { withCredentials: true });
+      navigate("/login");
+    } catch (error) {
+      return error;
+    }
+  };
+
   return (
     <Box
       position="fixed"
@@ -120,11 +134,7 @@ function SidebarBody() {
         justifyContent="flex-start"
         columnGap="1rem"
       >
-        {role === "cashier" ? (
-          <UserCard user={user_data.cashier} />
-        ) : (
-          <UserCard user={user_data.manager} />
-        )}
+        <UserCard user={user?.user} />
       </Box>
       <Divider orientation="horizontal" />
       <Box
@@ -137,7 +147,7 @@ function SidebarBody() {
         w="100%"
       >
         {sidebar_data
-          .filter((data) => data.user_type === role)
+          .filter((data) => data.user_type === user?.user?.role[0])
           .map((data) =>
             data.items.map((item, i) => (
               <SidebarItem
@@ -159,19 +169,39 @@ function SidebarBody() {
         alignItems="flex-start"
         w="100%"
       >
-        {sidebar_data
-          .filter((data) => data.user_type === "all")
-          .map((data) =>
-            data.items.map((item, i) => (
-              <SidebarItem
-                key={i}
-                route={item.route}
-                icon={item.icon}
-                item={item.item}
-                testid={item.testid}
-              />
-            ))
-          )}
+        <SidebarItem
+          route="/help-support"
+          icon={<AiOutlineInfoCircle size={24} />}
+          item="Help & Support"
+          testid="test-help-support"
+        />
+        <Box
+          w="100%"
+          padding={{ base: "1.25rem 1.25rem", sm: "1.25rem 1rem" }}
+          display="flex"
+          alignItems="center"
+          justifyContent="flex-start"
+          columnGap="1rem"
+          borderRadius=".5rem"
+          _hover={{
+            textDecoration: "none",
+            color: "white",
+            bgColor: "#323130",
+            transition: ".3s",
+          }}
+          cursor="pointer"
+          data-testid="test-logout"
+          onClick={handleLogout}
+        >
+          <IoLogOutOutline size={24} />
+          <Text
+            fontSize="md"
+            fontFamily="'Poppins', sans-serif"
+            fontWeight="light"
+          >
+            Logout
+          </Text>
+        </Box>
       </Box>
     </Box>
   );
@@ -216,7 +246,7 @@ function SidebarItem({ route, icon, item, testid }) {
 
 const sidebar_data = [
   {
-    user_type: "cashier",
+    user_type: "Cashier",
     items: [
       {
         item: "Menu",
@@ -233,7 +263,7 @@ const sidebar_data = [
     ],
   },
   {
-    user_type: "manager",
+    user_type: "Manager",
     items: [
       {
         item: "Dashboard",
@@ -261,61 +291,31 @@ const sidebar_data = [
       },
     ],
   },
-  {
-    user_type: "all",
-    items: [
-      {
-        item: "Help & Support",
-        route: "/help-support",
-        icon: <AiOutlineInfoCircle size={24} />,
-        testid: "test-help-support",
-      },
-      {
-        item: "Logout",
-        route: "/",
-        icon: <IoLogOutOutline size={24} />,
-        testid: "test-logout",
-      },
-    ],
-  },
 ];
-
-const user_data = {
-  manager: {
-    name: "Olivia Johnson",
-    image: "olivia.jpg",
-    role: "Manager",
-  },
-  cashier: {
-    name: "Michael Davis",
-    image: "davis.jpg",
-    role: "Cashier",
-  },
-};
 
 function MenuIcon() {
   return <Icon color="white" w="1.25rem" h="1.25rem" as={HiOutlineMenuAlt2} />;
 }
 
 function UserCard({ user }) {
-  const { name, image, role } = user;
+  const { username, role } = user;
   return (
     <>
-      <Avatar src={`${import.meta.env.VITE_CDN_URL}/${image}`} />
+      <Avatar name={username} />
       <Box>
         <Text
           fontSize="lg"
           fontFamily="'Poppins', sans-serif"
           color="blackAlpha.700"
         >
-          {name}
+          {username}
         </Text>
         <Text
           fontSize="xs"
           fontFamily="'Poppins', sans-serif"
           color="blackAlpha.500"
         >
-          {role}
+          {role[0]}
         </Text>
       </Box>
     </>
