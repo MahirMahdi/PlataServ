@@ -1,17 +1,22 @@
 import { Outlet, Navigate } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
+import useAuth from "../../hooks/useAuth";
 
 export default function ProtectedRoute({ providedRole }) {
-  const role = window.sessionStorage.getItem("role");
+  const { user } = useAuth();
 
-  if (providedRole === role) {
+  if (!user?.accessToken) {
+    return <Navigate to="/login" />;
+  }
+
+  if (user?.user?.role.includes(providedRole)) {
     return (
       <>
         <Sidebar />
         <Outlet />
       </>
     );
-  } else {
-    return <Navigate to="/unauthorized" />;
   }
+
+  return <Navigate to="/unauthorized" />;
 }

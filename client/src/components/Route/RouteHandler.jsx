@@ -1,19 +1,16 @@
-import { useEffect } from "react";
-import Loading from "../Shared/Loading";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 export default function RouteHandler() {
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const role = window.sessionStorage.getItem("role");
+  if (user?.user.role.includes("Cashier")) {
+    return <Navigate to="/menu" />;
+  }
 
-    if (role === "cashier") {
-      navigate("/menu");
-    } else {
-      navigate("/inventory");
-    }
-  }, []);
+  if (user?.user.role.includes("Manager")) {
+    return <Navigate to="/inventory" />;
+  }
 
-  return <Loading />;
+  return <Navigate to="/unauthorized" />;
 }
