@@ -5,6 +5,7 @@ import {
   TagLabel,
   TagLeftIcon,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import Logo from "../components/Shared/Logo";
 import { FaBolt, FaGripfire } from "react-icons/fa";
@@ -29,11 +30,45 @@ import BannerListItem from "../components/Home/BannerListItem";
 import FooterContentList from "../components/Home/FooterContentList";
 import { LandingPageButton } from "../components/Shared/Buttons";
 import { useNavigate } from "react-router-dom";
+import axios from "../api/api";
+import useAuth from "../hooks/useAuth";
 
 export default function Home() {
+  const { setUser } = useAuth();
   const navigate = useNavigate();
-  const auth = (role) => {
-    window.sessionStorage.setItem("role", role);
+  const toast = useToast();
+
+  const showToast = (type, message) => {
+    return toast({
+      title: message,
+      status: type,
+      duration: 1000,
+      isClosable: true,
+    });
+  };
+
+  const handleLogin = async (loginDetails) => {
+    const { email, password, role } = loginDetails;
+    try {
+      const response = await axios.post(
+        "/login",
+        {
+          email: email,
+          password: password,
+          role: [role],
+        },
+        { withCredentials: true }
+      );
+      showToast("success", response.data.message);
+      setUser({
+        user: response.data.user,
+        accessToken: response.data.accessToken,
+      });
+      navigate("/route-handler");
+    } catch (error) {
+      console.log(error);
+      showToast("error", error.response.data.message ?? "Error");
+    }
   };
 
   return (
@@ -174,7 +209,7 @@ export default function Home() {
             <FeatureCard
               key={i}
               feature={feature}
-              authFunction={auth}
+              authFunction={() => handleLogin(feature.loginDetails)}
               align={i === 1 && "reverse"}
               buttonIcon={<IoIosArrowRoundForward size={24} />}
               featureTestId={feature.featureTestId}
@@ -298,6 +333,11 @@ const feature_list = [
     role: "cashier",
     featureTestId: "feature-card-pos",
     linkTestId: "pos-link",
+    loginDetails: {
+      email: "md@email.com",
+      password: import.meta.env.VITE_DEMO_USER_PASSWORD,
+      role: "Cashier",
+    },
   },
   {
     icon: <GiStack size={20} color="white" />,
@@ -309,6 +349,11 @@ const feature_list = [
     role: "manager",
     featureTestId: "feature-card-admin",
     linkTestId: "admin-link",
+    loginDetails: {
+      email: "oj@email.com",
+      password: import.meta.env.VITE_DEMO_USER_PASSWORD,
+      role: "Manager",
+    },
   },
   {
     icon: <MdTrackChanges size={20} color="white" />,

@@ -9,7 +9,7 @@ export default function FeatureCard({
   featureTestId,
   linkTestId,
 }) {
-  const { icon, headline, tagline, image, buttonName, role } = feature;
+  const { icon, headline, tagline, image, buttonName } = feature;
   return (
     <Box
       display={{ base: "grid", lg: "flex" }}
@@ -60,7 +60,7 @@ export default function FeatureCard({
               rightIcon={buttonIcon}
               variant="link"
               colorScheme="purple"
-              onClick={() => authFunction(role)}
+              onClick={authFunction}
               data-testid={linkTestId}
             >
               {buttonName}
