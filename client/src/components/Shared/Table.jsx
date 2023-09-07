@@ -14,7 +14,12 @@ export default function InventoryTable({ reports }) {
     return Number((total_packs * pack_price).toFixed(2));
   };
 
-  const total = Number(reports.reduce((acc, curr) => acc + totalPrice(curr.total_packs, curr.pack_price), 0)).toFixed(2)
+  const total = Number(
+    reports.reduce(
+      (acc, curr) => acc + totalPrice(curr.total_packs, curr.pack_price),
+      0
+    )
+  ).toFixed(2);
 
   return (
     <TableContainer border=".25px solid #dfe6e0" borderRadius="5px">
@@ -34,7 +39,7 @@ export default function InventoryTable({ reports }) {
           </Tr>
         </Thead>
         <Tbody>
-         {reports.length > 0 ? (
+          {reports.length > 0 ? (
             reports.map((report, i) => (
               <Tr key={i}>
                 <Td>{report.name}</Td>
@@ -61,11 +66,13 @@ export default function InventoryTable({ reports }) {
               </Td>
             </Tr>
           )}
-          {reports.length > 0 && <Tr>
-            <Td colSpan={4}></Td>
-          <Td fontWeight="semibold">Total</Td>
-          <Td>{total}</Td>
-          </Tr>}
+          {reports.length > 0 && (
+            <Tr>
+              <Td colSpan={4}></Td>
+              <Td fontWeight="semibold">Total</Td>
+              <Td>{total}</Td>
+            </Tr>
+          )}
         </Tbody>
       </Table>
     </TableContainer>
@@ -158,8 +165,13 @@ export function FinanceTable({ reports }) {
 }
 
 export function SalesTable({ reports }) {
-  const totalSales = Number(reports.reduce((acc,curr)=> acc + curr.total_sales,0)).toFixed(2)
-  const totalUnitsSold = reports.reduce((acc,curr)=> acc + curr.units_sold,0)
+  const totalSales = Number(
+    reports.reduce((acc, curr) => acc + curr.total_sales, 0)
+  ).toFixed(2);
+  const totalUnitsSold = reports.reduce(
+    (acc, curr) => acc + curr.units_sold,
+    0
+  );
 
   return (
     <TableContainer border=".25px solid #dfe6e0" borderRadius="5px">
@@ -184,9 +196,9 @@ export function SalesTable({ reports }) {
             </Tr>
           ))}
           <Tr>
-          <Td fontWeight="semibold">Total</Td>
-              <Td>{totalUnitsSold}</Td>
-              <Td>{totalSales}</Td>
+            <Td fontWeight="semibold">Total</Td>
+            <Td>{totalUnitsSold}</Td>
+            <Td>{totalSales}</Td>
           </Tr>
         </Tbody>
       </Table>
@@ -195,7 +207,10 @@ export function SalesTable({ reports }) {
 }
 
 export function SpeedOfServiceTable({ reports }) {
-  const totalTicketCount = reports.by_period?.reduce((acc,curr)=> acc + curr.count,0)
+  const totalTicketCount = reports.by_period?.reduce(
+    (acc, curr) => acc + curr.count,
+    0
+  );
   return (
     <TableContainer border=".25px solid #dfe6e0" borderRadius="5px">
       <Table

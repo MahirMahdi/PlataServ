@@ -67,8 +67,8 @@ export default function Dashboard() {
   const [totalPacks, setTotalPacks] = useState("");
   const [supplies, setSupplies] = useState([]);
   const [total, setTotal] = useState(0);
-  const [allItems, setAllItems] = useState(false)
-  const [supplyState,setSupplyState] = useState(0)
+  const [allItems, setAllItems] = useState(false);
+  const [supplyState, setSupplyState] = useState(0);
 
   // product functions
   const handleType = (e) => {
@@ -181,18 +181,22 @@ export default function Dashboard() {
     setTotalPacks(e.target.value);
   };
 
-  const  addAllItems = () => {
+  const addAllItems = () => {
     for (const item of itemInfo) {
-      const commonIndex = supplies.findIndex(supply => supply.name === item.name);
+      const commonIndex = supplies.findIndex(
+        (supply) => supply.name === item.name
+      );
       if (commonIndex !== -1) {
         const supply = supplies?.filter((supply) => supply.name === name)[0];
-    let packs = Number(supply.total_packs)
-    packs += 1
-    setSupplyState(supplyState + 1)
-    supply.total_packs = packs
-    const indexOfSupply = supplies?.findIndex((supply) => supply.name === name)
-    supplies[indexOfSupply] = supply
-    setSupplies(supplies)
+        let packs = Number(supply.total_packs);
+        packs += 1;
+        setSupplyState(supplyState + 1);
+        supply.total_packs = packs;
+        const indexOfSupply = supplies?.findIndex(
+          (supply) => supply.name === name
+        );
+        supplies[indexOfSupply] = supply;
+        setSupplies(supplies);
       } else {
         setSupplies((prev) => [
           ...prev,
@@ -207,32 +211,33 @@ export default function Dashboard() {
           },
         ]);
       }
-      setSupplyState(supplyState + 1)
+      setSupplyState(supplyState + 1);
     }
-  }
+  };
 
   const removeAllItems = () => {
-    setSupplies(supplies.filter(obj => {
-      if (obj.total_packs === 1) {
-        return false; 
-      } else {
-        obj.total_packs -= 1; 
-        return true; 
-      }
-    }));
-    setSupplyState(supplyState - 1)
-  }
+    setSupplies(
+      supplies.filter((obj) => {
+        if (obj.total_packs === 1) {
+          return false;
+        } else {
+          obj.total_packs -= 1;
+          return true;
+        }
+      })
+    );
+    setSupplyState(supplyState - 1);
+  };
 
   const checkAllItems = () => {
-    if(allItems){
-      removeAllItems()
-      setAllItems(false)
+    if (allItems) {
+      removeAllItems();
+      setAllItems(false);
+    } else {
+      addAllItems();
+      setAllItems(true);
     }
-    else{
-      addAllItems()
-      setAllItems(true)
-    }
-  }
+  };
 
   const addItem = () => {
     setSupplies((prev) => [
@@ -258,39 +263,40 @@ export default function Dashboard() {
   const decreaseSupplyItems = (name) => {
     const supply = supplies?.filter((supply) => supply.name === name)[0];
 
-    if(supply.total_packs === 1){
+    if (supply.total_packs === 1) {
       setSupplies(supplies?.filter((supply) => supply.name !== name));
-      setSupplyState(supplyState - 1)
-    }
-    
-    else{
-      let packs = Number(supply.total_packs)
-    packs -= 1
-    setSupplyState(supplyState - 1)
-    supply.total_packs = packs
-    const indexOfSupply = supplies?.findIndex((supply) => supply.name === name)
-    supplies[indexOfSupply] = supply
-    setSupplies(supplies)
+      setSupplyState(supplyState - 1);
+    } else {
+      let packs = Number(supply.total_packs);
+      packs -= 1;
+      setSupplyState(supplyState - 1);
+      supply.total_packs = packs;
+      const indexOfSupply = supplies?.findIndex(
+        (supply) => supply.name === name
+      );
+      supplies[indexOfSupply] = supply;
+      setSupplies(supplies);
     }
   };
 
   const increaseSupplyItems = (name) => {
     const supply = supplies?.filter((supply) => supply.name === name)[0];
-    let packs = Number(supply.total_packs)
-    packs += 1
-    setSupplyState(supplyState + 1)
-    supply.total_packs = packs
-    const indexOfSupply = supplies?.findIndex((supply) => supply.name === name)
-    supplies[indexOfSupply] = supply
-    setSupplies(supplies)
+    let packs = Number(supply.total_packs);
+    packs += 1;
+    setSupplyState(supplyState + 1);
+    supply.total_packs = packs;
+    const indexOfSupply = supplies?.findIndex((supply) => supply.name === name);
+    supplies[indexOfSupply] = supply;
+    setSupplies(supplies);
   };
 
   const supplyCalculations = () => {
-    let total = 0;
-    supplies?.map(
-      (supply) => (total += supply.total_packs * supply.pack_price)
+    setTotal(
+      supplies.reduce(
+        (prev, curr) => prev + curr.total_packs * curr.pack_price,
+        0
+      )
     );
-    setTotal(total);
   };
 
   const orderSupplies = async () => {
@@ -310,7 +316,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     supplyCalculations();
-  }, [supplyState]);
+  }, [supplies]);
 
   //alert states
   const [alerts, setAlerts] = useState();
@@ -413,7 +419,6 @@ export default function Dashboard() {
   useEffect(() => {
     getPARBuilderOrder();
   }, [alerts]);
-
 
   return (
     <Box display="flex" w="100vw" h="100vh">
