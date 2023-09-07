@@ -12,9 +12,11 @@ import axios from "../api/api";
 import { useState } from "react";
 import { FaCashRegister, FaUsersCog } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 export default function Auth() {
   const toast = useToast();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const [authType, setAuthType] = useState("signup");
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -81,7 +83,7 @@ export default function Auth() {
         { withCredentials: true }
       );
       showToast("success", response.data.message);
-      navigate("/route-handler");
+      setAuthType("login");
     } catch (error) {
       showToast("error", error.response.data.message ?? "Error");
     }
@@ -95,13 +97,18 @@ export default function Auth() {
         {
           email: loginEmail,
           password: loginPassword,
-          role: loginRole,
+          role: [loginRole],
         },
         { withCredentials: true }
       );
       showToast("success", response.data.message);
+      setUser({
+        user: response.data.user,
+        accessToken: response.data.accessToken,
+      });
       navigate("/route-handler");
     } catch (error) {
+      console.log(error);
       showToast("error", error.response.data.message ?? "Error");
     }
   };

@@ -1,16 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { customTheme } from "./utils/theme";
-import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path="/*" element={<App />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   </React.StrictMode>
 );
