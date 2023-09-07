@@ -79,7 +79,7 @@ export async function updateInventory(req, res) {
 
       Inventory.bulkWrite(bulkUpdate, options, function (err, result) {
         if (!err && result.nMatched > 0) {
-          res.json({ success: "Inventory updated!" });
+          res.json({ success: "Order confirmed!" });
         } else {
           res.json({ error: "Ingredient unavailable" });
         }
