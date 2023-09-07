@@ -138,3 +138,24 @@ export async function refreshToken(req, res) {
     return res.status(401).json({ message: "Token unavailable" });
   }
 }
+
+export async function handleLogout(req, res) {
+  try {
+    const cookies = req.cookies;
+
+    if (!cookies?.jwt) {
+      return res.status(204).json("Token unavailable");
+    }
+
+    res.clearCookie("jwt", {
+      secure: true,
+      httpOnly: true,
+      sameSite: "none",
+    });
+
+    return res.status(200).json({ message: "Logged out succesfully!" });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+}
