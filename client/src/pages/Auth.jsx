@@ -9,13 +9,15 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "../api/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCashRegister, FaUsersCog } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import useRefreshToken from "../hooks/useRefreshToken";
 
 export default function Auth() {
   const toast = useToast();
+  const refresh = useRefreshToken();
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const [authType, setAuthType] = useState("signup");
@@ -112,6 +114,21 @@ export default function Auth() {
       showToast("error", error.response.data.message ?? "Error");
     }
   };
+
+  useEffect(() => {
+    const check = async () => {
+      try {
+        const response = await refresh();
+        if (response.status === 201) {
+          navigate("/route-handler");
+        }
+      } catch (error) {
+        return error;
+      }
+    };
+
+    check();
+  }, []);
 
   return (
     <Box

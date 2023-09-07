@@ -1,10 +1,8 @@
 import useAuth from "./useAuth";
 import api from "../api/api";
-import { useNavigate } from "react-router-dom";
 
 export default function useRefreshToken() {
   const { setUser } = useAuth();
-  const navigate = useNavigate();
 
   const refreshToken = async () => {
     try {
@@ -13,8 +11,10 @@ export default function useRefreshToken() {
         user: response.data.user,
         accessToken: response.data.accessToken,
       });
+
+      return response;
     } catch (error) {
-      navigate("/");
+      return error;
     }
   };
 

@@ -10,22 +10,18 @@ export default function PersistSession() {
   const [isLoading, setIsLoadig] = useState(true);
   const refreshToken = useRefreshToken();
 
-  const verifyUser = async () => {
+  const verifyRefreshToken = async () => {
     try {
       await refreshToken();
     } catch (error) {
       navigate("/login");
+    } finally {
+      setIsLoadig(false);
     }
   };
 
   useEffect(() => {
-    if (!user?.accessToken) {
-      verifyUser();
-    }
-
-    return () => {
-      setIsLoadig(false);
-    };
+    !user?.accessToken ? verifyRefreshToken() : setIsLoadig(false);
   }, []);
 
   return isLoading ? <Loading /> : <Outlet />;
