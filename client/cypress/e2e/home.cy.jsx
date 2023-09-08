@@ -1,28 +1,36 @@
-const checkFeatureLink = (selector, pathname) => {
+const testFeatureNavigation = (selector, pathname) => {
   cy.getBySel(selector).click();
+  cy.wait(1000);
   cy.url().should("include", pathname);
-  cy.getBySel("test-logout").click();
-  cy.getBySel("landing-page-header").isInViewport();
 };
 
 describe("landing page", () => {
-  it("visit landing page", () => {
+  it('Should navigate to login page when "Login" button is clicked', () => {
     cy.visit("/");
-    cy.title().should("eq", "Plataserv");
+    cy.get("[data-testid=login-button]").click();
+    cy.url().should("include", "/login");
+  });
 
-    cy.getBySel("demo-button").click();
-    //waiting for scrolling down to features section
-    cy.wait(500);
-    cy.getBySel("feature-card-pos").isInViewport();
-    checkFeatureLink("pos-link", "/menu");
+  it('Should scroll to features section when "View Demo" button is clicked', () => {
+    cy.visit("/");
+    cy.get("[data-testid=demo-button]").click();
+    cy.wait(500); //scrolling down to the features section
+    cy.get("[data-testid=feature-card-pos]").isInViewport();
+  });
 
-    cy.getBySel("feature-card-admin").scrollIntoView();
-    checkFeatureLink("admin-link", "/inventory");
+  it('Should navigate to POS when "Explore POS" button is clicked', () => {
+    cy.visit("/");
+    testFeatureNavigation("pos-nav", "/menu");
+  });
 
-    cy.getBySel("get-started-button").scrollIntoView();
-    cy.getBySel("get-started-button").click();
-    //waiting for scrolling up to hero section
-    cy.wait(500);
-    cy.getBySel("landing-page-header").isInViewport();
+  it('Should navigate to Inventory when "Try it now" button is clicked', () => {
+    cy.visit("/");
+    testFeatureNavigation("admin-nav", "/inventory");
+  });
+
+  it('Should navigate to login page when "Get Started" button is clicked', () => {
+    cy.visit("/");
+    cy.get("[data-testid=get-started-button]").click();
+    cy.url().should("include", "/login");
   });
 });

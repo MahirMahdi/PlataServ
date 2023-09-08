@@ -184,8 +184,8 @@ export default function Home() {
               columnGap=".75rem"
               rowGap="1rem"
             >
-              {banner_list.map((item, i) => (
-                <BannerListItem key={i} item={item} />
+              {banner_list.map((item) => (
+                <BannerListItem key={item.name} item={item} />
               ))}
             </Box>
           </Box>
@@ -207,13 +207,13 @@ export default function Home() {
         >
           {feature_list.map((feature, i) => (
             <FeatureCard
-              key={i}
+              key={feature.headline}
               feature={feature}
               authFunction={() => handleLogin(feature.loginDetails)}
               align={i === 1 && "reverse"}
               buttonIcon={<IoIosArrowRoundForward size={24} />}
               featureTestId={feature.featureTestId}
-              linkTestId={feature.linkTestId}
+              linkTestId={feature.navigationTestId}
             />
           ))}
         </Box>
@@ -256,7 +256,7 @@ export default function Home() {
               name="Get Started"
               type="secondary"
               section={null}
-              testid="login-button"
+              testid="get-started-button"
               navigate={() => navigate("/login")}
             />
           </Box>
@@ -273,7 +273,7 @@ export default function Home() {
         flexWrap="wrap"
       >
         {footer_content_list.map((content, i) => (
-          <FooterContentList key={i} content={content} />
+          <FooterContentList key={content.heading} content={content} />
         ))}
         <Box
           display={{ base: "flex", sm: "grid" }}
@@ -332,10 +332,10 @@ const feature_list = [
     buttonName: "Explore POS",
     role: "cashier",
     featureTestId: "feature-card-pos",
-    linkTestId: "pos-link",
+    navigationTestId: "pos-nav",
     loginDetails: {
       email: "md@email.com",
-      password: import.meta.env.VITE_DEMO_USER_PASSWORD,
+      password: "abcd1234",
       role: "Cashier",
     },
   },
@@ -348,10 +348,10 @@ const feature_list = [
     buttonName: "Try it now",
     role: "manager",
     featureTestId: "feature-card-admin",
-    linkTestId: "admin-link",
+    navigationTestId: "admin-nav",
     loginDetails: {
       email: "oj@email.com",
-      password: import.meta.env.VITE_DEMO_USER_PASSWORD,
+      password: "abcd1234",
       role: "Manager",
     },
   },
