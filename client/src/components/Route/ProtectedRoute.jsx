@@ -5,10 +5,6 @@ import useAuth from "../../hooks/useAuth";
 export default function ProtectedRoute({ providedRole }) {
   const { user } = useAuth();
 
-  if (!user?.accessToken) {
-    return <Navigate to="/login" />;
-  }
-
   if (user?.user?.role.includes(providedRole)) {
     return (
       <>

@@ -153,7 +153,7 @@ export default function Auth() {
           <Heading
             size={{ base: "lg", md: "xl" }}
             fontFamily='"Cabin", sans-serif'
-            data-testid="landing-page-header"
+            data-testid="auth-page-header"
           >
             {authType === "signup" ? "Create an account" : "Welcome back"}
           </Heading>
@@ -194,7 +194,7 @@ export default function Auth() {
                 placeholder="Email"
                 data-testid="signup-email"
               />
-              <FormErrorMessage data-testid="email-warning-text">
+              <FormErrorMessage data-testid="signup-email-error">
                 Invalid email.
               </FormErrorMessage>
             </FormControl>
@@ -236,7 +236,7 @@ export default function Auth() {
                   fontFamily='"Inter", sans-serif'
                   fontSize="xs"
                   onClick={() => setSignupRole(role.role)}
-                  data-testId={`signup-${role.name}`}
+                  data-testId={`signup-role-${role.name}`}
                 >
                   {role.name}
                 </Button>
@@ -258,6 +258,7 @@ export default function Auth() {
               w="100%"
               bgColor="#323130"
               color="white"
+              data-testid="login-role-cashier"
             >
               Cashier
             </Button>
@@ -268,6 +269,7 @@ export default function Auth() {
               w="100%"
               bgColor="#323130"
               color="white"
+              data-testid="login-role-manager"
             >
               Manager
             </Button>
@@ -281,6 +283,8 @@ export default function Auth() {
               placeItems: "center",
               rowGap: "1rem",
             }}
+            data-testid="login-form"
+            data-state={loginRole}
           >
             <FormControl isInvalid={!emailRegex.test(loginEmail)}>
               <Input
@@ -289,8 +293,11 @@ export default function Auth() {
                 onChange={(e) => setLoginEmail(e.target.value)}
                 value={loginEmail}
                 placeholder="Email"
+                data-testid="login-email"
               />
-              <FormErrorMessage>Invalid email.</FormErrorMessage>
+              <FormErrorMessage data-testid="login-email-error">
+                Invalid email.
+              </FormErrorMessage>
             </FormControl>
             <Input
               type="password"
@@ -298,6 +305,7 @@ export default function Auth() {
               value={loginPassword}
               placeholder="Password"
               variant="flushed"
+              data-testid="login-password"
             />
           </form>
         )}
@@ -347,6 +355,7 @@ export default function Auth() {
               type="submit"
               isDisabled={!enableLogin}
               onClick={handleLogin}
+              data-testid="login-button"
             >
               Login
             </Button>
@@ -368,6 +377,7 @@ export default function Auth() {
                   setAuthType("signup");
                   setLoginRole("");
                 }}
+                data-testid="auth-type-signup"
               >
                 Signup
               </Text>
