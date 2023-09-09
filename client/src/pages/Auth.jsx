@@ -175,6 +175,7 @@ export default function Auth() {
               alignItems: "center",
               rowGap: "1rem",
             }}
+            data-testid="signup-form"
           >
             <Input
               type="text"
@@ -182,6 +183,7 @@ export default function Auth() {
               onChange={(e) => setSignupUsername(e.target.value)}
               value={signupUsername}
               placeholder="Username"
+              data-testid="signup-username"
             />
             <FormControl isInvalid={!emailRegex.test(signupEmail)}>
               <Input
@@ -190,8 +192,11 @@ export default function Auth() {
                 onChange={(e) => setSignupEmail(e.target.value)}
                 value={signupEmail}
                 placeholder="Email"
+                data-testid="signup-email"
               />
-              <FormErrorMessage>Invalid email.</FormErrorMessage>
+              <FormErrorMessage data-testid="email-warning-text">
+                Invalid email.
+              </FormErrorMessage>
             </FormControl>
             <Input
               type="password"
@@ -199,6 +204,7 @@ export default function Auth() {
               value={signupPassword}
               placeholder="Password"
               variant="flushed"
+              data-testid="signup-password"
             />
             <FormControl isInvalid={signupPassword !== signupConfirmPassword}>
               <Input
@@ -207,8 +213,11 @@ export default function Auth() {
                 value={signupConfirmPassword}
                 placeholder="Confirm Password"
                 variant="flushed"
+                data-testid="signup-confirm-password"
               />
-              <FormErrorMessage>Password does not match</FormErrorMessage>
+              <FormErrorMessage data-testid="password-warning-text">
+                Password does not match
+              </FormErrorMessage>
             </FormControl>
             <Text
               fontSize={{ base: "sm", md: "md" }}
@@ -227,6 +236,7 @@ export default function Auth() {
                   fontFamily='"Inter", sans-serif'
                   fontSize="xs"
                   onClick={() => setSignupRole(role.role)}
+                  data-testId={`signup-${role.name}`}
                 >
                   {role.name}
                 </Button>
@@ -235,7 +245,12 @@ export default function Auth() {
           </form>
         )}
         {!loginRole && authType === "login" && (
-          <Box w="100%" display="grid" rowGap="1rem">
+          <Box
+            w="100%"
+            display="grid"
+            rowGap="1rem"
+            data-testid="login-role-options"
+          >
             <Button
               onClick={() => setLoginRole("Cashier")}
               variant="outline"
@@ -296,6 +311,7 @@ export default function Auth() {
               type="submit"
               isDisabled={!enableSignup}
               onClick={handleSignup}
+              data-testid="signup-button"
             >
               Signup
             </Button>
@@ -314,6 +330,7 @@ export default function Auth() {
                 cursor="pointer"
                 _hover={{ opacity: ".45" }}
                 onClick={() => setAuthType("login")}
+                data-testid="auth-type-login"
               >
                 Login
               </Text>
