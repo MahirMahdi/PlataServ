@@ -28,13 +28,16 @@ import { mount } from "cypress/react";
 import { MemoryRouter } from "react-router-dom";
 import { customTheme } from "../../src/utils/theme";
 import { ChakraProvider } from "@chakra-ui/react";
+import AuthProvider from "../../src/contexts/AuthContext";
 
 Cypress.Commands.add("mount", (component, options = {}) => {
   const { routerProps = { initialEntries: ["/"] }, ...mountOptions } = options;
 
   const wrapped = (
     <MemoryRouter {...routerProps}>
-      <ChakraProvider theme={customTheme}>{component}</ChakraProvider>
+      <ChakraProvider theme={customTheme}>
+        <AuthProvider>{component}</AuthProvider>
+      </ChakraProvider>
     </MemoryRouter>
   );
 
