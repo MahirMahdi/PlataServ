@@ -4,31 +4,35 @@ const testFeatureNavigation = (selector, pathname) => {
   cy.url().should("include", pathname);
 };
 
-it('Should navigate to login page when "Login" button is clicked', () => {
-  cy.visit("/");
-  cy.get("[data-testid=login-button]").click();
+const testLoginNavigation = (selector) => {
+  cy.getBySel(selector).click();
   cy.url().should("include", "/login");
-});
+};
 
-it('Should scroll to features section when "View Demo" button is clicked', () => {
-  cy.visit("/");
-  cy.get("[data-testid=demo-button]").click();
-  cy.wait(500); //scrolling down to the features section
-  cy.get("[data-testid=feature-card-pos]").isInViewport();
-});
+describe("Landing page", () => {
+  beforeEach(() => {
+    cy.visit("/");
+  });
 
-it('Should navigate to POS when "Explore POS" button is clicked', () => {
-  cy.visit("/");
-  testFeatureNavigation("pos-nav", "/menu");
-});
+  it('Should navigate to login page when "Login" button is clicked', () => {
+    testLoginNavigation("login-button");
+  });
 
-it('Should navigate to Inventory when "Try it now" button is clicked', () => {
-  cy.visit("/");
-  testFeatureNavigation("admin-nav", "/inventory");
-});
+  it('Should scroll to features section when "View Demo" button is clicked', () => {
+    cy.getBySel("demo-button").click();
+    cy.wait(500); //scrolling down to the features section
+    cy.getBySel("feature-card-pos").isInViewport();
+  });
 
-it('Should navigate to login page when "Get Started" button is clicked', () => {
-  cy.visit("/");
-  cy.get("[data-testid=get-started-button]").click();
-  cy.url().should("include", "/login");
+  it('Should navigate to POS when "Explore POS" button is clicked', () => {
+    testFeatureNavigation("pos-nav", "/menu");
+  });
+
+  it('Should navigate to Inventory when "Try it now" button is clicked', () => {
+    testFeatureNavigation("admin-nav", "/inventory");
+  });
+
+  it('Should navigate to login page when "Get Started" button is clicked', () => {
+    testLoginNavigation("get-started-button");
+  });
 });

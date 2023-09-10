@@ -6,13 +6,15 @@ const goToLoginPage = () => {
 };
 
 describe("Signup components", () => {
-  it("Should display signup form initially", () => {
+  beforeEach(() => {
     cy.mount(<Auth />);
+  });
+
+  it("Should display signup form initially", () => {
     cy.get("[data-testid=signup-form]").isInViewport();
   });
 
   it("Should display 'Invalid email' error for empty or invalid email", () => {
-    cy.mount(<Auth />);
     cy.get("[data-testid=signup-email-error]").should(
       "contain",
       "Invalid email"
@@ -25,7 +27,6 @@ describe("Signup components", () => {
   });
 
   it("Should display 'Password does not match' error for password mismatch", () => {
-    cy.mount(<Auth />);
     cy.get("[data-testid=signup-password]").type("abcd");
     cy.get("[data-testid=signup-confirm-password]").type("efgh");
     cy.get("[data-testid=password-warning-text]").should(
@@ -35,7 +36,6 @@ describe("Signup components", () => {
   });
 
   it("Signup button should be enabled only when none of the fields are empty, email is valid, password matches and a role is selected", () => {
-    cy.mount(<Auth />);
     cy.get("[data-testid=signup-button]").should("be.disabled");
     cy.get("[data-testid=signup-username]").type("abcd");
     cy.get("[data-testid=signup-email]").type("abcd@email.com");
@@ -46,14 +46,17 @@ describe("Signup components", () => {
   });
 
   it("Should display login role options when 'Already have an account? Login' is clicked", () => {
-    goToLoginPage();
+    cy.get("[data-testid=auth-type-login]").click();
     cy.get("[data-testid=login-role-options]").isInViewport();
   });
 });
 
 describe("Login components", () => {
-  it("Login role should be 'Cashier' when Cashier role is selected and display login form", () => {
+  beforeEach(() => {
     goToLoginPage();
+  });
+
+  it("Login role should be 'Cashier' when Cashier role is selected and display login form", () => {
     cy.get("[data-testid=login-role-cashier]").click();
     cy.get("[data-testid=login-form]")
       .invoke("attr", "data-state")
@@ -61,7 +64,6 @@ describe("Login components", () => {
   });
 
   it("Login role should be 'Manager' when Manager role is selected and display login form", () => {
-    goToLoginPage();
     cy.get("[data-testid=login-role-manager]").click();
     cy.get("[data-testid=login-form]")
       .invoke("attr", "data-state")
@@ -69,7 +71,6 @@ describe("Login components", () => {
   });
 
   it("Should display 'Invalid email' error for empty or invalid email", () => {
-    goToLoginPage();
     cy.get("[data-testid=login-role-cashier]").click();
     cy.get("[data-testid=login-email-error]").should(
       "contain",
@@ -83,7 +84,6 @@ describe("Login components", () => {
   });
 
   it("Login button should be enabled only when none of the fields are empty, email is valid and a role is selected", () => {
-    goToLoginPage();
     cy.get("[data-testid=login-role-manager]").click();
     cy.get("[data-testid=login-button]").should("be.disabled");
     cy.get("[data-testid=login-email]").type("abcd@email.com");
