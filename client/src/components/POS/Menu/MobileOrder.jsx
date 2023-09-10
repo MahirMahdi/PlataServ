@@ -50,7 +50,7 @@ export default function MobileOrder({
             display="grid"
             rowGap=".75em"
             overflowY="auto"
-            m="1.5rem 0"
+            mt="1.5rem"
           >
             <Box>
               <Box
@@ -159,12 +159,11 @@ export default function MobileOrder({
             </Box>
             <Box
               w="100%"
-              h="22.5vh"
               bgColor="gray.100"
               borderRadius="5px"
               display="grid"
-              placeItems="center"
-              padding="2.5%"
+              rowGap=".75rem"
+              padding="3.5%"
             >
               {order_summary_options.map((options, i) => (
                 <OrderSummaryOptions

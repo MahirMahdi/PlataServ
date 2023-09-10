@@ -21,21 +21,27 @@ export default function OrderSummaryCalculations({ type, value }) {
         color="#323130"
         fontSize={type === "Total" ? ".9rem" : ".85rem"}
       >
-        ${value || 0}
+        ${value ?? "0.00"}
       </Text>
     </Box>
   );
 }
 
-export function OrderSummaryOptions({ typeOptions, method, state }) {
+export function OrderSummaryOptions({ type, typeOptions, method, state }) {
   return (
     <>
-      {/* <Text fontFamily="'Roboto', sans-serif" fontWeight="semibold" fontSize="1rem">{type}</Text> */}
+      <Text
+        fontFamily="'Roboto', sans-serif"
+        fontSize=".75rem"
+        fontWeight="600"
+      >
+        {type}
+      </Text>
       <Box
         w="100%"
         display="flex"
         alignItems="center"
-        justifyContent="space-around"
+        justifyContent="space-between"
       >
         {typeOptions?.map((option, i) => (
           <Box

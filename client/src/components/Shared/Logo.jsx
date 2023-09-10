@@ -17,12 +17,14 @@ export default function Logo() {
         alt="logo"
         w={{ base: "2.25rem", lg: "1.9rem", xl: "2.25rem" }}
         h={{ base: "2.25rem", lg: "1.9rem", xl: "2.25rem" }}
+        data-testid="logo-image"
       />
       <Text
         cursor="pointer"
         fontSize={{ base: "1.35rem", lg: "1.15rem", xl: "1.35rem" }}
         color="#323130"
         fontFamily="'Poppins', sans-serif"
+        data-testid="logo-title"
       >
         PlataServ
       </Text>

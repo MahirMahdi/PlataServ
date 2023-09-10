@@ -10,7 +10,6 @@ import {
   Avatar,
   Text,
   Divider,
-  Link,
 } from "@chakra-ui/react";
 import { useRef } from "react";
 import { extendTheme } from "@chakra-ui/react";
@@ -24,28 +23,28 @@ import { MdOutlineSpaceDashboard, MdOutlineInventory } from "react-icons/md";
 import Logo from "../Shared/Logo";
 import useAuth from "../../hooks/useAuth";
 import api from "../../api/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Sidebar() {
-  return (
-    <Box display={{ base: "none", lg: "block" }}>
-      <SidebarBody />
-    </Box>
-  );
-}
-
-export function MobileSidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
-
   return (
     <>
+      <Box display={{ base: "none", lg: "block" }}>
+        <SidebarBody deviceType="large" />
+      </Box>
       <Box
         display={{ base: "grid", lg: "none" }}
         w="1.75rem"
         h="1.75rem"
         backgroundColor="black"
-        m="20px 0"
+        mx={{
+          base: "1rem",
+          sm: "1.5rem",
+          md: "1.75rem",
+          lg: "2rem",
+        }}
+        my="20px"
         borderRadius="3px"
         _hover={{ backgroundColor: "gray" }}
         zIndex={1}
@@ -66,7 +65,7 @@ export function MobileSidebar() {
         <DrawerContent>
           <DrawerCloseButton zIndex={1} />
           <DrawerBody>
-            <SidebarBody />
+            <SidebarBody deviceType="small" />
           </DrawerBody>
         </DrawerContent>
       </Drawer>
@@ -91,7 +90,7 @@ export const theme = extendTheme({
   },
 });
 
-function SidebarBody() {
+function SidebarBody({ deviceType }) {
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -149,12 +148,13 @@ function SidebarBody() {
         {sidebar_data
           .filter((data) => data.user_type === user?.user?.role[0])
           .map((data) =>
-            data.items.map((item, i) => (
+            data.items.map((item) => (
               <SidebarItem
-                key={i}
+                key={item.item}
                 route={item.route}
                 icon={item.icon}
                 item={item.item}
+                testid={`${item.testid}-${deviceType}`}
               />
             ))
           )}
@@ -173,7 +173,7 @@ function SidebarBody() {
           route="/help-support"
           icon={<AiOutlineInfoCircle size={24} />}
           item="Help & Support"
-          testid="test-help-support"
+          testid={`test-help-support-${deviceType}`}
         />
         <Box
           w="100%"
@@ -190,7 +190,7 @@ function SidebarBody() {
             transition: ".3s",
           }}
           cursor="pointer"
-          data-testid="test-logout"
+          data-testid={`test-logout-${deviceType}`}
           onClick={handleLogout}
         >
           <IoLogOutOutline size={24} />
@@ -216,11 +216,9 @@ function SidebarItem({ route, icon, item, testid }) {
   };
   return (
     <Link
-      href={route}
-      borderRadius=".5rem"
-      w="100%"
-      _hover={hoverStyle}
+      to={route}
       id={window.location.pathname === route ? `active` : ``}
+      style={{ width: "100%", borderRadius: ".5rem" }}
     >
       <Box
         w="100%"
@@ -229,7 +227,9 @@ function SidebarItem({ route, icon, item, testid }) {
         alignItems="center"
         justifyContent="flex-start"
         columnGap="1rem"
+        borderRadius=".5rem"
         data-testid={testid}
+        _hover={hoverStyle}
       >
         {icon}
         <Text
@@ -294,7 +294,15 @@ const sidebar_data = [
 ];
 
 function MenuIcon() {
-  return <Icon color="white" w="1.25rem" h="1.25rem" as={HiOutlineMenuAlt2} />;
+  return (
+    <Icon
+      color="white"
+      w="1.25rem"
+      h="1.25rem"
+      as={HiOutlineMenuAlt2}
+      data-testid="menu-icon"
+    />
+  );
 }
 
 function UserCard({ user }) {
