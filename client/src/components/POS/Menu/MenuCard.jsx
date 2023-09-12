@@ -1,10 +1,10 @@
 import { Box, Card, CardBody, Text, GridItem, Image } from "@chakra-ui/react";
 
-export default function MenuCard({ product, addProductToOrder }) {
-  const { image, price, name, discount_period } = product;
+export default function MenuCard({ product, addProductToOrder, index }) {
+  const { image, price, name, discount_period, type } = product;
 
   return (
-    <GridItem>
+    <GridItem data-category={type}>
       <Card
         w={{ base: 150, xl: 175 }}
         h={150}
@@ -13,6 +13,7 @@ export default function MenuCard({ product, addProductToOrder }) {
         cursor="pointer"
         display="grid"
         rowGap=".5rem"
+        data-testid={`${type}-${index}`}
       >
         {discount_period && (
           <Box
@@ -35,6 +36,7 @@ export default function MenuCard({ product, addProductToOrder }) {
           height="100px"
           width="150px"
           borderRadius="inherit"
+          data-testid="product-image"
         />
         <CardBody h={50}>
           <Box display="grid" rowGap=".25rem">
@@ -42,6 +44,7 @@ export default function MenuCard({ product, addProductToOrder }) {
               fontFamily="'Poppins', sans-serif"
               color="#595959"
               fontSize={{ base: ".75rem", lg: ".85rem" }}
+              data-testid="product-name"
             >
               {name}
             </Text>
@@ -59,6 +62,7 @@ export default function MenuCard({ product, addProductToOrder }) {
                 fontFamily="'Roboto', sans-serif"
                 fontWeight="bold"
                 fontSize={{ base: ".8rem", lg: ".9rem" }}
+                data-testid="product-price"
               >
                 <sup style={{ fontWeight: "bold" }}>$</sup>
                 {price}

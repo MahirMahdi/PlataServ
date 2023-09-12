@@ -20,6 +20,8 @@ export default function OrderSummaryCalculations({ type, value }) {
         fontWeight="semibold"
         color="#323130"
         fontSize={type === "Total" ? ".9rem" : ".85rem"}
+        data-testid={`${type.toLowerCase()}-value`}
+        data-state={value ?? "0.00"}
       >
         ${value ?? "0.00"}
       </Text>
@@ -27,6 +29,9 @@ export default function OrderSummaryCalculations({ type, value }) {
   );
 }
 
+const convertToSlug = (input) => {
+  return input.toLowerCase().replace(/\s+/g, "-");
+};
 export function OrderSummaryOptions({ type, typeOptions, method, state }) {
   return (
     <>
@@ -34,6 +39,8 @@ export function OrderSummaryOptions({ type, typeOptions, method, state }) {
         fontFamily="'Roboto', sans-serif"
         fontSize=".75rem"
         fontWeight="600"
+        data-testid={convertToSlug(type)}
+        data-state={!state ? "" : convertToSlug(state)}
       >
         {type}
       </Text>
@@ -60,6 +67,7 @@ export function OrderSummaryOptions({ type, typeOptions, method, state }) {
             _hover={{ bgColor: "#323130", color: "gray.100" }}
             onClick={method}
             id={state === option ? `active` : ``}
+            data-testid={convertToSlug(option)}
           >
             {option}
           </Box>

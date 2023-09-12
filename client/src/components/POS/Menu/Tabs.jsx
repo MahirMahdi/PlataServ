@@ -8,6 +8,7 @@ export default function Tabs({ handleClick, tab_state, categories }) {
       alignItems="center"
       justifyContent="space-between"
       cursor="pointer"
+      data-testid="menu-categories"
     >
       {categories.map((val, index) => (
         <Card
@@ -23,6 +24,7 @@ export default function Tabs({ handleClick, tab_state, categories }) {
           h="2.5rem"
           onClick={() => handleClick(val.name)}
           id={tab_state === val.name ? `active` : ``}
+          data-testid={`${val.name.toLowerCase()}-tab`}
         >
           <img src={val.image} alt={val.name} width="30px" height="30px" />
           <Text
