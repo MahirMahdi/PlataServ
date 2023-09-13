@@ -12,7 +12,6 @@ import {
   Divider,
   useToast,
 } from "@chakra-ui/react";
-import { MobileSidebar } from "../../components/Sidebar/Sidebar";
 import { FcNews } from "react-icons/fc";
 import { IoSearch } from "react-icons/io5";
 import { RiFileList3Line } from "react-icons/ri";
@@ -214,14 +213,32 @@ function Menu() {
   };
 
   const calculateTax = (amount) => {
-    return Number((amount * 0.1).toFixed(2));
+    return Number(amount * 0.1).toFixed(2);
   };
 
   const calculateTotal = (amount) => {
-    const tax = calculateTax(amount);
-
+    const tax = Number(calculateTax(amount));
     return Number(tax + amount).toFixed(2);
   };
+
+  const categories = [
+    {
+      name: "Burger",
+      image: `${import.meta.env.VITE_CDN_URL}/tr:h-45/burger.png?`,
+    },
+    {
+      name: "Sandwich",
+      image: `${import.meta.env.VITE_CDN_URL}/tr:h-45/sandwich.png?`,
+    },
+    {
+      name: "Drinks",
+      image: `${import.meta.env.VITE_CDN_URL}/tr:h-45/drink.png?`,
+    },
+    {
+      name: "Sides",
+      image: `${import.meta.env.VITE_CDN_URL}/tr:h-45/sides.png?`,
+    },
+  ];
 
   useEffect(() => {
     // timestamp is for measuring service of time.
@@ -272,19 +289,10 @@ function Menu() {
         <Box
           display={{ base: "flex", lg: "none" }}
           w={{ base: "100%", lg: "70%" }}
-          alignItems="center"
-          justifyContent="space-around"
+          justifyContent="flex-end"
         >
-          <Box
-            display="flex"
-            w={{ base: "100%", lg: "35%" }}
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <MobileSidebar />
-            <Box onClick={onOpen} right={0} bgColor="white" cursor="pointer">
-              <RiFileList3Line fontSize="1.5rem" />
-            </Box>
+          <Box onClick={onOpen} bgColor="white" cursor="pointer">
+            <RiFileList3Line fontSize="1.5rem" />
           </Box>
         </Box>
         <Box display="grid" rowGap=".5rem" w="100%">
@@ -304,19 +312,20 @@ function Menu() {
           <Grid
             w="100%"
             display="grid"
-            // placeItems="center"
             templateColumns={{
               base: "repeat(2, 1fr)",
               sm: "repeat(3, 1fr)",
               xl: "repeat(4, 1fr)",
             }}
             gap={10}
+            data-testid="menu-products"
           >
             {allProducts
               .filter((product) => product.type === category.toLowerCase())
-              .map((data, index) => (
+              .map((data, i) => (
                 <MenuCard
-                  key={index}
+                  key={data.name}
+                  index={i}
                   addProductToOrder={() => {
                     addProductToOrder(data);
                   }}
@@ -374,13 +383,20 @@ function Menu() {
             Items
           </Text>
         </Box>
-        <Box w="100%" display="grid" padding=".5rem 0" rowGap=".75rem">
+        <Box
+          w="100%"
+          display="grid"
+          padding=".5rem 0"
+          rowGap=".75rem"
+          data-testid="order-list"
+        >
           {orders ? (
             allProducts
               ?.filter((products) => orders.hasOwnProperty(products.product_id))
               .map((product, i) => (
                 <OrderCard
-                  key={i}
+                  key={product.name}
+                  index={i}
                   product={product}
                   handleAdd={() => {
                     handleProducts(
@@ -420,6 +436,8 @@ function Menu() {
             placeholder="Customer Name"
             type="text"
             onChange={handleCustomerName}
+            data-testid="customer-name"
+            data-state={name}
           />
         </Box>
         <Box
@@ -444,16 +462,15 @@ function Menu() {
         </Box>
         <Box
           w="100%"
-          h="22.5vh"
           bgColor="gray.100"
           borderRadius="5px"
           display="grid"
-          placeItems="center"
-          padding="2.5%"
+          padding="3.5%"
+          rowGap=".6rem"
         >
-          {order_summary_options.map((options, i) => (
+          {order_summary_options.map((options) => (
             <OrderSummaryOptions
-              key={i}
+              key={options.type}
               type={options.type}
               typeOptions={options.values}
               method={options.method}
@@ -470,6 +487,7 @@ function Menu() {
           bgColor="#323130"
           borderRadius="4px"
           _hover={{ bgColor: "blue.300" }}
+          data-testid="confirm-order-button"
         >
           Confirm Order
         </Button>
@@ -477,25 +495,6 @@ function Menu() {
     </Box>
   );
 }
-
-const categories = [
-  {
-    name: "Burger",
-    image: `${import.meta.env.VITE_CDN_URL}/tr:h-45/burger.png?`,
-  },
-  {
-    name: "Sandwich",
-    image: `${import.meta.env.VITE_CDN_URL}/tr:h-45/sandwich.png?`,
-  },
-  {
-    name: "Drinks",
-    image: `${import.meta.env.VITE_CDN_URL}/tr:h-45/drink.png?`,
-  },
-  {
-    name: "Sides",
-    image: `${import.meta.env.VITE_CDN_URL}/tr:h-45/sides.png?`,
-  },
-];
 
 export const SearchIcon = () => {
   return (

@@ -1,5 +1,4 @@
 import { Box, IconButton, Input, Select, Text } from "@chakra-ui/react";
-import { MobileSidebar } from "../components/Sidebar/Sidebar";
 import { BsCurrencyDollar, BsSearch } from "react-icons/bs";
 import { MdOutlineInventory2, MdOutlineFoodBank } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -166,7 +165,6 @@ export default function Inventory() {
         ml={{ lg: "17.5vw", xl: "15vw" }}
         minH="100vh"
       >
-        <MobileSidebar />
         <Box
           w="100%"
           display="flex"

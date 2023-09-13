@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import AlertCard from "../components/Dashboard/AlertCard";
-import { MobileSidebar } from "../components/Sidebar/Sidebar";
 import { BsBagPlus, BsPlusCircle } from "react-icons/bs";
 import ProductForm from "../components/Dashboard/ProductForm";
 import SuppliesForm from "../components/Dashboard/SuppliesForm";
@@ -433,7 +432,6 @@ export default function Dashboard() {
         ml={{ lg: "15vw" }}
         minH="100vh"
       >
-        <MobileSidebar />
         <Box
           mt="1.5rem"
           display={{ xs: "grid", sm: "flex" }}
@@ -471,6 +469,7 @@ export default function Dashboard() {
             fontFamily="'Poppins', sans-serif"
             fontSize={{ base: "1.25rem", lg: "1.5rem" }}
             fontWeight="semibold"
+            data-testid="alerts-header"
           >
             Alerts
           </Text>

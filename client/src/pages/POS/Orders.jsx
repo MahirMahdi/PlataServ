@@ -1,7 +1,6 @@
 import axios from "../../api/api";
 import { useEffect, useState } from "react";
 import { Box, Text, Grid, GridItem, useToast } from "@chakra-ui/react";
-import { MobileSidebar } from "../../components/Sidebar/Sidebar";
 import OrdersCard from "../../components/POS/Orders/OrdersCard";
 import { FcSurvey, FcInspection } from "react-icons/fc";
 import UnavailableMessage from "../../components/Shared/UnavailableMessage";
@@ -14,7 +13,7 @@ export default function Orders() {
   const toast = useToast();
 
   const postOrderDetails = async (order_id) => {
-    // these data are needed for sales report
+    // this data is needed for sales report
     const orderDetails = dashboardDetails.filter(
       (detail) => detail.order_id === order_id
     )[0];
@@ -73,7 +72,6 @@ export default function Orders() {
         }}
         minH="100vh"
       >
-        <MobileSidebar />
         <Box
           mt={{ base: "1.5rem", lg: "2.5rem" }}
           padding={{
@@ -90,6 +88,7 @@ export default function Orders() {
             fontFamily="'Poppins', sans-serif"
             fontSize={{ base: "1rem", lg: "1.25rem" }}
             fontWeight="semibold"
+            data-testid="orders-in-progress-header"
           >
             In Progress
           </Text>

@@ -66,7 +66,6 @@ export default function Home() {
       });
       navigate("/route-handler");
     } catch (error) {
-      console.log(error);
       showToast("error", error.response.data.message ?? "Error");
     }
   };

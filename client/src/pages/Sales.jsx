@@ -1,5 +1,4 @@
 import { Box, IconButton, Input, Select, Text } from "@chakra-ui/react";
-import { MobileSidebar } from "../components/Sidebar/Sidebar";
 import { BsSearch } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import { PieChart } from "../components/Shared/Charts";
@@ -215,10 +214,10 @@ export default function Sales() {
           fontFamily="'Poppins', sans-serif"
           fontSize="1.75rem"
           fontWeight="semibold"
+          data-testid="sales-header"
         >
           Revenue
         </Text>
-        <MobileSidebar />
         <Box mt="1rem" display="grid" rowGap="1rem" paddingBottom="2.5rem">
           <Box display="flex" alignItems="center" columnGap="1rem">
             <Select

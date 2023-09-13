@@ -11,7 +11,6 @@ import {
   StatHelpText,
   StatArrow,
 } from "@chakra-ui/react";
-import { MobileSidebar } from "../components/Sidebar/Sidebar";
 import { BsSearch } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import { LineChart } from "../components/Shared/Charts";
@@ -181,7 +180,7 @@ export default function Finance() {
 
   const turnover = () => {
     const result = ([(revenue - total_expense) / revenue] * 100).toFixed(2);
-    return isNaN(result) ? 0.00 : result;
+    return isNaN(result) ? 0.0 : result;
   };
 
   return (
@@ -197,7 +196,6 @@ export default function Finance() {
         ml={{ lg: "17.5vw", xl: "15vw" }}
         minH="100vh"
       >
-        <MobileSidebar />
         <Box display="flex" alignItems="center" columnGap="1rem">
           <Select
             placeholder="Select filter type"
@@ -236,6 +234,7 @@ export default function Finance() {
           fontFamily="'Poppins', sans-serif"
           fontSize="1.75rem"
           fontWeight="semibold"
+          data-testid="finance-header"
         >
           Profit & Loss
         </Text>

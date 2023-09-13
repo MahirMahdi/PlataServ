@@ -115,19 +115,19 @@ export default function Auth() {
     }
   };
 
-  useEffect(() => {
-    const check = async () => {
-      try {
-        const response = await refresh();
-        if (response.status === 201) {
-          navigate("/route-handler");
-        }
-      } catch (error) {
-        return error;
+  const checkIfRefreshTokenExists = async () => {
+    try {
+      const response = await refresh();
+      if (response.status === 201) {
+        navigate("/route-handler");
       }
-    };
+    } catch (error) {
+      return error;
+    }
+  };
 
-    check();
+  useEffect(() => {
+    checkIfRefreshTokenExists();
   }, []);
 
   return (

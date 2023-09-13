@@ -10,7 +10,11 @@ export default function HelpAndSupport() {
       margin="auto"
     >
       <Box>
-        <Heading fontFamily='"Cabin", sans-serif' size="lg">
+        <Heading
+          fontFamily='"Cabin", sans-serif'
+          size="lg"
+          data-testid="help-support-header"
+        >
           Coming Soon...
         </Heading>
         <Text fontFamily='"Inter", sans-serif'>
