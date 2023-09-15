@@ -17,6 +17,7 @@ export default function Orders() {
     const orderDetails = dashboardDetails.filter(
       (detail) => detail.order_id === order_id
     )[0];
+
     const elapsedTime = Math.round(
       (Date.now() - orderDetails.timestamp) / 1000
     );
@@ -103,10 +104,12 @@ export default function Orders() {
               }}
               gap={6}
               paddingBottom="1.5rem"
+              data-testid="current-orders"
             >
               {dashboardDetails.map((detail, i) => (
-                <GridItem key={i}>
+                <GridItem key={detail.order_id}>
                   <OrdersCard
+                    index={i}
                     type={"queue"}
                     name={detail.customer_name}
                     orderId={detail.order_id}
@@ -159,10 +162,12 @@ export default function Orders() {
               }}
               gap={6}
               paddingBottom="1.5rem"
+              data-testid="completed-orders"
             >
               {completedOrders.map((detail, i) => (
-                <GridItem key={i}>
+                <GridItem key={detail.order_id}>
                   <OrdersCard
+                    index={i}
                     type={"completed"}
                     name={detail.customer_name}
                     orderId={detail.order_id}

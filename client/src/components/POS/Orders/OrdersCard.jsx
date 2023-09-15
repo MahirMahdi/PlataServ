@@ -24,6 +24,7 @@ export default function OrdersCard({
   totalQuantity,
   timestamp,
   completeOrder,
+  index,
 }) {
   const dashboardDetails = [
     {
@@ -45,10 +46,8 @@ export default function OrdersCard({
   ];
 
   const timer = (startTime, id) => {
-    let intervalId;
-
     if (startTime && id) {
-      intervalId = setInterval(() => {
+      setInterval(() => {
         const elapsedTimeSeconds = Math.floor((Date.now() - startTime) / 1000);
         const minutes = Math.floor(elapsedTimeSeconds / 60);
         const seconds = elapsedTimeSeconds % 60;
@@ -80,6 +79,7 @@ export default function OrdersCard({
       w={{ sm: "16.75rem", md: "19.5rem", lg: "22.5rem" }}
       variant="elevated"
       padding=".75rem"
+      data-testid={`${type}-${index}`}
     >
       <Box
         w="100%"
@@ -95,6 +95,7 @@ export default function OrdersCard({
               thickness="15px"
               color="blue.100"
               isIndeterminate
+              data-testid={`circular-progress-queue-${index}`}
             >
               <CircularProgressLabel
                 fontFamily="'Poppins', sans-serif"
@@ -110,6 +111,7 @@ export default function OrdersCard({
               thickness="10px"
               color="#dff4ce"
               value={100}
+              data-testid={`circular-progress-completed-${index}`}
             >
               <CircularProgressLabel
                 fontFamily="'Poppins', sans-serif"
@@ -126,6 +128,7 @@ export default function OrdersCard({
               color="#323130"
               fontFamily="'Poppins', sans-serif"
               fontWeight="semibold"
+              data-testid={`customer-name-${type}-${index}`}
             >
               {name}
             </Text>
@@ -133,6 +136,7 @@ export default function OrdersCard({
               fontSize=".8rem"
               fontFamily="'Poppins', sans-serif"
               color="#595959"
+              data-testid={`order-id-${type}-${index}`}
             >
               #{orderId}
             </Text>
@@ -142,15 +146,16 @@ export default function OrdersCard({
           fontSize=".8rem"
           fontFamily="'Poppins', sans-serif"
           color="red.600"
+          data-testid={`destination-${type}-${index}`}
         >
           {destination}
         </Text>
       </Box>
       <Box>
-        <List spacing={4}>
-          {dashboardDetails.map((detail, i) => (
+        <List spacing={4} data-testid="details-list">
+          {dashboardDetails?.map((detail) => (
             <Box
-              key={i}
+              key={detail.contentName}
               display="flex"
               alignItems="center"
               justifyContent="space-between"
@@ -169,7 +174,7 @@ export default function OrdersCard({
             </Box>
           ))}
         </List>
-        {type === "queue" ? (
+        {type === "queue" && (
           <Button
             onClick={completeOrder}
             fontWeight="light"
@@ -178,10 +183,11 @@ export default function OrdersCard({
             bgColor="#323130"
             borderRadius="4px"
             mt="1rem"
+            data-testid="done-button"
           >
             Done
           </Button>
-        ) : null}
+        )}
       </Box>
     </Card>
   );
