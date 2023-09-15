@@ -21,16 +21,29 @@ const checkProductInformation = () => {
   });
 };
 
-const addProuct = (selector) => {
+export const confirmOrder = () => {
+  cy.getBySel("customer-name").type("John");
+  cy.getBySel("credit-card").click();
+  cy.getBySel("uber-eats").click();
+  cy.getBySel("take-out").click();
+  cy.getBySel("confirm-order-button").click();
+  cy.contains(/Order confirmed!|Ingredient unavailable/g);
+};
+
+export const goToPOS = () => {
+  cy.viewport(1536, 960);
+  cy.visit("/");
+  cy.getBySel("pos-nav").click();
+  cy.wait(1000);
+};
+
+export const addProuct = (selector) => {
   cy.getBySel(selector).click();
 };
 
 describe("Menu", () => {
   beforeEach(() => {
-    cy.viewport(1536, 960);
-    cy.visit("/");
-    cy.getBySel("pos-nav").click();
-    cy.wait(1000);
+    goToPOS();
   });
 
   it("Should display 4 categories", () => {
@@ -150,11 +163,6 @@ describe("Menu", () => {
 
   it("Should confirm order if all ingredients are available or display 'Ingredient unavailable' message", () => {
     addProuct("burger-0");
-    cy.getBySel("customer-name").type("John");
-    cy.getBySel("credit-card").click();
-    cy.getBySel("uber-eats").click();
-    cy.getBySel("take-out").click();
-    cy.getBySel("confirm-order-button").click();
-    cy.contains(/Order confirmed!|Ingredient unavailable/g);
+    confirmOrder();
   });
 });
