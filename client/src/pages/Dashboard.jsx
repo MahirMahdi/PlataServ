@@ -289,15 +289,6 @@ export default function Dashboard() {
     setSupplies(supplies);
   };
 
-  const supplyCalculations = () => {
-    setTotal(
-      supplies.reduce(
-        (prev, curr) => prev + curr.total_packs * curr.pack_price,
-        0
-      )
-    );
-  };
-
   const orderSupplies = async () => {
     await axios.post("/purchases", supplies);
     const response = await axios.post("/inventory/admin", supplies);
@@ -314,8 +305,13 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    supplyCalculations();
-  }, [supplies]);
+    setTotal(
+      supplies.reduce(
+        (prev, curr) => prev + curr.total_packs * curr.pack_price,
+        0
+      )
+    );
+  }, [supplyState, supplies]);
 
   //alert states
   const [alerts, setAlerts] = useState();
@@ -451,6 +447,7 @@ export default function Dashboard() {
               color="gray.500"
               variant="ghost"
               leftIcon={<BsBagPlus />}
+              data-testid="order-supplies-button"
             >
               Order Supplies
             </Button>
@@ -460,6 +457,7 @@ export default function Dashboard() {
               color="gray.500"
               variant="ghost"
               leftIcon={<BsPlusCircle />}
+              data-testid="add-product-button"
             >
               Add a product
             </Button>

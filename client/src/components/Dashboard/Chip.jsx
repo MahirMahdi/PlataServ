@@ -1,6 +1,5 @@
-import { Tag,  TagLabel, TagRightIcon, TagLeftIcon } from "@chakra-ui/react";
+import { Tag, TagLabel, TagRightIcon, TagLeftIcon } from "@chakra-ui/react";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
-
 
 export default function Chip({ name, remove, add }) {
   return (
@@ -11,9 +10,19 @@ export default function Chip({ name, remove, add }) {
       variant="solid"
       colorScheme="gray"
     >
-      <TagLeftIcon onClick={() => remove(name)} as={AiFillMinusCircle} cursor="pointer"/>
+      <TagLeftIcon
+        data-testid="decrease-item"
+        onClick={() => remove(name)}
+        as={AiFillMinusCircle}
+        cursor="pointer"
+      />
       <TagLabel>{name}</TagLabel>
-      <TagRightIcon onClick={()=>add(name)} as={AiFillPlusCircle} cursor="pointer"/>
+      <TagRightIcon
+        data-testid="increase-item"
+        onClick={() => add(name)}
+        as={AiFillPlusCircle}
+        cursor="pointer"
+      />
     </Tag>
   );
 }

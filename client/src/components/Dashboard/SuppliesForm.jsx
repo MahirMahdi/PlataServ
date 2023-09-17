@@ -8,7 +8,7 @@ import {
   Box,
   Button,
   Text,
-  Checkbox
+  Checkbox,
 } from "@chakra-ui/react";
 import Chip from "./Chip";
 
@@ -31,7 +31,7 @@ export default function SuppliesForm({
   total,
   orderSupplies,
   checkAllItems,
-  allItems
+  allItems,
 }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -41,11 +41,29 @@ export default function SuppliesForm({
         <div className="formbold-main-wrapper">
           <div className="formbold-form-wrapper">
             <div className="formbold-mb-5 formbold-pt-3">
-              <label className="formbold-form-label formbold-form-label-2">
+              <label
+                className="formbold-form-label formbold-form-label-2"
+                data-testid="supplies-form-header"
+              >
                 Add an item
               </label>
-              <Box display="flex" rowGap="1rem" flexWrap="wrap" alignItems="center" justifyContent="space-between" paddingBottom="1rem">
-              <Checkbox isChecked={allItems} onChange={checkAllItems} colorScheme='green' flex="1 0 50%">All Items</Checkbox>
+              <Box
+                display="flex"
+                rowGap="1rem"
+                flexWrap="wrap"
+                alignItems="center"
+                justifyContent="space-between"
+                paddingBottom="1rem"
+              >
+                <Checkbox
+                  isChecked={allItems}
+                  onChange={checkAllItems}
+                  colorScheme="green"
+                  flex="1 0 50%"
+                  data-testid="select-all-items"
+                >
+                  All Items
+                </Checkbox>
               </Box>
               <div className="flex flex-wrap formbold--mx-3">
                 <div className="w-full sm:w-half formbold-px-3">
@@ -55,6 +73,7 @@ export default function SuppliesForm({
                       required={true}
                       onChange={handleSupplyInputs}
                       className="formbold-form-input"
+                      data-testid="select-items"
                     >
                       {itemInfo?.map((info, i) => {
                         return <option key={i}>{info.name}</option>;
@@ -71,6 +90,7 @@ export default function SuppliesForm({
                       type="text"
                       placeholder="Unit Name"
                       className="formbold-form-input"
+                      data-testid="item-unit-name"
                     />
                   </div>
                 </div>
@@ -83,6 +103,7 @@ export default function SuppliesForm({
                       type="number"
                       placeholder="Pack price"
                       className="formbold-form-input"
+                      data-testid="item-pack-price"
                     />
                   </div>
                 </div>
@@ -95,6 +116,7 @@ export default function SuppliesForm({
                       type="number"
                       placeholder="Units In A Pack"
                       className="formbold-form-input"
+                      data-testid="item-units-in-a-pack"
                     />
                   </div>
                 </div>
@@ -107,6 +129,7 @@ export default function SuppliesForm({
                       type="number"
                       placeholder="Expiry period in days"
                       className="formbold-form-input"
+                      data-testid="item-expiry-period"
                     />
                   </div>
                 </div>
@@ -121,6 +144,7 @@ export default function SuppliesForm({
                       placeholder="Enter total packs"
                       className="formbold-form-input"
                       min="1"
+                      data-testid="item-total-packs"
                     />
                   </div>
                 </div>
@@ -133,6 +157,7 @@ export default function SuppliesForm({
                 mt="1rem"
                 isDisabled={name && totalPacks ? false : true}
                 onClick={addItem}
+                data-testid="add-one-item"
               >
                 Add
               </Button>
@@ -145,10 +170,15 @@ export default function SuppliesForm({
                   sm: "repeat(3, 1fr)",
                 }}
                 gap={4}
+                data-testid="item-chip-container"
               >
                 {supplies?.map((supply, i) => (
                   <GridItem key={i}>
-                    <Chip name={supply.name} remove={decreaseSupplyItems} add={increaseSupplyItems}/>
+                    <Chip
+                      name={supply.name}
+                      remove={decreaseSupplyItems}
+                      add={increaseSupplyItems}
+                    />
                   </GridItem>
                 ))}
               </Grid>
@@ -159,6 +189,7 @@ export default function SuppliesForm({
                 display="grid"
                 rowGap="1rem"
                 borderRadius="5px"
+                data-testid="item-calculations-container"
               >
                 {supplies?.map((supply, i) => (
                   <Box
@@ -167,7 +198,7 @@ export default function SuppliesForm({
                     justifyContent="space-between"
                     w="100%"
                   >
-                    <Text>
+                    <Text data-testid="item-count">
                       {supply.name}({supply.total_packs})
                     </Text>
                     <Text>
@@ -185,7 +216,9 @@ export default function SuppliesForm({
               >
                 <Box display="flex" justifyContent="space-between" w="100%">
                   <Text>Total</Text>
-                  <Text>${total?.toFixed(2)}</Text>
+                  <Text data-testid="supplies-total-price">
+                    ${total?.toFixed(2)}
+                  </Text>
                 </Box>
               </Box>
               <Button
@@ -197,6 +230,7 @@ export default function SuppliesForm({
                 mt="1rem"
                 isDisabled={supplies?.length > 0 ? false : true}
                 onClick={orderSupplies}
+                data-testid="confirm-order-supplies-button"
               >
                 Order Supplies
               </Button>

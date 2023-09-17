@@ -8,7 +8,8 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import Chip from "./Chip";
+import { Tag, TagLabel, TagLeftIcon } from "@chakra-ui/react";
+import { AiFillMinusCircle } from "react-icons/ai";
 import { FcAddImage } from "react-icons/fc";
 
 export default function ProductForm({
@@ -68,6 +69,7 @@ export default function ProductForm({
               padding="1.5rem 0"
               fontSize={{ base: "1.25rem", lg: "1.5rem" }}
               fontWeight="semibold"
+              data-testid="product-form-header"
             >
               Add a product
             </Text>
@@ -79,6 +81,7 @@ export default function ProductForm({
                 type="text"
                 placeholder="Select type"
                 className="formbold-form-input"
+                data-testid="select-product-type"
               >
                 <option value="burger">Burger</option>
                 <option value="sandwich">Sandwich</option>
@@ -94,6 +97,7 @@ export default function ProductForm({
                 type="text"
                 placeholder="Name"
                 className="formbold-form-input"
+                data-testid="product-name"
               />
             </div>
             <div className="formbold-mb-5">
@@ -104,6 +108,7 @@ export default function ProductForm({
                 type="text"
                 placeholder="Description"
                 className="formbold-form-input"
+                data-testid="product-description"
               />
             </div>
             <div className="formbold-mb-5">
@@ -114,23 +119,42 @@ export default function ProductForm({
                 type="number"
                 placeholder="Price"
                 className="formbold-form-input"
+                data-testid="product-price"
               />
             </div>
             <div className="formbold-mb-5">
-              <label className="formbold-form-label" style={{display:"grid", rowGap:".75rem"}}>
+              <label
+                for="fileInput"
+                data-testid="product-image"
+                className="formbold-form-label"
+                style={{ display: "grid", rowGap: ".75rem" }}
+              >
                 Image
-              <input
-                required={true}
-                onChange={handleImage}
-                accept="image/*"
-                type="file"
-                className="formbold-form-input"
-                style={{ display: "none" }}
-              />
-              <span style={{width:"100%", borderRadius:"5px", border:"1px solid #e0e0e0", display:"flex", alignItems:"center", columnGap:"1rem", padding:".75rem 1.25rem", cursor:"pointer"}}>
-                <FcAddImage size="24px"/>
-              {image ? `${image.name}` : "Upload image"}
-              </span></label>
+                <input
+                  required={true}
+                  id="fileInput"
+                  onChange={handleImage}
+                  accept="image/*"
+                  type="file"
+                  className="formbold-form-input"
+                  style={{ display: "none" }}
+                />
+                <span
+                  style={{
+                    width: "100%",
+                    borderRadius: "5px",
+                    border: "1px solid #e0e0e0",
+                    display: "flex",
+                    alignItems: "center",
+                    columnGap: "1rem",
+                    padding: ".75rem 1.25rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  <FcAddImage size="24px" />
+                  {image ? `${image.name}` : "Upload image"}
+                </span>
+              </label>
             </div>
 
             {/* Ingredient form starts here*/}
@@ -148,6 +172,7 @@ export default function ProductForm({
                       type="text"
                       placeholder="Name"
                       className="formbold-form-input"
+                      data-testid="product-ingredient-name"
                     />
                   </div>
                 </div>
@@ -160,6 +185,7 @@ export default function ProductForm({
                       onChange={handleUnitName}
                       placeholder="Unit Name"
                       className="formbold-form-input"
+                      data-testid="product-ingredient-unit-name"
                     />
                   </div>
                 </div>
@@ -172,6 +198,7 @@ export default function ProductForm({
                       type="number"
                       placeholder="Pack price"
                       className="formbold-form-input"
+                      data-testid="product-ingredient-pack-price"
                     />
                   </div>
                 </div>
@@ -184,6 +211,7 @@ export default function ProductForm({
                       type="number"
                       placeholder="Units In A Pack"
                       className="formbold-form-input"
+                      data-testid="product-ingredient-units-in-a-pack"
                     />
                   </div>
                 </div>
@@ -196,6 +224,7 @@ export default function ProductForm({
                       type="number"
                       placeholder="Expiry period in days"
                       className="formbold-form-input"
+                      data-testid="product-ingredient-expiry-period"
                     />
                   </div>
                 </div>
@@ -208,6 +237,7 @@ export default function ProductForm({
                 mt="1rem"
                 isDisabled={addIngredientCondition}
                 onClick={addIngredient}
+                data-testid="add-ingredient-button"
               >
                 Add
               </Button>
@@ -220,10 +250,25 @@ export default function ProductForm({
                 }}
                 gap={2}
                 mt="2rem"
+                data-testid="ingredients-chip-container"
               >
-                {ingredients?.map((ingredient, i) => (
-                  <GridItem key={i}>
-                    <Chip name={ingredient.name} remove={updateIngredients} />
+                {ingredients?.map((ingredient) => (
+                  <GridItem key={ingredient.name}>
+                    <Tag
+                      size="lg"
+                      key="sm"
+                      borderRadius="full"
+                      variant="solid"
+                      colorScheme="gray"
+                    >
+                      <TagLeftIcon
+                        data-testid="decrease-item"
+                        onClick={() => updateIngredients(ingredient.name)}
+                        as={AiFillMinusCircle}
+                        cursor="pointer"
+                      />
+                      <TagLabel>{ingredient.name}</TagLabel>
+                    </Tag>
                   </GridItem>
                 ))}
               </Grid>
@@ -237,6 +282,7 @@ export default function ProductForm({
               mt="1rem"
               isDisabled={addProductCondition}
               onClick={addProduct}
+              data-testid="add-new-product-button"
             >
               Add new product
             </Button>
