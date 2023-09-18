@@ -181,15 +181,15 @@ export function SalesTable({ reports }) {
         size={{ base: "sm", lg: "md" }}
       >
         <Thead>
-          <Tr>
+          <Tr data-testid="sales-table-headers">
             <Th>Product type</Th>
             <Th>Units Sold</Th>
             <Th>Sales</Th>
           </Tr>
         </Thead>
-        <Tbody>
-          {reports?.map((report, i) => (
-            <Tr key={i}>
+        <Tbody data-testid="sales-table-body">
+          {reports?.map((report) => (
+            <Tr key={report.type}>
               <Td>{report.type}</Td>
               <Td>{report.units_sold}</Td>
               <Td>{report.total_sales}</Td>
@@ -197,8 +197,8 @@ export function SalesTable({ reports }) {
           ))}
           <Tr>
             <Td fontWeight="semibold">Total</Td>
-            <Td>{totalUnitsSold}</Td>
-            <Td>{totalSales}</Td>
+            <Td data-testid="sales-total-units-sold">{totalUnitsSold}</Td>
+            <Td data-testid="sales-total-sales">{totalSales}</Td>
           </Tr>
         </Tbody>
       </Table>
@@ -218,7 +218,7 @@ export function SpeedOfServiceTable({ reports }) {
         colorScheme="gray"
         size={{ base: "sm", lg: "md" }}
       >
-        <Thead>
+        <Thead data-testid="service-speed-period-table-headers">
           <Tr>
             <Th colSpan={3}>By Period</Th>
           </Tr>
@@ -228,7 +228,7 @@ export function SpeedOfServiceTable({ reports }) {
             <Th textAlign="right">Avg ticket time(sec)</Th>
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody data-testid="service-speed-period-table-body">
           {reports?.by_period?.map((report) => (
             <Tr key={report.label}>
               <Td>{report.label}</Td>
@@ -238,12 +238,8 @@ export function SpeedOfServiceTable({ reports }) {
               </Td>
             </Tr>
           ))}
-          <Tr>
-            <Td fontWeight="semibold">Total</Td>
-            <Td textAlign="center">{totalTicketCount}</Td>
-          </Tr>
         </Tbody>
-        <Thead>
+        <Thead data-testid="service-speed-timeline-table-headers">
           <Tr>
             <Th colSpan={3}>By Timeline</Th>
           </Tr>
@@ -253,7 +249,7 @@ export function SpeedOfServiceTable({ reports }) {
             <Th textAlign="right">% of overall ticket time</Th>
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody data-testid="service-speed-timeline-table-body">
           {reports?.by_timeline?.map((report) => (
             <Tr key={report.label}>
               <Td>{report.label}</Td>
@@ -265,7 +261,9 @@ export function SpeedOfServiceTable({ reports }) {
           ))}
           <Tr>
             <Td fontWeight="semibold">Total</Td>
-            <Td textAlign="center">{totalTicketCount}</Td>
+            <Td data-testid="service-speed-total-tickets" textAlign="center">
+              {totalTicketCount}
+            </Td>
           </Tr>
         </Tbody>
       </Table>

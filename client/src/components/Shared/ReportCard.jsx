@@ -16,13 +16,20 @@ export default function ReportCard({
     sales: "Sale",
   };
   return (
-    <Card w="100%" h="fit-content" bgColor="#323130" padding="1.25rem">
+    <Card
+      data-testid={`recent-${type}-card`}
+      w="100%"
+      h="fit-content"
+      bgColor="#323130"
+      padding="1.25rem"
+    >
       <Box display="flex" alignItems="center" columnGap="1rem" color="white">
         <IoMdAlert size={30} />
         <Text
           fontSize="1rem"
           fontFamily="'Poppins', sans-serif"
           fontWeight="semibold"
+          data-testid="card-header"
         >
           Recent {types[type]}
         </Text>

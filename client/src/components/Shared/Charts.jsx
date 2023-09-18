@@ -169,6 +169,6 @@ export function PieChart({ reports }) {
       Data unavailable
     </Text>
   ) : (
-    <Pie data={data} />
+    <Pie data-testid="sales-chart" data={data} />
   );
 }

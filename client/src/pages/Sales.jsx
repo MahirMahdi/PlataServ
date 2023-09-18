@@ -228,6 +228,7 @@ export default function Sales() {
               onChange={handleSalesTableFilterType}
               defaultValue={salesTableFilterType}
               w="10rem"
+              data-testid="revenue-filter"
             >
               <option value="Daily">Daily</option>
               <option value="Weekly">Weekly</option>
@@ -241,6 +242,7 @@ export default function Sales() {
               borderRadius="5px"
               w="10rem"
               cursor="pointer"
+              data-testid="revenue-period"
             />
             <IconButton
               size="sm"
@@ -249,6 +251,7 @@ export default function Sales() {
               bgColor="#323130"
               color="white"
               onClick={querySalesReport}
+              data-testid="query-revenue"
             />
           </Box>
           <Text
@@ -256,6 +259,7 @@ export default function Sales() {
             fontFamily="'Poppins', sans-serif"
             fontSize="1.15rem"
             fontWeight="semibold"
+            data-testid="revenue-filter-type"
           >
             {salesTableFilterType} Report
           </Text>
@@ -284,6 +288,7 @@ export default function Sales() {
                   onChange={handleChartFilterType}
                   defaultValue={chartFilterType}
                   w="10rem"
+                  data-testid="sales-chart-filter"
                 >
                   <option value="Daily">Daily</option>
                   <option value="Weekly">Weekly</option>
@@ -297,6 +302,7 @@ export default function Sales() {
                   borderRadius="5px"
                   w="10rem"
                   cursor="pointer"
+                  data-testid="sales-chart-period"
                 />
                 <IconButton
                   size="sm"
@@ -305,6 +311,7 @@ export default function Sales() {
                   onClick={queryChartReport}
                   bgColor="#323130"
                   color="white"
+                  data-testid="query-sales-chart"
                 />
               </Box>
               <PieChart reports={chartReports} />
@@ -324,6 +331,7 @@ export default function Sales() {
             fontSize="1.75rem"
             fontWeight="semibold"
             mt="2.5rem"
+            data-testid="service-speed-header"
           >
             Speed of Service
           </Text>
@@ -336,6 +344,7 @@ export default function Sales() {
               onChange={handleSpeedTableFilterType}
               defaultValue={speedTableFilterType}
               w="10rem"
+              data-testid="service-speed-filter"
             >
               <option value="Daily">Daily</option>
               <option value="Weekly">Weekly</option>
@@ -349,6 +358,7 @@ export default function Sales() {
               borderRadius="5px"
               w="10rem"
               cursor="pointer"
+              data-testid="service-speed-period"
             />
             <IconButton
               size="sm"
@@ -357,6 +367,7 @@ export default function Sales() {
               bgColor="#323130"
               color="white"
               onClick={querySpeedReport}
+              data-testid="query-service-speed"
             />
           </Box>
           <Text
@@ -364,6 +375,7 @@ export default function Sales() {
             fontFamily="'Poppins', sans-serif"
             fontSize="1.15rem"
             fontWeight="semibold"
+            data-testid="service-speed-filter-type"
           >
             {speedTableFilterType} Report
           </Text>
