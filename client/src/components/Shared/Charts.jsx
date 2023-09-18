@@ -132,7 +132,7 @@ export function LineChart({ title, reports }) {
     ],
   };
 
-  return <Line options={options} data={data} />;
+  return <Line data-testid="finance-chart" options={options} data={data} />;
 }
 
 export function PieChart({ reports }) {

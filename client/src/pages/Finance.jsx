@@ -205,6 +205,7 @@ export default function Finance() {
             onChange={handleTableFilterType}
             defaultValue={tableFilterType}
             w="10rem"
+            data-testid="finance-filter"
           >
             <option value="Daily">Daily</option>
             <option value="Weekly">Weekly</option>
@@ -218,6 +219,7 @@ export default function Finance() {
             borderRadius="5px"
             w="10rem"
             cursor="pointer"
+            data-testid="finance-period"
           />
           <IconButton
             size="sm"
@@ -226,6 +228,7 @@ export default function Finance() {
             bgColor="#323130"
             color="white"
             onClick={queryTableReport}
+            data-testid="query-finance"
           />
         </Box>
         <Text
@@ -234,7 +237,7 @@ export default function Finance() {
           fontFamily="'Poppins', sans-serif"
           fontSize="1.75rem"
           fontWeight="semibold"
-          data-testid="finance-header"
+          data-testid="finance-PL-header"
         >
           Profit & Loss
         </Text>
@@ -244,6 +247,7 @@ export default function Finance() {
           border="1px solid #e0e0e0"
           padding="1rem 2rem"
           borderRadius="10px"
+          data-testid="PL-stats"
         >
           <Stat>
             <StatLabel>Revenue</StatLabel>
@@ -255,7 +259,7 @@ export default function Finance() {
           </Stat>
           <Stat>
             <StatLabel>Profit/Loss</StatLabel>
-            <StatNumber>{turnover()}%</StatNumber>
+            <StatNumber data-testid="PL-turnover">{turnover()}%</StatNumber>
             <StatHelpText>
               <StatArrow type={turnover() > 0 ? "increase" : "decrease"} />
             </StatHelpText>
@@ -267,6 +271,7 @@ export default function Finance() {
           fontFamily="'Poppins', sans-serif"
           fontSize="1.75rem"
           fontWeight="semibold"
+          data-testid="finance-transactions-header"
         >
           Transactions
         </Text>
@@ -276,6 +281,7 @@ export default function Finance() {
             fontFamily="'Poppins', sans-serif"
             fontSize="1.15rem"
             fontWeight="semibold"
+            data-testid="finance-filter-type"
           >
             {tableFilterType} Report
           </Text>
@@ -303,6 +309,7 @@ export default function Finance() {
                   onChange={handleChartFilterType}
                   defaultValue={chartFilterType}
                   w="10rem"
+                  data-testid="finance-chart-filter"
                 >
                   <option value="Weekly">Weekly</option>
                   <option value="Monthly">Monthly</option>
@@ -315,6 +322,7 @@ export default function Finance() {
                   borderRadius="5px"
                   w="10rem"
                   cursor="pointer"
+                  data-testid="finance-chart-period"
                 />
                 <IconButton
                   size="sm"
@@ -323,6 +331,7 @@ export default function Finance() {
                   bgColor="#323130"
                   color="white"
                   onClick={queryChartReport}
+                  data-testid="query-finance-chart"
                 />
               </Box>
               <LineChart

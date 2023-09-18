@@ -98,11 +98,13 @@ export function FinanceTable({ reports }) {
             .map((report, i) => (
               <Tr key={i}>
                 <Td>{report.label}</Td>
-                <Td textAlign="right">{report.transaction_amount}</Td>
+                <Td data-testid="gross-sales" textAlign="right">
+                  {report.transaction_amount}
+                </Td>
               </Tr>
             ))}
         </Tbody>
-        <Thead>
+        <Thead data-testid="payment-method-headers">
           <Tr>
             <Th colSpan={2}>By Payment Method</Th>
           </Tr>
@@ -111,7 +113,7 @@ export function FinanceTable({ reports }) {
             <Th textAlign="right">Total sales</Th>
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody data-testid="payment-method-body">
           {reports
             ?.filter((report) => report.type === "payment_method")
             .map((report) => (
@@ -121,7 +123,7 @@ export function FinanceTable({ reports }) {
               </Tr>
             ))}
         </Tbody>
-        <Thead>
+        <Thead data-testid="order-point-headers">
           <Tr>
             <Th colSpan={2}>By Order Point</Th>
           </Tr>
@@ -130,7 +132,7 @@ export function FinanceTable({ reports }) {
             <Th textAlign="right">Total sales</Th>
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody data-testid="order-point-body">
           {reports
             ?.filter((report) => report.type === "order_point")
             .map((report) => (
@@ -140,7 +142,7 @@ export function FinanceTable({ reports }) {
               </Tr>
             ))}
         </Tbody>
-        <Thead>
+        <Thead data-testid="destination-headers">
           <Tr>
             <Th colSpan={2}>By Destination</Th>
           </Tr>
@@ -149,7 +151,7 @@ export function FinanceTable({ reports }) {
             <Th textAlign="right">Total sales</Th>
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody data-testid="destination-body">
           {reports
             ?.filter((report) => report.type === "destination")
             .map((report) => (
