@@ -21,7 +21,7 @@ const checkProductInformation = () => {
   });
 };
 
-export const confirmOrder = () => {
+const confirmOrder = () => {
   cy.getBySel("customer-name").type("John");
   cy.getBySel("credit-card").click();
   cy.getBySel("uber-eats").click();
@@ -30,14 +30,14 @@ export const confirmOrder = () => {
   cy.contains(/Order confirmed!|Ingredient unavailable/g);
 };
 
-export const goToPOS = () => {
+const goToPOS = () => {
   cy.viewport(1536, 960);
   cy.visit("/");
   cy.getBySel("pos-nav").click();
   cy.wait(1000);
 };
 
-export const addProuct = (selector) => {
+const addProuct = (selector) => {
   cy.getBySel(selector).click();
 };
 
