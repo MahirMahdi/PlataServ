@@ -29,7 +29,7 @@ export default function InventoryTable({ reports }) {
         size={{ base: "sm", lg: "md" }}
       >
         <Thead>
-          <Tr>
+          <Tr data-testid="inventory-table-headers">
             <Th>Name</Th>
             <Th>Units in a pack</Th>
             <Th>Total packs</Th>
@@ -70,7 +70,7 @@ export default function InventoryTable({ reports }) {
             <Tr>
               <Td colSpan={4}></Td>
               <Td fontWeight="semibold">Total</Td>
-              <Td>{total}</Td>
+              <Td data-testid="inventory-total">{total}</Td>
             </Tr>
           )}
         </Tbody>

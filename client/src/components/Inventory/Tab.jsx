@@ -17,6 +17,7 @@ export default function Tab({ data, handleClick, tab_state }) {
       _hover={{ bgColor: "#323130", color: "gray.100" }}
       onClick={() => handleClick(name)}
       id={tab_state === name ? `active` : ``}
+      data-testid={name}
     >
       <Circle
         size={{ base: "24px", sm: "30px" }}

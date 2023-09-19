@@ -77,7 +77,7 @@ export default function BarChart({ title, label, reports }) {
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return <Bar data-testid="inventory-chart" options={options} data={data} />;
 }
 
 export function LineChart({ title, reports }) {

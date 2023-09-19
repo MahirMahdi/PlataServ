@@ -4,7 +4,7 @@ import { MdOutlineInventory2, MdOutlineFoodBank } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Tab from "../components/Inventory/Tab";
 import { useState, useEffect } from "react";
-import ReportTable from "../components/Shared/Table";
+import InventoryTable from "../components/Shared/Table";
 import BarChart from "../components/Shared/Charts";
 import ReportCard from "../components/Shared/ReportCard";
 import axios from "../api/api";
@@ -172,6 +172,7 @@ export default function Inventory() {
           justifyContent="space-between"
           flexWrap="wrap"
           rowGap="1rem"
+          data-testid="inventory-tabs"
         >
           {inventory_tabs_data.map((tab, i) => (
             <Tab
@@ -182,7 +183,7 @@ export default function Inventory() {
             />
           ))}
         </Box>
-        {tabType !== "Inventory" ? (
+        {tabType !== "Inventory" && (
           <Box mt="2.5rem" display="grid" rowGap="1rem">
             <Box display="flex" alignItems="center" columnGap="1rem">
               <Select
@@ -193,6 +194,7 @@ export default function Inventory() {
                 onChange={handleTableFilterType}
                 defaultValue={tableFilterType}
                 w="10rem"
+                data-testid="inventory-filter"
               >
                 <option value="Daily">Daily</option>
                 <option value="Weekly">Weekly</option>
@@ -206,6 +208,7 @@ export default function Inventory() {
                 borderRadius="5px"
                 w="10rem"
                 cursor="pointer"
+                data-testid="inventory-period"
               />
               <IconButton
                 size="sm"
@@ -214,6 +217,7 @@ export default function Inventory() {
                 bgColor="#323130"
                 color="white"
                 onClick={queryTableReport}
+                data-testid="query-inventory"
               />
             </Box>
             <Text
@@ -221,10 +225,11 @@ export default function Inventory() {
               fontFamily="'Poppins', sans-serif"
               fontSize="1.15rem"
               fontWeight="semibold"
+              data-testid="inventory-filter-type"
             >
               {tableFilterType} Report
             </Text>
-            <ReportTable reports={reports} />
+            <InventoryTable reports={reports} />
             <Box
               mt="1rem"
               w="100%"
@@ -248,6 +253,7 @@ export default function Inventory() {
                     onChange={handleChartFilterType}
                     defaultValue={chartFilterType}
                     w="10rem"
+                    data-testid="inventory-chart-filter"
                   >
                     <option value="Weekly">Weekly</option>
                     <option value="Monthly">Monthly</option>
@@ -260,6 +266,7 @@ export default function Inventory() {
                     borderRadius="5px"
                     w="10rem"
                     cursor="pointer"
+                    data-testid="inventory-chart-period"
                   />
                   <IconButton
                     size="sm"
@@ -268,6 +275,7 @@ export default function Inventory() {
                     bgColor="#323130"
                     color="white"
                     onClick={queryChartReport}
+                    data-testid="query-inventory-chart"
                   />
                 </Box>
                 <BarChart
@@ -286,9 +294,10 @@ export default function Inventory() {
               </Box>
             </Box>
           </Box>
-        ) : (
+        )}
+        {tabType === "Inventory" && (
           <Box mt="2.5rem" display="grid" rowGap="1rem">
-            <ReportTable reports={reports} />
+            <InventoryTable reports={reports} />
           </Box>
         )}
       </Box>
@@ -352,7 +361,7 @@ function Layout({
           >
             {tableFilterType} Report
           </Text>
-          <ReportTable reports={reports} />
+          <InventoryTable reports={reports} />
           <Box
             mt="1rem"
             w="100%"
@@ -405,7 +414,7 @@ function Layout({
         </Box>
       ) : (
         <Box mt="2.5rem" display="grid" rowGap="1rem">
-          <ReportTable reports={reports} />
+          <InventoryTable reports={reports} />
         </Box>
       )}
     </>
