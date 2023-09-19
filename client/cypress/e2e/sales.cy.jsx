@@ -20,7 +20,7 @@ describe("Sales", () => {
     cy.getBySel("sales-total-sales").should("have.text", "38.93");
   });
 
-  it("Should display sales chart and recent sales card", () => {
+  it("Should display sales chart and recent sale card", () => {
     cy.getBySel("sales-chart-filter").select("Monthly");
     cy.getBySel("sales-chart-period").type("2023-05");
     cy.getBySel("query-sales-chart").click();
