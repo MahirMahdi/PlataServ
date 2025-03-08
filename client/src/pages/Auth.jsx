@@ -384,6 +384,15 @@ export default function Auth() {
             </Box>
           </>
         )}
+        <a href="/">
+          <Text
+            textDecoration={"underline"}
+            fontFamily='"Inter", sans-serif'
+            fontSize={{ base: "xs" }}
+          >
+            Go back to the home page
+          </Text>
+        </a>
       </Box>
       <Box
         display={{ base: "none", lg: "grid" }}

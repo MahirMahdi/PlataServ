@@ -152,6 +152,17 @@ export default function Inventory() {
     }
   };
 
+  const totalPrice = (total_packs, pack_price) => {
+    return Number((total_packs * pack_price).toFixed(2));
+  };
+
+  const total = Number(
+    reports.reduce(
+      (acc, curr) => acc + totalPrice(curr.total_packs, curr.pack_price),
+      0
+    )
+  ).toFixed(2);
+
   return (
     <Box display="flex" w="100vw" h="100vh">
       <Box
@@ -288,7 +299,7 @@ export default function Inventory() {
                 <ReportCard
                   type={tabType.toLowerCase()}
                   total_quantity={recentData?.total_quantity}
-                  total_amount={recentData?.total_amount}
+                  total_amount={total}
                   date={recentData?.date}
                 />
               </Box>

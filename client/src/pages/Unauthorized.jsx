@@ -16,6 +16,11 @@ export default function Unauthorized() {
         <Text fontFamily='"Inter", sans-serif'>
           Sorry, you're not authorized to go to this page.
         </Text>
+        <a href="/">
+          <Text textDecoration={"underline"} fontFamily='"Inter", sans-serif'>
+            Go back to the home page
+          </Text>
+        </a>
       </Box>
     </Box>
   );
