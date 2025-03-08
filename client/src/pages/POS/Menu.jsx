@@ -295,7 +295,7 @@ function Menu() {
             <RiFileList3Line fontSize="1.5rem" />
           </Box>
         </Box>
-        <Box display="grid" rowGap=".5rem" w="100%">
+        <Box display="grid" rowGap="1rem" w="100%">
           <Text
             fontFamily="'Poppins', sans-serif"
             fontSize={{ base: "1rem", lg: "1.25rem" }}

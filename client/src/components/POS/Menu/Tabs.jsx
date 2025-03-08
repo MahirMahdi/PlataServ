@@ -6,7 +6,7 @@ export default function Tabs({ handleClick, tab_state, categories }) {
       w="100%"
       display="flex"
       alignItems="center"
-      justifyContent="space-between"
+      columnGap={"2.5rem"}
       cursor="pointer"
       data-testid="menu-categories"
     >

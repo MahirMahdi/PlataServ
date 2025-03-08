@@ -333,7 +333,7 @@ const feature_list = [
     featureTestId: "feature-card-pos",
     navigationTestId: "pos-nav",
     loginDetails: {
-      email: "md@email.com",
+      email: "dc@email.com",
       password: "abcd1234",
       role: "Cashier",
     },
@@ -349,7 +349,7 @@ const feature_list = [
     featureTestId: "feature-card-admin",
     navigationTestId: "admin-nav",
     loginDetails: {
-      email: "oj@email.com",
+      email: "dm@email.com",
       password: "abcd1234",
       role: "Manager",
     },
